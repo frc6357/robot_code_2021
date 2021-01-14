@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Testing2-Imported (in project Testing2-Imported)",
+    "file": "C:\\Users\\Public\\frcSimulatorTesting\\SOLENOID_SIMUALTOR_TESTING2\\Testing2-Imported\\build\\libs\\Testing2-Imported.jar",
+    "extensions": [
+      "C:\\Users\\Public\\frcSimulatorTesting\\SOLENOID_SIMUALTOR_TESTING2\\Testing2-Imported\\build\\tmp\\expandedArchives\\halsim_gui-2021.1.2-windowsx86-64.zip_a65f029882460810c7d9fdb675bf2f07\\windows\\x86-64\\shared\\halsim_gui.dll",
+      "C:\\Users\\Public\\frcSimulatorTesting\\SOLENOID_SIMUALTOR_TESTING2\\Testing2-Imported\\build\\tmp\\expandedArchives\\halsim_ds_socket-2021.1.2-windowsx86-64.zip_f20bc948dbaa43f185b274998a8d049b\\windows\\x86-64\\shared\\halsim_ds_socket.dll"
+    ],
+    "env": {},
+    "librarydir": "C:\\Users\\Public\\frcSimulatorTesting\\SOLENOID_SIMUALTOR_TESTING2\\Testing2-Imported\\build\\tmp\\jniExtractDir",
+    "mainclass": "frc.robot.Main"
+  }
+]

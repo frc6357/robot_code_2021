@@ -48,6 +48,7 @@ public class CubicDeadbandFilter extends Filter
     public double filter(double rawAxis)
     {
         filteredInput = (Math.abs(rawAxis) - deadband) * Math.signum(rawAxis);
+        filteredInput *= reverseFilter;
         c = (1 - ( coefficient * Math.pow( (1 - deadband), 3) ) / (1 - deadband));
 
         if (Math.abs(rawAxis) < deadband)
@@ -56,7 +57,7 @@ public class CubicDeadbandFilter extends Filter
         }
         else
         {
-            return coefficient * Math.pow(filteredInput, 3) * c * filteredInput * reverseFilter;
+            return coefficient * Math.pow(filteredInput, 3) + c * filteredInput;
         }
         
     }

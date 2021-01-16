@@ -101,8 +101,8 @@ public class RobotContainer
         //autoCommandSelector.addOption("StraightShooting", AutoCommands.StraightShot);
         //autoCommandSelector.addOption("StraightShooting/Recollection", AutoCommands.StraightRecollectShot);
 
-        joystickDriver.setFilter(Ports.OIDriverLeftDrive , new CubicDeadbandFilter(1.0, 0.06, true));
-        joystickDriver.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(1.0, 0.06, true));
+        joystickDriver.setFilter(Ports.OIDriverLeftDrive , new CubicDeadbandFilter(0.60, 0.06, true));
+        joystickDriver.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(0.60, 0.06, true));
 
         // Configure the button bindings
         configureButtonBindings();

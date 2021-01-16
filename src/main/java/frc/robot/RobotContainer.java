@@ -23,6 +23,7 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.base.SuperClasses.Gear;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.FilterDeadband;
+import frc.robot.utils.filters.CubicDeadbandFilter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -100,8 +101,8 @@ public class RobotContainer
         //autoCommandSelector.addOption("StraightShooting", AutoCommands.StraightShot);
         //autoCommandSelector.addOption("StraightShooting/Recollection", AutoCommands.StraightRecollectShot);
 
-        joystickDriver.setFilter(Ports.OIDriverLeftDrive, new FilterDeadband(0.06, -1.0));
-        joystickDriver.setFilter(Ports.OIDriverRightDrive, new FilterDeadband(0.06, -1.0));
+        joystickDriver.setFilter(Ports.OIDriverLeftDrive , new CubicDeadbandFilter(1.0, 0.06, true));
+        joystickDriver.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(1.0, 0.06, true));
 
         // Configure the button bindings
         configureButtonBindings();

@@ -29,6 +29,8 @@ public class CubicDeadbandFilter extends Filter
      * @param deadband
      *            Used as an area around the zero of the controller inputs. Should be a positive
      *            value. This is used to stop natural controller drift and small accidental inputs.
+     * @param reverseInput
+     *            Used to flip the joystick inputs to the opposite sign if required.
      */
     public CubicDeadbandFilter(double coefficient, double deadband, boolean reverseInput)
     {
@@ -47,14 +49,17 @@ public class CubicDeadbandFilter extends Filter
     @Override
     public double filter(double rawAxis)
     {
+        // Used to set up the calculations for the inputs outside the deadband
         filteredInput = (Math.abs(rawAxis) - deadband) * Math.signum(rawAxis);
         filteredInput *= reverseFilter;
         c = (1 - ( coefficient * Math.pow( (1 - deadband), 3) ) / (1 - deadband));
 
+        // If it's within the deadband, it sets the input to zero
         if (Math.abs(rawAxis) < deadband)
         {
             return 0.0;
         }
+        // Calculate the cubic output for the given coefficient and deadband
         else
         {
             return coefficient * Math.pow(filteredInput, 3) + c * filteredInput;
@@ -65,7 +70,7 @@ public class CubicDeadbandFilter extends Filter
     /**
      * Sets the coefficient of the cubic function
      * 
-     * @param c
+     * @param newc
      *            the coefficient, which must be between zero and one
      */
     public void setCoef(double newC)
@@ -74,7 +79,7 @@ public class CubicDeadbandFilter extends Filter
     }
 
     /**
-     * Sets the coefficient of the cubic function
+     * Sets the deadband of the for the joystick input
      * 
      * @param newD
      *            the deadband

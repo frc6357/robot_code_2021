@@ -35,7 +35,8 @@ public class MotionProfileExample {
 	private MotionProfileStatus _status = new MotionProfileStatus();
 
 	/** additional cache for holding the active trajectory point */
-	double _pos=0,_vel=0,_heading=0;
+	double _leftPos=0,_leftVel=0,_leftHeading=0;
+	double _rightPos=0,_rightVel=0,_rightHeading=0;
 
 	double _endHeading = 0;
 	
@@ -44,7 +45,8 @@ public class MotionProfileExample {
 	 * or call set(), just get motion profile status and make decisions based on
 	 * motion profile.
 	 */
-	private TalonFX _motorController;
+	private TalonFX _leftMotorController;
+	private TalonFX _rightMotorController;
 	/**
 	 * State machine to make sure we let enough of the motion profile stream to
 	 * talon before we fire it.
@@ -94,7 +96,10 @@ public class MotionProfileExample {
 	 * every 10ms.
 	 */
 	class PeriodicRunnable implements java.lang.Runnable {
-	    public void run() {  _motorController.processMotionProfileBuffer();    }
+		public void run() {
+			_leftMotorController.processMotionProfileBuffer();    
+			_rightMotorController.processMotionProfileBuffer();    
+		}
 	}
 	Notifier _notifer = new Notifier(new PeriodicRunnable());
 	
@@ -105,13 +110,15 @@ public class MotionProfileExample {
 	 * @param talon
 	 *            reference to Talon object to fetch motion profile status from.
 	 */
-	public MotionProfileExample(TalonFX motorController) {
-		_motorController = motorController;
+	public MotionProfileExample(TalonFX leftMotorController, TalonFX rightMotorController) {
+		_leftMotorController = leftMotorController;
+		_rightMotorController = rightMotorController;
 		/*
 		 * since our MP is 10ms per point, set the control frame rate and the
 		 * notifer to half that
 		 */
-		_motorController.changeMotionControlFramePeriod(5);
+		_leftMotorController.changeMotionControlFramePeriod(5);
+		_rightMotorController.changeMotionControlFramePeriod(5);
 		_notifer.startPeriodic(0.005);
 	}
 
@@ -125,7 +132,8 @@ public class MotionProfileExample {
 		 * middle of an MP, and now we have the second half of a profile just
 		 * sitting in memory.
 		 */
-		_motorController.clearMotionProfileTrajectories();
+		_leftMotorController.clearMotionProfileTrajectories();
+		_rightMotorController.clearMotionProfileTrajectories();
 		/* When we do re-enter motionProfile control mode, stay disabled. */
 		_setValue = SetValueMotionProfile.Disable;
 		/* When we do start running our state machine start at the beginning. */
@@ -170,7 +178,8 @@ public class MotionProfileExample {
 		}
 
 		/* first check if we are in MP mode */
-		if (false == IsMotionProfile(_motorController.getControlMode().value)) {
+		if (false == IsMotionProfile(_leftMotorController.getControlMode().value) || 
+			false == IsMotionProfile(_rightMotorController.getControlMode().value)) {
 			/*
 			 * we are not in MP mode. We are probably driving the robot around
 			 * using gamepads or some other mode.
@@ -198,7 +207,8 @@ public class MotionProfileExample {
 					}
 					break;
 				case 1: 
-					_motorController.getMotionProfileStatus(_status);
+					_leftMotorController.getMotionProfileStatus(_status);
+					_rightMotorController.getMotionProfileStatus(_status);
 					/*
 					 * wait for MP to stream to Talon, really just the first few
 					 * points
@@ -215,7 +225,8 @@ public class MotionProfileExample {
 				case 2: /* check the status of the MP */
 
 					/* Get the motion profile status every loop */
-					_motorController.getMotionProfileStatus(_status);
+					_leftMotorController.getMotionProfileStatus(_status);
+					_rightMotorController.getMotionProfileStatus(_status);
 					/*
 					 * if talon is reporting things are good, keep adding to our
 					 * timeout. Really this is so that you can unplug your talon in
@@ -242,12 +253,17 @@ public class MotionProfileExample {
 			}
 
 			/* Get the motion profile status every loop */
-			_heading = 0; //_motorController.getActiveTrajectoryPosition(1); // This is used only for motion profile arc
-			_pos = _motorController.getActiveTrajectoryPosition();
-			_vel = _motorController.getActiveTrajectoryVelocity();
+			_leftHeading = 0; //_motorController.getActiveTrajectoryPosition(1); // This is used only for motion profile arc
+			_leftPos = _leftMotorController.getActiveTrajectoryPosition();
+			_leftVel = _leftMotorController.getActiveTrajectoryVelocity();
 
+			_rightHeading = 0; //_motorController.getActiveTrajectoryPosition(1); // This is used only for motion profile arc
+			_rightPos = _rightMotorController.getActiveTrajectoryPosition();
+			_rightVel = _rightMotorController.getActiveTrajectoryVelocity();
+			
 			/* printfs and/or logging */
-			Instrumentation.process(_status, _pos, _vel, _heading);
+			Instrumentation.process(_status, _leftPos, _leftVel, _leftHeading);
+			Instrumentation.process(_status, _rightPos, _rightVel, _rightHeading);
 		}
 	}
 
@@ -260,7 +276,8 @@ public class MotionProfileExample {
 	private void startFilling(double[][] profile, int totalCnt) {
 
 		/* create an empty point */
-		TrajectoryPoint point = new TrajectoryPoint();
+		TrajectoryPoint leftPoint = new TrajectoryPoint();
+		TrajectoryPoint rightPoint = new TrajectoryPoint();
 
 		/* did we get an underrun condition since last time we checked ? */
 		if (_status.hasUnderrun) {
@@ -270,44 +287,65 @@ public class MotionProfileExample {
 			 * clear the error. This flag does not auto clear, this way 
 			 * we never miss logging it.
 			 */
-			_motorController.clearMotionProfileHasUnderrun(Constants.kTimeoutMs);
+			_leftMotorController.clearMotionProfileHasUnderrun(Constants.kTimeoutMs);
+			_rightMotorController.clearMotionProfileHasUnderrun(Constants.kTimeoutMs);
 		}
 		/*
 		 * just in case we are interrupting another MP and there is still buffer
 		 * points in memory, clear it.
 		 */
-		_motorController.clearMotionProfileTrajectories();
+		_leftMotorController.clearMotionProfileTrajectories();
+		_rightMotorController.clearMotionProfileTrajectories();
 
 		/* set the base trajectory period to zero, use the individual trajectory period below */
-		_motorController.configMotionProfileTrajectoryPeriod(Constants.kBaseTrajPeriodMs, Constants.kTimeoutMs);
+		_leftMotorController.configMotionProfileTrajectoryPeriod(Constants.kBaseTrajPeriodMs, Constants.kTimeoutMs);
+		_rightMotorController.configMotionProfileTrajectoryPeriod(Constants.kBaseTrajPeriodMs, Constants.kTimeoutMs);
 		
 		/* squirell away the final target distance, we will use this for heading generation */
-		double finalPositionRot = profile[totalCnt-1][0];
+		// double finalPositionRot = profile[totalCnt-1][0];
 		
 		/* This is fast since it's just into our TOP buffer */
 		for (int i = 0; i < totalCnt; ++i) {
 			double direction = _bForward ? +1 : -1;
-			double positionRot = profile[i][0];
-			double velocityRPM = profile[i][1];
-			double heading = _endHeading * positionRot / finalPositionRot; /* scale heading progress to position progress */
+			double leftPositionRot = profile[i][0];
+			double leftVelocityRPM = profile[i][1];
+			double rightPositionRot = profile[i][2];
+			double rightVelocityRPM = profile[i][3];
 
 			/* for each point, fill our structure and pass it to API */
-			point.position = direction * positionRot * Constants.kSensorUnitsPerRotation * 2; 		//Convert Revolutions to Units
-			point.velocity = direction * velocityRPM * Constants.kSensorUnitsPerRotation / 600.0; 	//Convert RPM to Units/100ms
-			point.auxiliaryPos = heading; /* scaled such that 3600 => 360 deg */
-			point.profileSlotSelect0 = Constants.kSlot_MotProf; /* which set of gains would you like to use [0,3]? */
-			point.profileSlotSelect1 = Constants.kSlot_Turning; /* auxiliary PID [0,1], leave zero */
-			point.timeDur = (int)profile[i][2];		// Trajectory Duration is no longer a thing...
-			point.zeroPos = false;
+			leftPoint.position = direction * leftPositionRot * Constants.kSensorUnitsPerRotation * 2; 			//Convert Revolutions to Units
+			leftPoint.velocity = direction * leftVelocityRPM * Constants.kSensorUnitsPerRotation / 600.0;	//Convert RPM to Units/100ms
+			leftPoint.profileSlotSelect0 = Constants.kSlot_MotProf; /* which set of gains would you like to use [0,3]? */
+			leftPoint.timeDur = (int)profile[i][4];		// Trajectory Duration is no longer a thing...
+
+			/* for each point, fill our structure and pass it to API */
+			rightPoint.position = direction * rightPositionRot * Constants.kSensorUnitsPerRotation * 2; 			//Convert Revolutions to Units
+			rightPoint.velocity = direction * rightVelocityRPM * Constants.kSensorUnitsPerRotation / 600.0;	//Convert RPM to Units/100ms
+			rightPoint.profileSlotSelect0 = Constants.kSlot_MotProf; /* which set of gains would you like to use [0,3]? */
+			rightPoint.timeDur = (int)profile[i][4];		// Trajectory Duration is no longer a thing...
+
+			leftPoint.zeroPos = false;
 			if (i == 0)
-				point.zeroPos = true; /* set this to true on the first point */
-			point.useAuxPID = true;
+				leftPoint.zeroPos = true; /* set this to true on the first point */
+			leftPoint.useAuxPID = true;
 
-			point.isLastPoint = false;
+			leftPoint.isLastPoint = false;
 			if ((i + 1) == totalCnt)
-				point.isLastPoint = true; /* set this to true on the last point  */
+				leftPoint.isLastPoint = true; /* set this to true on the last point  */
 
-			_motorController.pushMotionProfileTrajectory(point);
+			rightPoint.zeroPos = false;
+			if (i == 0)
+				rightPoint.zeroPos = true; /* set this to true on the first point */
+			rightPoint.useAuxPID = true;
+
+			rightPoint.isLastPoint = false;
+			if ((i + 1) == totalCnt)
+				rightPoint.isLastPoint = true; /* set this to true on the last point  */
+
+
+
+			_leftMotorController.pushMotionProfileTrajectory(leftPoint);
+			_rightMotorController.pushMotionProfileTrajectory(rightPoint);
 		}
 	}
 

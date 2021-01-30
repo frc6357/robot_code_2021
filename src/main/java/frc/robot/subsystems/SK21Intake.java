@@ -12,7 +12,7 @@ import frc.robot.TuningParams;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
- * The SK20Intake class is the subsystem that interacts with the intake to
+ * The SK21Intake class is the subsystem that interacts with the intake to
  * both set its speed and deploy or retract it and get its status.
  */
 public class SK21Intake extends SubsystemBase

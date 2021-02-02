@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0fac254-3766-4032-86ad-37e70feb87b8" name="Default Changelist" comment="Input JSON file that defines the path &quot;waypoints&quot; as a">
+    <list default="true" id="c0fac254-3766-4032-86ad-37e70feb87b8" name="Default Changelist" comment="Loads in JSON file of points as a python dictionary and plots the &#10;complete path.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/cubicspline_test_tbd.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/inputFile.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/inputFile.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/loadJson.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -106,6 +105,21 @@
       <option name="presentableId" value="Default" />
       <updated>1611097813247</updated>
     </task>
+    <task id="LOCAL-00001" summary="Input JSON file that defines the path &quot;waypoints&quot; as a dictionary of &#10;two lists, &quot;cont&quot; and &quot;discont&quot;. &quot;cont&quot; and &quot;discont&quot; are a list of &#10;dictionaries of points and angle. &quot;cont&quot; is the collection of points and&#10;agnels that are defined to be continuous, &quot;discont&quot; is the collection&#10;of points and angles that are defined to be discontinuous.">
+      <created>1612308830933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1612308830933</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Python function defined as calculating and plotting a single spline &#10;segment given  a numpy array of the x and y values, as well as two &#10;floats representing  the angle at the starting point and the angle at &#10;the ending point.">
+      <created>1612309027632</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612309027632</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -120,6 +134,11 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Input JSON file that defines the path &quot;waypoints&quot; as a dictionary of &#10;two lists, &quot;cont&quot; and &quot;discont&quot;. &quot;cont&quot; and &quot;discont&quot; are a list of &#10;dictionaries of points and angle. &quot;cont&quot; is the collection of points and&#10;agnels that are defined to be continuous, &quot;discont&quot; is the collection&#10;of points and angles that are defined to be discontinuous." />
+    <MESSAGE value="Python function defined as calculating and plotting a single spline &#10;segment given  a numpy array of the x and y values, as well as two &#10;floats representing  the angle at the starting point and the angle at &#10;the ending point." />
+    <option name="LAST_COMMIT_MESSAGE" value="Python function defined as calculating and plotting a single spline &#10;segment given  a numpy array of the x and y values, as well as two &#10;floats representing  the angle at the starting point and the angle at &#10;the ending point." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

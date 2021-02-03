@@ -46,35 +46,35 @@ public class RobotContainer
 
     SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
     SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
-
-    // The robot's subsystems and commands are defined here...
-    // private final SK20ColorWheel m_colorWheelSubsystem = new SK20ColorWheel();
-    private final SK20Drive m_driveSubsystem = new SK20Drive();
-    // private final SK20Climb m_climbSubsystem = new SK20Climb();
-    // private final SK20Intake m_intakeSubsystem = new SK20Intake();
-    // private final SK20Launcher m_launcherSubsystem = new SK20Launcher();
-    // private final SK20BallHandling m_ballHandlingSubsystem = new SK20BallHandling();
-
-    public static FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
-    public static Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
+    
+    private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
+    private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
 
     // Gear Shifter Button
-    public static JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
-    public static JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
+    private final JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
+    private final JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
 
     // Intake control button
-    public static JoystickButton toggleIntake = new JoystickButton(joystickOperator, Ports.OIOperatorToggleIntake);
-    public static JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
+    private final JoystickButton toggleIntake = new JoystickButton(joystickOperator, Ports.OIOperatorToggleIntake);
+    private final JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
 
     // Launcher control buttons
-    public static JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
-    public static JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
+    private final JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
+    private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
 
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new JoystickButton(joystickOperator,
     //         Ports.OIOperatorDeployArm);
-    public static JoystickButton runWinchRobot = new JoystickButton(joystickOperator, Ports.OIOperatorRunWinchArm);
-    public static JoystickButton armClimbSystem = new JoystickButton(joystickOperator, Ports.OIOperatorArmClimb);
+    private final JoystickButton runWinchRobot = new JoystickButton(joystickOperator, Ports.OIOperatorRunWinchArm);
+    private final JoystickButton armClimbSystem = new JoystickButton(joystickOperator, Ports.OIOperatorArmClimb);
+    
+    // The robot's subsystems and commands are defined here...
+    // private final SK20ColorWheel m_colorWheelSubsystem = new SK20ColorWheel();
+    private final SK20Drive m_driveSubsystem = new SK20Drive(joystickDriver);
+    // private final SK20Climb m_climbSubsystem = new SK20Climb();
+    // private final SK20Intake m_intakeSubsystem = new SK20Intake();
+    // private final SK20Launcher m_launcherSubsystem = new SK20Launcher();
+    // private final SK20BallHandling m_ballHandlingSubsystem = new SK20BallHandling();
 
     // TODO: Reinstate color wheel later
     // Color wheel buttons

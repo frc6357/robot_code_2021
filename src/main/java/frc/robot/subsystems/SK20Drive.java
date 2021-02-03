@@ -13,6 +13,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.base.SuperClasses.BaseDrive;
 import frc.robot.subsystems.base.SuperClasses.Gear;
 import frc.robot.utils.ScaledEncoder;
+import frc.robot.utils.FilteredJoystick;
 
 public class SK20Drive extends SubsystemBase {
 
@@ -38,13 +39,13 @@ public class SK20Drive extends SubsystemBase {
     private final ADIS16448_IMU imu = new ADIS16448_IMU();
 
     private double speedMultiplier = 1.0;
-
+ 
     /**
      * This constructor of the SK20Drive sets up the BaseDrive object and passes it
      * into the SmoothDrive object to set it up.
      */
-    public SK20Drive() {
-        driveCommand = new DefaultDriveCommand(this);
+    public SK20Drive(FilteredJoystick joystickDriver) {
+        driveCommand = new DefaultDriveCommand(this, joystickDriver);
         setDefaultCommand(driveCommand);
         SmartDashboard.putNumber("left Encoder", encoderLeft.getRotations());
         SmartDashboard.putNumber("right Encoder", encoderRight.getRotations());

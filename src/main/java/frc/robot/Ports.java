@@ -111,6 +111,7 @@ public class Ports
 
 
     public static final int OIOperatorJoystick          = 1;
+    public static final int OIOperatorDpad = 0; 
 
     // public static final int OIOperatorStopColorWheel    = 1;    // Button A
     // public static final int OIOperatorStartThreeRotate  = 9;    // Left Joystick press button

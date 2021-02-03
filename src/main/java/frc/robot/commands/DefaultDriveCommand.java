@@ -5,6 +5,7 @@ import frc.robot.Ports;
 import frc.robot.RobotContainer;
 import frc.robot.TuningParams;
 import frc.robot.subsystems.SK20Drive;
+import frc.robot.utils.FilteredJoystick;
 
 /**
  * A default drive command that takes in the filtered joysticks such that the
@@ -12,6 +13,7 @@ import frc.robot.subsystems.SK20Drive;
  */
 public class DefaultDriveCommand extends CommandBase {
     private final SK20Drive m_subsystem;
+    private final FilteredJoystick joystickDriver;
 
     /**
      * Creates a new DefaultDriveCommand that sets up the member subsystem.
@@ -19,9 +21,9 @@ public class DefaultDriveCommand extends CommandBase {
      * @param subsystem The subsystem used by the command to set drivetrain motor
      *                  speeds.
      */
-    public DefaultDriveCommand(SK20Drive subsystem) {
+    public DefaultDriveCommand(SK20Drive subsystem,FilteredJoystick joystickDriver) {
         m_subsystem = subsystem;
-
+        this.joystickDriver=joystickDriver;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(m_subsystem);
     }
@@ -39,11 +41,11 @@ public class DefaultDriveCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double rightTriggerValue = RobotContainer.joystickDriver.getRawAxis(Ports.OIDriverSlowmode);
+        double rightTriggerValue = joystickDriver.getRawAxis(Ports.OIDriverSlowmode);
         m_subsystem.setSlowmode((rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD) ? true : false);
 
-        double speedLeft = RobotContainer.joystickDriver.getFilteredAxis(Ports.OIDriverLeftDrive);
-        double speedRight = RobotContainer.joystickDriver.getFilteredAxis(Ports.OIDriverRightDrive);
+        double speedLeft = joystickDriver.getFilteredAxis(Ports.OIDriverLeftDrive);
+        double speedRight = joystickDriver.getFilteredAxis(Ports.OIDriverRightDrive);
         m_subsystem.setSpeeds(speedLeft, speedRight);
     }
 

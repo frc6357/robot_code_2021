@@ -11,12 +11,12 @@ public class Dpad {
     }
 
     public boolean isUpPressed() {
-        int direction = operatorJoystick.getPOV(Ports.OIOperatorDpad);
+        int direction = operatorJoystick.getPOV();
         return (direction == 0) || (direction == 315) || (direction == 45);
     }
 
     public boolean isDownPressed() {
-        int direction = operatorJoystick.getPOV(Ports.OIOperatorDpad);
+        int direction = operatorJoystick.getPOV();
         return (direction == 180) || (direction == 225) || (direction == 135);
     }
 

@@ -68,13 +68,16 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 public class Robot extends TimedRobot {
 	/** Hardware */
 	TalonFX _leftMaster = new TalonFX(Constants.TALON_LEFT);
+	TalonFX _leftFollower = new TalonFX(Constants.TALON_LEFT_FOLLOWER);
 	TalonFX _rightMaster = new TalonFX(Constants.TALON_RIGHT);
+	TalonFX _rightFollower = new TalonFX(Constants.TALON_RIGHT_FOLLOWER);
 
 	Joystick _gamepad = new Joystick(0);
 
@@ -112,6 +115,13 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void teleopInit(){
+		/** Set Follower Motors up to follow master */
+		_rightFollower.follow(_rightMaster);
+		_rightFollower.setInverted(InvertType.FollowMaster);
+		_leftFollower.follow(_leftMaster);
+		_leftFollower.setInverted(InvertType.FollowMaster);
+
+
 		/* Disable all motors */
 		_rightMaster.set(TalonFXControlMode.PercentOutput, 0);
 		_leftMaster.set(TalonFXControlMode.PercentOutput,  0);

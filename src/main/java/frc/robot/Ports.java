@@ -130,7 +130,7 @@ public class Ports
     public static final int OIOperatorArmClimb          = 4;    // Button Y
     public static final int OIOperatorRunWinchArm       = 6;    // Motor for Winching arm while held (RightBumper)
 
-
+    public static final int OIOperatorSetLauncherSpeed  = 8;    // Goes through launcher speed list TODO: Set this correctly
 
 
 

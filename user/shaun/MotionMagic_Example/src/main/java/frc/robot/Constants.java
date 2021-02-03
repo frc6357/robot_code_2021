@@ -68,5 +68,7 @@ public class Constants {
 
 	/* ---- CAN_ID for the talons ---- */
 	public final static int TALON_LEFT = 10;
-	public final static int TALON_RIGHT = 11;
+	public final static int TALON_LEFT_FOLLOWER = 11;
+	public final static int TALON_RIGHT = 12;
+	public final static int TALON_RIGHT_FOLLOWER = 13;
 }

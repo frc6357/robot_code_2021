@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveStraightCommand;
 // import frc.robot.AutoCommands.*;
 //import frc.robot.AutoCommands.*;
 import frc.robot.commands.*;
@@ -52,7 +51,7 @@ public class RobotContainer
     private final SK20Drive m_driveSubsystem = new SK20Drive();
     // private final SK20Climb m_climbSubsystem = new SK20Climb();
     // private final SK20Intake m_intakeSubsystem = new SK20Intake();
-    // private final SK20Launcher m_launcherSubsystem = new SK20Launcher();
+    private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
     // private final SK20BallHandling m_ballHandlingSubsystem = new SK20BallHandling();
 
     public static FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
@@ -69,6 +68,7 @@ public class RobotContainer
     // Launcher control buttons
     public static JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
     public static JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
+    public static JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator, Ports.OIOperatorSetLauncherSpeed);
 
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new JoystickButton(joystickOperator,
@@ -125,6 +125,7 @@ public class RobotContainer
         setLowGear.whenPressed(new SetGear(m_driveSubsystem, Gear.LOW));
         setHighGear.whenPressed(new SetGear(m_driveSubsystem, Gear.HIGH));
 
+        toggleLauncherSpeed.whenPressed(new toggleLauncherSpeedCommand(m_launcherSubsystem));
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem, this));
         // runWinchRobot.whenPressed(new WinchRobotCommand(m_climbSubsystem, true, this));

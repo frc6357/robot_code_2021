@@ -11,7 +11,7 @@ points = [dictObj for dictObj in json_obj.items()][0][1]
 
 # iterates through the list of points and groups into x values and y values of the current and next point in the list
 # also assigns the variable for the angles of the current and next point of the list
-# Initializes 
+# Initializes
 splinePath = {'xs': [], 'ys': []}
 for i in range(len(points)):
     if i < len(points) - 1:

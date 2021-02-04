@@ -4,10 +4,11 @@
 
 package frc.robot;
 
+// import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 // import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.Encoder;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.SpeedController;
+// import edu.wpi.first.wpilibj.Encoder;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+// import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -23,17 +24,21 @@ public class Drivetrain {
   public static final double  kMaxSpeed          = 3.0;         // meters per second
   public static final double  kMaxAngularSpeed   = 2 * Math.PI; // one rotation per second
 
+
   private static final double kTrackWidth        = 0.381 * 2;   // meters
   private static final double kWheelRadius       = 0.0508;      // meters
   private static final int    kEncoderResolution = 4096;
 
-  private final SpeedController m_leftLeader = new WPI_TalonSRX(Ports.frontLeftDrive);
-  private final SpeedController m_leftFollower = new WPI_TalonSRX(Ports.backLeftDrive);
-  private final SpeedController m_rightLeader = new WPI_TalonSRX(Ports.frontRightDrive);
-  private final SpeedController m_rightFollower = new WPI_TalonSRX(Ports.backRightDrive);
+  public static final double kDistancePerEncoderPulse = 2 * Math.PI * kWheelRadius / kEncoderResolution;
 
-  private final Encoder m_leftEncoder = new Encoder(Ports.leftEncoderA, Ports.leftEncoderB);
-  private final Encoder m_rightEncoder = new Encoder(Ports.rightEncoderA, Ports.rightEncoderB);
+
+  private final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
+  private final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
+  private final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
+  private final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
+
+  // private final Encoder m_leftEncoder = new Encoder(Ports.leftEncoderA, Ports.leftEncoderB);
+  // private final Encoder m_rightEncoder = new Encoder(Ports.rightEncoderA, Ports.rightEncoderB);
 
   private final SpeedControllerGroup m_leftGroup =
       new SpeedControllerGroup(m_leftLeader, m_leftFollower);
@@ -64,11 +69,11 @@ public class Drivetrain {
     // Set the distance per pulse for the drive encoders. We can simply use the
     // distance traveled for one rotation of the wheel divided by the encoder
     // resolution.
-    m_leftEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
-    m_rightEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
+    // m_leftEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
+    // m_rightEncoder.setDistancePerPulse(2 * Math.PI * kWheelRadius / kEncoderResolution);
 
-    m_leftEncoder.reset();
-    m_rightEncoder.reset();
+    // m_leftEncoder.reset();
+    // m_rightEncoder.reset();
 
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
   }
@@ -83,9 +88,9 @@ public class Drivetrain {
     final double rightFeedforward = m_feedforward.calculate(speeds.rightMetersPerSecond);
 
     final double leftOutput =
-        m_leftPIDController.calculate(m_leftEncoder.getRate(), speeds.leftMetersPerSecond);
+        m_leftPIDController.calculate(m_leftLeader.getSelectedSensorVelocity(), speeds.leftMetersPerSecond);
     final double rightOutput =
-        m_rightPIDController.calculate(m_rightEncoder.getRate(), speeds.rightMetersPerSecond);
+        m_rightPIDController.calculate(m_rightLeader.getSelectedSensorVelocity(), speeds.rightMetersPerSecond);
     m_leftGroup.setVoltage(leftOutput + leftFeedforward);
     m_rightGroup.setVoltage(rightOutput + rightFeedforward);
   }
@@ -105,7 +110,7 @@ public class Drivetrain {
   /** Updates the field-relative position. */
   public void updateOdometry() {
     m_odometry.update(
-        m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance());
+        m_gyro.getRotation2d(), m_leftLeader.getSelectedSensorPosition() * kDistancePerEncoderPulse, m_rightLeader.getSelectedSensorPosition() * kDistancePerEncoderPulse);
   }
 
   /**

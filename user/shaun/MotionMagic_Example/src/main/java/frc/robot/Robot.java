@@ -110,39 +110,25 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
-		/* Not used in this project */
-	}
-	
-	@Override
-	public void teleopInit(){
 		/** Set Follower Motors up to follow master */
 		_rightFollower.follow(_rightMaster);
 		_rightFollower.setInverted(InvertType.FollowMaster);
 		_leftFollower.follow(_leftMaster);
 		_leftFollower.setInverted(InvertType.FollowMaster);
 
+		/* Configure output and sensor direction */
+		_leftMaster.setInverted(_leftInvert);
+		_rightMaster.setInverted(_rightInvert);
 
-		/* Disable all motors */
-		_rightMaster.set(TalonFXControlMode.PercentOutput, 0);
-		_leftMaster.set(TalonFXControlMode.PercentOutput,  0);
-		
 		/* Set neutral modes */
 		_rightMaster.setNeutralMode(NeutralMode.Brake);
 		_leftMaster.setNeutralMode(NeutralMode.Brake);
-		
-		/** Feedback Sensor Configuration */
 
-		/** Distance Configs */
-
-		/* Configure the left Talon's selected sensor as integrated sensor */
+		/* Configure the Talons's selected sensor as integrated sensor */
 		_leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
 		_rightConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
 
-		/* Now that the Left sensor can be used by the master Talon,
-		 * set up the Left (Aux) and Right (Master) distance into a single
-		 * Robot distance as the Master's Selected Sensor 0. */
-		// setRobotDistanceConfigs(_rightInvert, _rightConfig);/* FPID for Distance */
-
+		/* Set up PID settings for both main motors */
 		_leftConfig.slot1.kF = Constants.kGains_MotProf.kF;
 		_leftConfig.slot1.kP = Constants.kGains_MotProf.kP;
 		_leftConfig.slot1.kI = Constants.kGains_MotProf.kI;
@@ -150,17 +136,12 @@ public class Robot extends TimedRobot {
 		_leftConfig.slot1.integralZone = Constants.kGains_MotProf.kIzone;
 		_leftConfig.slot1.closedLoopPeakOutput = Constants.kGains_MotProf.kPeakOutput;
 
-		/* FPID for Heading */
 		_rightConfig.slot1.kF = Constants.kGains_Turning.kF;
 		_rightConfig.slot1.kP = Constants.kGains_Turning.kP;
 		_rightConfig.slot1.kI = Constants.kGains_Turning.kI;
 		_rightConfig.slot1.kD = Constants.kGains_Turning.kD;
 		_rightConfig.slot1.integralZone = Constants.kGains_Turning.kIzone;
 		_rightConfig.slot1.closedLoopPeakOutput = Constants.kGains_Turning.kPeakOutput;
-
-		/* Config the neutral deadband. */
-		_leftConfig.neutralDeadband = Constants.kNeutralDeadband;
-		_rightConfig.neutralDeadband = Constants.kNeutralDeadband;
 
 		/**
 		 * Max out the peak output (for all modes).  
@@ -183,13 +164,44 @@ public class Robot extends TimedRobot {
 		_rightConfig.slot1.closedLoopPeriod = closedLoopTimeMs;
 		_rightConfig.slot2.closedLoopPeriod = closedLoopTimeMs;
 		_rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
-
+	
 		_leftMaster.configAllSettings(_leftConfig);
 		_rightMaster.configAllSettings(_rightConfig);
 		
-		/* Configure output and sensor direction */
-		_leftMaster.setInverted(_leftInvert);
-		_rightMaster.setInverted(_rightInvert);
+	}
+
+	@Override
+	public void autonomousInit() {
+		neutralMotors("Motion Profile Initialized, Continue holding Button 6\n");
+		zeroSensors();
+		_motProfExample.reset();
+		_motProfExample.start(true);
+	}
+	
+	@Override
+	public void autonomousPeriodic() {
+		/* Configured for Motion Profile on Integrated Sensors' */
+		_leftMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);
+		_rightMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);
+
+		_motProfExample.control();
+	}
+
+	@Override
+	public void teleopInit(){
+		/* Disable all motors */
+		_rightMaster.set(TalonFXControlMode.PercentOutput, 0);
+		_leftMaster.set(TalonFXControlMode.PercentOutput,  0);
+		
+		/* Now that the Left sensor can be used by the master Talon,
+		 * set up the Left (Aux) and Right (Master) distance into a single
+		 * Robot distance as the Master's Selected Sensor 0. */
+		// setRobotDistanceConfigs(_rightInvert, _rightConfig);/* FPID for Distance */
+
+		/* Config the neutral deadband. */
+		_leftConfig.neutralDeadband = Constants.kNeutralDeadband;
+		_rightConfig.neutralDeadband = Constants.kNeutralDeadband;
+
 		/*
 		 * Talon FX does not need sensor phase set for its integrated sensor
 		 * This is because it will always be correct if the selected feedback device is integrated sensor (default value)
@@ -213,6 +225,7 @@ public class Robot extends TimedRobot {
 		zeroSensors();
 	}
 	
+
 	@Override
 	public void teleopPeriodic() {
 		/* Temp for first calls or button events */
@@ -253,11 +266,7 @@ public class Robot extends TimedRobot {
 			_rightMaster.set(TalonFXControlMode.PercentOutput, forward, DemandType.ArbitraryFeedForward, +turn);
 			_leftMaster.set(TalonFXControlMode.PercentOutput, forward, DemandType.ArbitraryFeedForward, -turn);
 		}else{
-			/* Calculate targets from gamepad inputs */
-			boolean bMoveForward = (forward >= 0) ? true : false;
-			/* positive right stick => negative heading target (turn to right), limit to [-90, 90 deg of current heading] */
-			double finalHeading_units = Constants.kPigeonUnitsPerRotation * turn * -1.0 * 0.25;
-
+	
 			if (_firstCall) {
 				System.out.println("This is Motion Profile Auxiliary, also known as MotionProfileArc using the Pigeon for turn");
 				System.out.println("Additonal options for running Motion Profile, to be selected when Button 6 is pressed and held:");
@@ -266,22 +275,7 @@ public class Robot extends TimedRobot {
 				neutralMotors("Target not set yet.\n");
 
 				/* Slots are selected in the profile, not via selectProfileSlot() */
-
-			} else if (bExecuteAction == ButtonEvent.ButtonOnToOff) {
-				/* Do Nothing in this state */
-			} else if (bExecuteAction == ButtonEvent.ButtonOffToOn) {
-				neutralMotors("Motion Profile Initialized, Continue holding Button 6\n");
-				zeroSensors();
-				_motProfExample.reset();
-				_motProfExample.start(finalHeading_units, bMoveForward);
-			} else if (bExecuteAction == ButtonEvent.ButtonOn) {
-				/* Configured for Motion Profile on Integrated Sensors' Sum and Auxiliary PID on Pigeon IMU's Yaw */
-				_leftMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);
-				_rightMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);
 			}
-			/* Call this periodically, and catch the output. Only apply it if user wants to run MP. */
-			_motProfExample.control();
-
 			//System.out.println("reqHead: " + finalHeading_units);
 		}
 		_firstCall = false;
@@ -291,7 +285,7 @@ public class Robot extends TimedRobot {
 	void zeroSensors() {
 		_leftMaster.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
 		_rightMaster.getSensorCollection().setIntegratedSensorPosition(0, Constants.kTimeoutMs);
-		System.out.println("[Integrated Sensors + Pigeon] All sensors are zeroed.\n");
+		System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
 	}
 	
 	/** Deadband 5 percent, used on the gamepad */

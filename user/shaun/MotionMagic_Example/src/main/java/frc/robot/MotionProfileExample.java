@@ -353,10 +353,9 @@ public class MotionProfileExample {
 	 * Called by application to signal Talon to start the buffered MP (when it's
 	 * able to).
 	 */
-	void start(double endHeading, boolean bForward) {
+	void start(boolean bForward) {
 		_bStart = true;
 		_bForward = bForward;
-		_endHeading = endHeading;
 	}
 
 	/**

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -17,16 +19,17 @@ public class SK21BallHandling extends SubsystemBase {
     private BaseRoller ballIndexerRoller; 
     private final DefaultBallHandlingCommand ballHandling;
     private boolean systemMotorsAreEnabled = false;
+    
 
 
     /**
      * Activates the roller that is used for the main ballIndexRoller
      */
-    public SK21BallHandling()
+    public SK21BallHandling(Joystick joystickOperator)
     {
         indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless);
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.BALL_INNER_SPEED);
-        ballHandling = new DefaultBallHandlingCommand(this, false);
+        ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);
     }
 

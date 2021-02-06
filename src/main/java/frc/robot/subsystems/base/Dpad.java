@@ -1,7 +1,6 @@
 package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Ports;
 
 public class Dpad {
     private final Joystick operatorJoystick;

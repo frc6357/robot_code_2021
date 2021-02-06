@@ -12,7 +12,11 @@ import frc.robot.TuningParams;
 import frc.robot.subsystems.SK21Launcher;
 
 /**
- * An example command that uses an example subsystem.
+ * This command works by setting the launcher speed based on the hood position.
+ * TODO: Update the command to be able to use multiple different speeds
+ *  - Because of the change in the game this year it has become more and more important to make sure that
+ *    the PID gets tuned properly and the code is built to be able to take multiple different speeds
+ *    based off of a SmartDashboard Chooser
  */
 public class LauncherActivate extends CommandBase 
 {
@@ -45,12 +49,12 @@ public class LauncherActivate extends CommandBase
     {
         if (m_subsystem.isHoodSetToShootHigh())
         {
-            // m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW);
+            m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW);
         }
 
         else
         {
-            // m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_FAST);
+            m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL);
         }
     }
 

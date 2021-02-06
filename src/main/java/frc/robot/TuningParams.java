@@ -77,17 +77,11 @@ public final class TuningParams
     public static final boolean INTAKE_BALL_CHECK_INVERT       = false;
 
     //////////////////////////////
-    // Ball Handling Params
+    // Ball Indexer Params
     //////////////////////////////
-    public static final double BALL_OUTER_SPEED             = 1.0;
-    public static final double BALL_INNER_SPEED             = -0.7;
-    public static final boolean BALL_SENSOR_1_INVERT        = false;
-    public static final boolean BALL_SENSOR_2_INVERT        = false;
-    public static final boolean BALL_SENSOR_3_INVERT        = false;
-    public static final boolean BALL_SENSOR_4_INVERT        = false;
-    public static final boolean BALL_SENSOR_5_INVERT        = false;
+    public static final double INDEXER_SPEED                = 1.0;
+    public static final double LAUNCHER_FEEDER_SPEED        = 1.0;
     public static final double TRIGGER_THRESHOLD            = 0.9;
-
 
     ///////////////////////////////
     // Climb Params

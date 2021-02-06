@@ -20,7 +20,9 @@ public final class TuningParams
     public static final boolean ENCODER_LEFT_REVERSED           = false;
     public static final boolean ENCODER_RIGHT_REVERSED          = true;
     public static final int     ENCODER_PULSES                  = 480;
+    public static final double  DRIVETRAIN_GEAR_REDUCTION       = 12.412;
     public static final double  WHEEL_DIAMETER                  = 18.375;   // 7.5" In Centimeters
+    public static final double  WHEEL_CIRCUMFERENCE             = 57.72;
 
     public static final double  STRAIGHT_DRIVE_OFFSET_TOLERANCE = 1.0;      // In Centimeters
     public static final double  OFFSET_SPEED_INCREMENT          = 0.01;

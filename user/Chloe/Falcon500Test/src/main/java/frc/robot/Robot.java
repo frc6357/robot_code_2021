@@ -25,6 +25,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_leftMotorController = new SpeedControllerGroup(new WPI_TalonFX(10), new WPI_TalonFX(12));
     m_rightMotorController = new SpeedControllerGroup(new WPI_TalonFX(11), new WPI_TalonFX(13));
+    m_leftMotorController.setInverted(true);
+    m_rightMotorController.setInverted(true);
     m_myRobot = new DifferentialDrive(m_leftMotorController, m_rightMotorController);
     m_leftStick = new Joystick(0);
   }

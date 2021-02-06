@@ -11,11 +11,11 @@ import math
 from scipy.interpolate import CubicSpline
 import copy
 
-# xs_input is a numpy array of the start and end x-coordinates
-# ys_input is a numpy array of the start and end y-coordinates
+# xsParam is a numpy array of the start and end x-coordinates
+# ysParam is a numpy array of the start and end y-coordinates
 # start_angle_deg is a float that represents the angle the robot is pointing in degrees at the start point
 # end_angle_deg is a float that represents the angle the robot is pointing in degrees at the end point
-# outputs a dictionary with xs and ys key
+# outputs a dictionary with xs and ys as the keys
 # xs contains a numpy array that represents the xs of the single cubic spline segment
 # ys contains a numpy array that represents the ys of the single cubic spline segment
 def cubicSplineSegment(xsParam, ysParam, start_angle_deg, end_angle_deg):
@@ -28,9 +28,8 @@ def cubicSplineSegment(xsParam, ysParam, start_angle_deg, end_angle_deg):
     # Gradients
     start_theta_deg = start_angle_deg
     end_theta_deg = end_angle_deg
-    # TODO:Can do start angle 0 and end angle = 90; start angle 0 end angle = -90; can do start angle = x and
-    #  end angle = -x  for x in [0, 45.99]
-    # seems to be true that (start angle) - (end angle) <= 90 degrees
+    # TODO: Can do start angle 0 and end angle = 90; start angle 0 end angle = -90; can do start angle = x and
+    #  end angle = -x  for x in [0, 45.99]; seems to be true that |(start angle) - (end angle)| <= 90 degrees
 
 
     # Gradient limit before we try using a rotation
@@ -126,8 +125,8 @@ def cubicSplineSegment(xsParam, ysParam, start_angle_deg, end_angle_deg):
             radian_angles = np.arctan(gradients)
             degree_angles = np.degrees(radian_angles)
 
-            gradients = np.absolute(gradients)
-            max_gradient = np.amax(gradients)
+            gradients1 = np.absolute(gradients)
+            max_gradient = np.amax(gradients1)
             print("maximum gradient = %f" % max_gradient)
 
             # If the calculated spline contains any near-vertical sections, go back and try the next rotation
@@ -154,15 +153,27 @@ def cubicSplineSegment(xsParam, ysParam, start_angle_deg, end_angle_deg):
         print("Failed to find a fitting spline with max gradient < %s after rotating up to 180 degrees!" % gradient_limit)
         sys.exit(1)
 
+    plt.show()
+
+    print("CubicSpline data type:", type(cs))
+    print("ys data type:", type(ys))
 
 
-    return {"xs" : output_xs, "ys" : output_ys, "degree_angles" : degree_angles, "spline" : cs}
+    return {"xs" : output_xs, "ys" : output_ys, "gradients" : gradients, "spline" : cs, "degrees" : degree_angles}
 
 
 
 
 
-"""
+
+
+
+    """
+    
+    
+    
+    
+    
     fig, ax = plt.subplots(figsize=(6.5, 4))
     ax.set_aspect(1)
 
@@ -188,8 +199,36 @@ def cubicSplineSegment(xsParam, ysParam, start_angle_deg, end_angle_deg):
     #ax.set_ylim([-4, 4])
     #ax.set_xlim([0, end_x+1])
     ax.legend(loc='best', ncol=2)
-    plt.show()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    print("CubicSpline data type:", type(cs))
-    print("ys data type:", type(ys))
+    
+    ,
+
+    {
+
+      "x": "11",
+      "y": "4",
+      "theta": "60.0"
+
+    },
+
+    {
+
+      "x": "15",
+      "y": "4",
+      "theta": "45.0"
+
+    }
 """
+
+
+cubicSplineSegment(np.array([0, 8]), np.array([0, 8]), 45.0, 0.0)

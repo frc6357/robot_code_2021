@@ -58,9 +58,9 @@ import java.util.ArrayList;
 
 public class Robot extends TimedRobot {
 
-  static private double ENCODER_EDGES_PER_REV = 2048 / 4.;
+  static private double ENCODER_EDGES_PER_REV = 8192 / 4.;
   static private int PIDIDX = 0;
-  static private int ENCODER_EPR = 2048;
+  static private int ENCODER_EPR = 8192;
   static private double GEARING = 1;
   
   private double encoderConstant = (1 / GEARING) * (1 / ENCODER_EDGES_PER_REV);
@@ -110,7 +110,11 @@ public class Robot extends TimedRobot {
     // setup encoder if motor isn't a follower
     if (side != Sides.FOLLOWER) {
     
-      Encoder encoder;
+      
+      motor.configSelectedFeedbackSensor(
+            FeedbackDevice.IntegratedSensor,
+            PIDIDX, 10
+      );    
 
 
 
@@ -120,21 +124,25 @@ public class Robot extends TimedRobot {
       case RIGHT:
         // set right side methods = encoder methods
 
-        encoder = new Encoder(11, 13);
-        encoder.setReverseDirection(true);
+          
+        motor.setSensorPhase(true);
+        rightEncoderPosition = ()
+          -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
+        rightEncoderRate = ()
+          -> motor.getSelectedSensorVelocity(PIDIDX) * encoderConstant *
+               10;
 
-        encoder.setDistancePerPulse(encoderConstant);
-        rightEncoderPosition = encoder::getDistance;
-        rightEncoderRate = encoder::getRate;
 
         break;
       case LEFT:
-        encoder = new Encoder(10, 12);
-        encoder.setReverseDirection(false);
-        encoder.setDistancePerPulse(encoderConstant);
-        leftEncoderPosition = encoder::getDistance;
-        leftEncoderRate = encoder::getRate;
-
+        motor.setSensorPhase(false);
+        
+        leftEncoderPosition = ()
+          -> motor.getSelectedSensorPosition(PIDIDX) * encoderConstant;
+        leftEncoderRate = ()
+          -> motor.getSelectedSensorVelocity(PIDIDX) * encoderConstant *
+               10;
+        
 
         break;
       default:
@@ -162,8 +170,8 @@ public class Robot extends TimedRobot {
     WPI_TalonFX leftFollowerID12 = setupWPI_TalonFX(12, Sides.FOLLOWER, false);
     leftFollowerID12.follow(leftMotor);
 
-    WPI_TalonFX rightMotor = setupWPI_TalonFX(11, Sides.RIGHT, true);
-    WPI_TalonFX rightFollowerID13 = setupWPI_TalonFX(13, Sides.FOLLOWER, true);    
+    WPI_TalonFX rightMotor = setupWPI_TalonFX(11, Sides.RIGHT, false);
+    WPI_TalonFX rightFollowerID13 = setupWPI_TalonFX(13, Sides.FOLLOWER, false);    
     rightFollowerID13.follow(rightMotor);
     drive = new DifferentialDrive(leftMotor, rightMotor);
     drive.setDeadband(0);

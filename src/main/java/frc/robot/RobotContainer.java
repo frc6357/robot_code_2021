@@ -19,9 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.SK20Climb;
-import frc.robot.subsystems.base.SuperClasses.Gear;
 import frc.robot.utils.FilteredJoystick;
-import frc.robot.utils.filters.FilterDeadband;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 
 /**
@@ -48,10 +46,6 @@ public class RobotContainer
     
     private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
     private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
-
-    // Gear Shifter Button
-    private final JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
-    private final JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
 
     // Intake control button
     private final JoystickButton toggleIntake = new JoystickButton(joystickOperator, Ports.OIOperatorToggleIntake);
@@ -121,10 +115,6 @@ public class RobotContainer
      */
     private void configureButtonBindings() 
     {
-        // Sets buttons for gear shifting
-        setLowGear.whenPressed(new SetGear(m_driveSubsystem, Gear.LOW));
-        setHighGear.whenPressed(new SetGear(m_driveSubsystem, Gear.HIGH));
-
         toggleLauncherSpeed.whenPressed(new toggleLauncherSpeedCommand(m_launcherSubsystem));
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem, this));

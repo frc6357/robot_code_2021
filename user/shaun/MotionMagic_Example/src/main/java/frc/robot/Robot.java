@@ -172,7 +172,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		neutralMotors("Motion Profile Initialized, Continue holding Button 6\n");
+		// Sets up the everything before starting autonomous
+		neutralMotors("Motion Profile Initialized\n");
 		zeroSensors();
 		_motProfExample.reset();
 		_motProfExample.start(true);
@@ -180,6 +181,8 @@ public class Robot extends TimedRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
+		// Sets motors to follow a motion profile
+		
 		/* Configured for Motion Profile on Integrated Sensors' */
 		_leftMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);
 		_rightMaster.set(TalonFXControlMode.MotionProfile, _motProfExample.getSetValue().value);

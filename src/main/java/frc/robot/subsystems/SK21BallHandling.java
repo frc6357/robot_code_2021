@@ -1,9 +1,15 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -13,12 +19,18 @@ import frc.robot.subsystems.base.BaseRoller;
 /**
  * Sets the methods that are used to hold and control the balls inside of the
  * robot.
- */
+ */ 
 public class SK21BallHandling extends SubsystemBase {
-    private CANSparkMax indexerMotor;
+    private CANSparkMax indexerMotor; //CANSparkMax
     private BaseRoller ballIndexerRoller; 
-    private final DefaultBallHandlingCommand ballHandling;
+    private final DefaultBallHandlingCommand ballHandling; 
     private boolean systemMotorsAreEnabled = false;
+
+    private NetworkTableEntry ballHandlingEntry;
+
+    private VictorSP motor1 = new VictorSP(9);
+
+    //private WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
     
 
 
@@ -31,6 +43,15 @@ public class SK21BallHandling extends SubsystemBase {
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.BALL_INNER_SPEED);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);
+
+        ballHandlingEntry = Shuffleboard.getTab("BallHanding")
+            .add("IndexMotor", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withSize(2,1)
+            .withPosition(0, 0)
+            .getEntry();
+
+
     }
 
     /**
@@ -40,6 +61,11 @@ public class SK21BallHandling extends SubsystemBase {
     {
         ballIndexerRoller.setForwards();
         systemMotorsAreEnabled = true;
+    }
+
+    public void setForwardIndexMotor(){
+        motor1.set(ballHandlingEntry.getValue().getDouble());
+        //indexerMotor.set(ballHandlingEntry.getValue().getDouble());
     }
 
     /**

@@ -99,6 +99,7 @@ public class Robot extends TimedRobot
     @Override
     public void robotPeriodic() 
     {
+        
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled
         // commands, running already-scheduled commands, removing finished or
@@ -110,6 +111,7 @@ public class Robot extends TimedRobot
         // boolean IBMToggle = SmartDashboard.getBoolean("Ball Mangement Toggle", true);
         // RobotContainer.toggleBallManagement.setPressed(IBMToggle);
         boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
+        m_robotContainer.runBallHandling();
         // TODO: Reinstate this later
         // RobotContainer.spinColorWheel.setPressed(colorWheelActivate);
     }

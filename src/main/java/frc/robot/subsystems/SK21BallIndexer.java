@@ -23,56 +23,75 @@ public class SK21BallIndexer extends SubsystemBase {
 
 
     /**
-     * Activates the roller that is used for the main ballIndexRoller
+     * Activates the motor that rotates the ball indexer
      */
     public SK21BallIndexer(Joystick joystickOperator)
     {
-        indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless);
+        indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless); //change ballHandlingBelt to something else?
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);
     }
 
     /**
-     * When activated the rollers are set to run at whatever speed that they're set to run at
+     * This method starts the motor that spins the indexer
      */
-    public void startRoller()
+    public void startIndexerRotation()
     {
         ballIndexerRoller.setForwards();
         systemMotorsAreEnabled = true;
     }
 
     /**
-     * When activated the rollers are set to run at 0 speed
+     * This method stops the motor that spins the indexer
      */
-    public void stopRoller()
+    public void stopIndexerRotation()
     {
         ballIndexerRoller.setStop();
         systemMotorsAreEnabled = false;
     }
 
 
-    public boolean motorsAreEnabled()
+    public boolean motorsAreEnabled() 
     {
         return systemMotorsAreEnabled;
     }
 
     /**
      * Activates or deactivates the launcher feeder
-     * @param feederSetState - Tells the setLauncherFeeder if it will be on or off
      */
-    public void setLauncherFeeder(boolean feederSetState)
+    public void dropLauncherFeederArm() 
     {
+       //TODO: write this
+    }
 
+    public void raiseLauncherFeederArm()
+    {
+       //TODo: write this
+    }
+
+    public void startLauncherFeederRoller()
+    {
+       //TODO: write this
+    }
+
+    public void stopLauncherFeederRoller()
+    {
+       //TODO: write this
     }
 
     /**
      * Returns current state of launcher feeder
-     * @return current state of launcher feeder
+     * @return current state of launcher feeder (true=yes/false=no)
      */
-    public boolean getLauncherFeeder()
+    public boolean isLauncherFeederArmDropped() 
     {
         // TODO: Implement this later
         return true;
     }
+
+    public boolean isLauncherFeederRollerStarted() 
+   {
+        return true;
+   }
 }

@@ -37,11 +37,11 @@ public class DefaultBallHandlingCommand extends CommandBase {
     {
         if (endable)
         {
-            subsystem.startRoller();
+            subsystem.startIndexerRotation();
         }
         else
         {
-            subsystem.stopRoller();
+            subsystem.stopIndexerRotation();
         }
     }
 
@@ -50,11 +50,11 @@ public class DefaultBallHandlingCommand extends CommandBase {
     public void execute() {
         if (this.joystickOperator.getRawAxis(Ports.OIOperatorActivateIBM) > TuningParams.TRIGGER_THRESHOLD) 
         {
-            subsystem.stopRoller();
+            subsystem.stopIndexerRotation();
         } 
         else if (this.joystickOperator.getRawAxis(Ports.OIOperatorDeactivateBMI) > TuningParams.TRIGGER_THRESHOLD)
         {
-            subsystem.startRoller();
+            subsystem.startIndexerRotation();
         }
     }
 

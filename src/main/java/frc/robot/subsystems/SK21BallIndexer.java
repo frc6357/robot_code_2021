@@ -14,7 +14,7 @@ import frc.robot.subsystems.base.BaseRoller;
  * Sets the methods that are used to hold and control the balls inside of the
  * robot.
  */
-public class SK21BallHandling extends SubsystemBase {
+public class SK21BallIndexer extends SubsystemBase {
     private CANSparkMax indexerMotor;
     private BaseRoller ballIndexerRoller; 
     private final DefaultBallHandlingCommand ballHandling;
@@ -25,7 +25,7 @@ public class SK21BallHandling extends SubsystemBase {
     /**
      * Activates the roller that is used for the main ballIndexRoller
      */
-    public SK21BallHandling(Joystick joystickOperator)
+    public SK21BallIndexer(Joystick joystickOperator)
     {
         indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless);
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.BALL_INNER_SPEED);

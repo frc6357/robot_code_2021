@@ -27,7 +27,7 @@ public class Drivetrain {
 
   private static final double kTrackWidth        = 0.381 * 2;   // meters
   private static final double kWheelRadius       = 0.0508;      // meters
-  private static final int    kEncoderResolution = 4096;
+  private static final int    kEncoderResolution = 2048;
 
   public static final double kDistancePerEncoderPulse = 2 * Math.PI * kWheelRadius / kEncoderResolution;
 
@@ -49,8 +49,8 @@ public class Drivetrain {
   private final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
 
   // TODO: Tune this PID using the values gathered in the frc-characterization tool
-  private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
-  private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
+  private final PIDController m_leftPIDController = new PIDController(0.00000485, 0, 0);
+  private final PIDController m_rightPIDController = new PIDController(0.00000485, 0, 0);
 
   private final DifferentialDriveKinematics m_kinematics =
       new DifferentialDriveKinematics(kTrackWidth);

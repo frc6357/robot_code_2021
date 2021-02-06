@@ -30,6 +30,9 @@ public final class TuningParams
     public static final double  AUTONOMOUS_LOW_SPEED_LEVEL      = 0.2;
     public static final double  AUTONOMOUS_SLOW_DISTANCE_AREA   = 40;       // In Centimeters
 
+    public static final double  DRIVETRAIN_KP                   = 0.00000485;
+    public static final double  DRIVETRAIN_KD                   = 0;
+
     public static final double  SLOWMODE_MULTIPLIER             = 0.25;
     public static final double  SLOWMODE_TRIGGER_THRESHOLD      = 0.75;     // Joystick Trigger Required Value
 

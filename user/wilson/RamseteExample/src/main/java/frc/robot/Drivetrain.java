@@ -48,6 +48,7 @@ public class Drivetrain {
   // private final AnalogGyro m_gyro = new AnalogGyro(0);
   private final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
 
+  // TODO: Tune this PID using the values gathered in the frc-characterization tool
   private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
   private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
 

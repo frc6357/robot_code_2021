@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -17,11 +18,13 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.filters.FilterDeadband;
 import java.util.List;
 
 public class Robot extends TimedRobot {
-  private final XboxController m_controller = new XboxController(0);
+  private final FilteredJoystick m_controller = new FilteredJoystick(0);
   private final Drivetrain m_drive = new Drivetrain();
+  private final FilterDeadband m_deadband = new FilterDeadband(0.01);
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
@@ -40,6 +43,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Create the trajectory to follow in autonomous. It is best to initialize
     // trajectories here to avoid wasting time in autonomous.
+    m_controller.setFilter(Ports.OIDriverLeftDrive, m_deadband);
+    m_controller.setFilter(Ports.OIDriverRightDrive, m_deadband);
     m_trajectory =
         TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
@@ -82,15 +87,16 @@ public class Robot extends TimedRobot {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
     final var xSpeed =
-        -m_speedLimiter.calculate(m_controller.getY(GenericHID.Hand.kLeft)) * Drivetrain.kMaxSpeed;
+        m_speedLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverRightDrive)) * Drivetrain.kMaxSpeed;
 
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
     final var rot =
-        -m_rotLimiter.calculate(m_controller.getX(GenericHID.Hand.kRight))
+        -m_rotLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverLeftDrive))
             * Drivetrain.kMaxAngularSpeed;
+    System.out.println("Left Drive: " + m_controller.getFilteredAxis(Ports.OIDriverLeftDrive) + " Right Drive:" + m_controller.getFilteredAxis(Ports.OIDriverRightDrive));
 
     m_drive.drive(xSpeed, rot);
   }

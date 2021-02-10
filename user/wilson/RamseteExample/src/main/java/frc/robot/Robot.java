@@ -4,12 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -24,7 +21,7 @@ import java.util.List;
 public class Robot extends TimedRobot {
   private final FilteredJoystick m_controller = new FilteredJoystick(0);
   private final Drivetrain m_drive = new Drivetrain();
-  private final FilterDeadband m_deadband = new FilterDeadband(0.01);
+  private final FilterDeadband m_deadband = new FilterDeadband(0.05);
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
@@ -98,6 +95,6 @@ public class Robot extends TimedRobot {
             * Drivetrain.kMaxAngularSpeed;
     System.out.println("Left Drive: " + m_controller.getFilteredAxis(Ports.OIDriverLeftDrive) + " Right Drive:" + m_controller.getFilteredAxis(Ports.OIDriverRightDrive));
 
-    m_drive.drive(xSpeed, rot);
+    m_drive.drive(-rot, xSpeed);
   }
 }

@@ -29,14 +29,6 @@ public class Ports
     public static final int backLeftDrive               = 12; // CAN ID
     public static final int backRightDrive              = 13; // CAN ID
 
-    public static final int gearShifterA                = 3; // PCM 0 ID
-    public static final int gearShifterB                = 4;
-
-    public static final int leftEncoderA                = 0;  // DIO
-    public static final int leftEncoderB                = 1;  // DIO
-    public static final int rightEncoderA               = 2;  // DIO
-    public static final int rightEncoderB               = 3;  // DIO
-
     //////////////////////////////
     // Intake Addresses
     //////////////////////////////

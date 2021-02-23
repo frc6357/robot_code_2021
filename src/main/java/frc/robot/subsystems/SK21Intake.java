@@ -32,7 +32,7 @@ public class SK21Intake extends SubsystemBase
         intakeRoller = new BaseRoller(intakeRollerMotor, TuningParams.INTAKE_MAX_SPEED);
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
 
-        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverExtend, Ports.intakeMoverRetract);
+        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
     }
 
     /**

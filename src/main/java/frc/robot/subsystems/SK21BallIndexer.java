@@ -18,7 +18,9 @@ public class SK21BallIndexer extends SubsystemBase {
     private CANSparkMax indexerMotor;
     private BaseRoller ballIndexerRoller; 
     private final DefaultBallHandlingCommand ballHandling;
-    private boolean systemMotorsAreEnabled = false;
+    private boolean indexerMotorIsEnabled = false;
+    private boolean feederMotorIsEnabled = false;
+    private boolean feederArmIsDropped = false;
     
 
 
@@ -27,7 +29,7 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public SK21BallIndexer(Joystick joystickOperator)
     {
-        indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless); //change ballHandlingBelt to something else?
+        indexerMotor = new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless); //change indexerMotor to something else?
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);
@@ -39,7 +41,7 @@ public class SK21BallIndexer extends SubsystemBase {
     public void startIndexerRotation()
     {
         ballIndexerRoller.setForwards();
-        systemMotorsAreEnabled = true;
+        indexerMotorIsEnabled = true;
     }
 
     /**
@@ -48,13 +50,13 @@ public class SK21BallIndexer extends SubsystemBase {
     public void stopIndexerRotation()
     {
         ballIndexerRoller.setStop();
-        systemMotorsAreEnabled = false;
+        indexerMotorIsEnabled = false;
     }
 
 
-    public boolean motorsAreEnabled() 
+    public boolean isIndexerMotorEnabled() 
     {
-        return systemMotorsAreEnabled;
+        return indexerMotorIsEnabled;
     }
 
     /**
@@ -62,8 +64,8 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public void dropLauncherFeederArm() 
     {
-       //TODO: write this
-    }
+         //TODO: write this
+    } 
 
     public void raiseLauncherFeederArm()
     {
@@ -78,6 +80,11 @@ public class SK21BallIndexer extends SubsystemBase {
     public void stopLauncherFeederRoller()
     {
        //TODO: write this
+    }
+
+    public boolean isLauncherFeederMotorEnabled() 
+    {
+        return feederMotorIsEnabled;
     }
 
     /**

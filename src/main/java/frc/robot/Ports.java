@@ -34,8 +34,8 @@ public class Ports
     //////////////////////////////
     public static final int intakeMotor                 = 20; // CAN ID
 
-    public static final int intakeMoverExtend           = 5;  // PCM 1, Output
-    public static final int intakeMoverRetract          = 2;  // PCM 1, Output
+    public static final int intakeMoverDrop             = 5;  // PCM 1, Output
+    public static final int intakeMoverRaise            = 2;  // PCM 1, Output
 
     public static final int intakeOpenCheck             = 4;  // DIO
     public static final int intakeSpeedCheckA           = 5;  // DIO
@@ -43,16 +43,13 @@ public class Ports
     public static final int intakeBallCheck             = 7;  // DIO
 
     ///////////////////////////////
-    // Ball Handling Addresses
+    // Ball Indexer Addresses
     ///////////////////////////////
-    public static final int ballHandlingBelt            = 21; // CAN ID
-    public static final int ballHandlingBelt2           = 22; // CAN ID
+    public static final int indexerMotor                = 21; // CAN ID
+    public static final int feederMotor                 = 22; // CAN ID
 
-    public static final int ballSensor1                 = 8;  // DIO
-    public static final int ballSensor2                 = 9;  // DIO
-    public static final int ballSensor3                 = 10; // DIO
-    public static final int ballSensor4                 = 11; // DIO
-    public static final int ballSensor5                 = 12; // DIO
+    public static final int launcherFeederDrop          = 3;  // PCM 1, Output
+    public static final int launcherFeederRaise         = 4;  // PCM 1, Output
 
     ///////////////////////////////
     // Ball Launcher Addresses

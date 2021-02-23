@@ -53,8 +53,8 @@ public class Ports
     ///////////////////////////////
     // Ball Handling Addresses
     ///////////////////////////////
-    public static final int ballHandlingBelt            = 21; // CAN ID
-    public static final int ballHandlingBelt2           = 22; // CAN ID
+    public static final int indexerMotor            = 21; // CAN ID
+    public static final int feederMotor           = 22; // CAN ID
 
     public static final int ballSensor1                 = 8;  // DIO
     public static final int ballSensor2                 = 9;  // DIO

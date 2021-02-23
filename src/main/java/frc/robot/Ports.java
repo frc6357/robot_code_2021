@@ -6,6 +6,17 @@
  * specification.
  */
 
+// Resource Allocations:
+//
+// PCM 0 - colorSpinnerExtend
+//     1 - launcherHoodExtend
+//     2 - intakeMoverRaise  
+//     3 - launcherFeederDrop
+//     4 - launcherFeederRaise 
+//     5 - intakeMoverDrop 
+//     6 - launcherHoodRetract      
+//     7 - colorSpinnerRetract
+
 package frc.robot;
 
 public class Ports 
@@ -67,16 +78,14 @@ public class Ports
     public static final int winchClimbLeft              = 30; // CAN ID
     public static final int winchClimbRight             = 31; // CAN ID
 
-    public static final int armLockDown                 = 6;  // PCM 1, Output 6
 
     ///////////////////////////////
     // Control Wheel Addresses
     ///////////////////////////////
     public static final int colorWheelSpinner           = 40; // CAN ID
 
-    public static final int colorSpinnerExtend          = 0;  // PCM 2, Output 
-    public static final int colorSpinnerRetract         = 7;  // PCM 2, Output
-
+    public static final int colorSpinnerExtend          = 0;  // PCM 1, Output 
+    public static final int colorSpinnerRetract         = 7;  // PCM 1, Output
 
 
     ///////////////////////////////

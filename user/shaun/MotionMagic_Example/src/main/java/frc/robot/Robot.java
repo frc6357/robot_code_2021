@@ -129,18 +129,18 @@ public class Robot extends TimedRobot {
 		_rightConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice(); //Local Feedback Source
 
 		/* Set up PID settings for both main motors */
-		_leftConfig.slot1.kF = Constants.kGains_MotProf.kF;
+		// _leftConfig.slot1.kF = Constants.kGains_MotProf.kF;
 		_leftConfig.slot1.kP = Constants.kGains_MotProf.kP;
-		_leftConfig.slot1.kI = Constants.kGains_MotProf.kI;
+		// _leftConfig.slot1.kI = Constants.kGains_MotProf.kI;
 		_leftConfig.slot1.kD = Constants.kGains_MotProf.kD;
-		_leftConfig.slot1.integralZone = Constants.kGains_MotProf.kIzone;
+		// _leftConfig.slot1.integralZone = Constants.kGains_MotProf.kIzone;
 		_leftConfig.slot1.closedLoopPeakOutput = Constants.kGains_MotProf.kPeakOutput;
 
-		_rightConfig.slot1.kF = Constants.kGains_Turning.kF;
+		// _rightConfig.slot1.kF = Constants.kGains_Turning.kF;
 		_rightConfig.slot1.kP = Constants.kGains_Turning.kP;
-		_rightConfig.slot1.kI = Constants.kGains_Turning.kI;
+		// _rightConfig.slot1.kI = Constants.kGains_Turning.kI;
 		_rightConfig.slot1.kD = Constants.kGains_Turning.kD;
-		_rightConfig.slot1.integralZone = Constants.kGains_Turning.kIzone;
+		// _rightConfig.slot1.integralZone = Constants.kGains_Turning.kIzone;
 		_rightConfig.slot1.closedLoopPeakOutput = Constants.kGains_Turning.kPeakOutput;
 
 		/**
@@ -236,7 +236,7 @@ public class Robot extends TimedRobot {
 
 		/* Gamepad processing */
 		double forward = -1 * _gamepad.getY();
-		double turn = _gamepad.getTwist();
+		double turn = _gamepad.getX(); //TODO: Check this is an accurate replacement for getTwist()
 		forward = Deadband(forward);
 		turn = Deadband(turn);	
 		

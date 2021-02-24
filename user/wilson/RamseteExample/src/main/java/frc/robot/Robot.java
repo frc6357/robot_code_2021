@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -14,9 +15,12 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.filters.FilterDeadband;
 import java.util.List;
+import java.io.IOException;
+import java.nio.file.*;
 
 public class Robot extends TimedRobot {
   private final FilteredJoystick m_controller = new FilteredJoystick(0);
@@ -26,6 +30,7 @@ public class Robot extends TimedRobot {
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
+  private final String trajectoryJSON = "paths/StartupPath1.wpilib.json";
 
   // An example trajectory to follow during the autonomous period.
   private Trajectory m_trajectory;
@@ -42,12 +47,14 @@ public class Robot extends TimedRobot {
     // trajectories here to avoid wasting time in autonomous.
     m_controller.setFilter(Ports.OIDriverLeftDrive, m_deadband);
     m_controller.setFilter(Ports.OIDriverRightDrive, m_deadband);
-    m_trajectory =
-        TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
-            new Pose2d(3, 0, Rotation2d.fromDegrees(0)),
-            new TrajectoryConfig(Units.feetToMeters(3.0), Units.feetToMeters(3.0)));
+    try 
+    { 
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      m_trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    }
+    catch(IOException ex)
+    {
+    }
   }
 
   @Override

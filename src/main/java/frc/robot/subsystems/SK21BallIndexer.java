@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
@@ -16,11 +17,14 @@ import frc.robot.subsystems.base.BaseRoller;
  */
 public class SK21BallIndexer extends SubsystemBase {
     private CANSparkMax indexerMotor;
-    private BaseRoller ballIndexerRoller; 
-    private final DefaultBallHandlingCommand ballHandling;
-    private boolean indexerMotorIsEnabled = false;
-    private boolean feederMotorIsEnabled = false;
+    private BaseRoller indexerRoller; 
+    private CANSparkMax feederMotor;
+    private BaseRoller feederRoller; 
+    private boolean indexerMotorIsStarted = false;
+    private boolean feederMotorIsStarted = false;
     private boolean feederArmIsDropped = false;
+    private DoubleSolenoid feederArmSolenoid;
+    private final DefaultBallHandlingCommand ballHandling; //change name
     
 
 
@@ -29,8 +33,11 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public SK21BallIndexer(Joystick joystickOperator)
     {
-        indexerMotor = new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless); //change indexerMotor to something else?
-        ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
+        indexerMotor = new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
+        feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless); 
+        indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
+        feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
+        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederDrop, Ports.launcherFeederRaise);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);
     }
@@ -40,8 +47,8 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public void startIndexerRotation()
     {
-        ballIndexerRoller.setForwards();
-        indexerMotorIsEnabled = true;
+        indexerRoller.setForwards();
+        indexerMotorIsStarted = true;
     }
 
     /**
@@ -49,14 +56,14 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public void stopIndexerRotation()
     {
-        ballIndexerRoller.setStop();
-        indexerMotorIsEnabled = false;
+        indexerRoller.setStop();
+        indexerMotorIsStarted = false;
     }
 
 
-    public boolean isIndexerMotorEnabled() 
+    public boolean isIndexerMotorStarted() 
     {
-        return indexerMotorIsEnabled;
+        return indexerMotorIsStarted;
     }
 
     /**
@@ -64,7 +71,7 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public void dropLauncherFeederArm() 
     {
-         //TODO: write this
+        //TODO: write this
     } 
 
     public void raiseLauncherFeederArm()
@@ -72,19 +79,19 @@ public class SK21BallIndexer extends SubsystemBase {
        //TODo: write this
     }
 
-    public void startLauncherFeederRoller()
+    public void startLauncherFeederMotor()
     {
        //TODO: write this
     }
 
-    public void stopLauncherFeederRoller()
+    public void stopLauncherFeederMotor()
     {
        //TODO: write this
     }
 
-    public boolean isLauncherFeederMotorEnabled() 
+    public boolean isLauncherFeederMotorStarted() 
     {
-        return feederMotorIsEnabled;
+        return feederMotorIsStarted;
     }
 
     /**
@@ -93,12 +100,7 @@ public class SK21BallIndexer extends SubsystemBase {
      */
     public boolean isLauncherFeederArmDropped() 
     {
-        // TODO: Implement this later
-        return true;
+        return feederArmIsDropped;
     }
 
-    public boolean isLauncherFeederRollerStarted() 
-   {
-        return true;
-   }
 }

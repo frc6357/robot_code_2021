@@ -4,8 +4,11 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -22,6 +25,8 @@ public class SK21Intake extends SubsystemBase
     private CANSparkMax intakeRollerMotor;
     private CANEncoder intakeRollerEncoder;
 
+    private NetworkTableEntry intakeEntry;
+
     /**
      * Sets up the intake control such that it takes the values that are 
      * declared for it in Ports and assigns them to a BaseRoller and a double solenoid.
@@ -33,6 +38,21 @@ public class SK21Intake extends SubsystemBase
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
 
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverExtend, Ports.intakeMoverRetract);
+
+        intakeEntry = Shuffleboard.getTab("Intake")
+            .add("solenoid",1)
+            .withWidget(BuiltInWidgets.kToggleButton)
+            .withSize(2,1)
+            .withPosition(0, 0)
+            .getEntry();
+
+            /*
+            .add("motor",3)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withSize(1,1)
+            .withPosition(0,4)
+            .getEntry();
+            */
     }
 
     /**

@@ -1,13 +1,11 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,13 +23,11 @@ public class SK21BallHandling extends SubsystemBase {
     private BaseRoller ballIndexerRoller; 
     private final DefaultBallHandlingCommand ballHandling; 
     private boolean systemMotorsAreEnabled = false;
+    private CANEncoder indexerEncoder;
 
     private NetworkTableEntry ballHandlingEntry;
 
-    private VictorSP motor1 = new VictorSP(9);
-
-    //private WPI_TalonSRX talon1 = new WPI_TalonSRX(1);
-    
+   
 
 
     /**
@@ -39,6 +35,7 @@ public class SK21BallHandling extends SubsystemBase {
      */
     public SK21BallHandling(Joystick joystickOperator)
     {
+        indexerEncoder = indexerMotor.getEncoder();
         indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless);
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.BALL_INNER_SPEED);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
@@ -64,7 +61,7 @@ public class SK21BallHandling extends SubsystemBase {
     }
 
     public void setForwardIndexMotor(){
-        motor1.set(ballHandlingEntry.getValue().getDouble());
+        indexerMotor.set(ballHandlingEntry.getValue().getDouble());
         //indexerMotor.set(ballHandlingEntry.getValue().getDouble());
     }
 

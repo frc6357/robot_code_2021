@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.io.File;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -21,10 +23,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // import frc.robot.AutoCommands.*;
 //import frc.robot.AutoCommands.*;
 import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.DriveStraightCommandNew;
 import frc.robot.commands.SetGear;
 import frc.robot.commands.toggleLauncherSpeedCommand;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21BallHandling;
+import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
 // import frc.robot.subsystems.SK20Climb;
 import frc.robot.subsystems.base.SuperClasses.Gear;
@@ -42,6 +46,8 @@ public class RobotContainer {
 
     public static UsbCamera camera;
 
+    //public static SendableChooser<String> chooser = new SendableChooser<>();
+
     private enum testModeChoice {
         DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
     };
@@ -51,13 +57,41 @@ public class RobotContainer {
         StraightShot, StraightRecollectShot
     };
 
-    SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
+    
+
+
+    //These are just place holder subsystems because we don't have the AutoCommands yet
+    private final Command simpleAut1 = new DriveStraightCommand(m_driveSubsystem, 0);
+
+    private final Command simpleAuto2 = new DriveStraightCommandNew(m_driveSubsystem, 0);
+
+    
     SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
+
+    SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
+
+
+    // Here is where I do not understand the issue
+    String[] pathName;
+
+    File f = new File(C:\Users\Owner\Documents\WeaverOutput\output);
+
+    pathName = f.list();
+
+
+    autoCommandSelector.addOption(pathName, simpleAuto1);
+    autoCommandSelector.addOption(pathName, simpleAuto2);
+
+
+    SmartDashboard.putData(autoCommandSelector);
+
+    
 
     private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
     private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
 
     private final SK21BallHandling m_BallHandling = new SK21BallHandling(joystickOperator);
+    private final SK21Intake m_Intake = new SK21Intake();
 
     // Gear Shifter Button
     private final JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
@@ -286,5 +320,9 @@ public class RobotContainer {
 
     public void runBallHandling() {
         m_BallHandling.setForwardIndexMotor();
+    }
+
+    public void runIntake(){
+        m_Intake.extendIntake();
     }
 }

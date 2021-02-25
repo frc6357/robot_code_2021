@@ -25,7 +25,8 @@ import java.nio.file.*;
 public class Robot extends TimedRobot {
   private final FilteredJoystick m_controller = new FilteredJoystick(0);
   private final Drivetrain m_drive = new Drivetrain();
-  private final FilterDeadband m_deadband = new FilterDeadband(0.05);
+  private final FilterDeadband m_deadbandThrottle = new FilterDeadband(0.05, -1.0);
+  private final FilterDeadband m_deadbandTurn     = new FilterDeadband(0.05, -1.0);
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
@@ -45,8 +46,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Create the trajectory to follow in autonomous. It is best to initialize
     // trajectories here to avoid wasting time in autonomous.
-    m_controller.setFilter(Ports.OIDriverLeftDrive, m_deadband);
-    m_controller.setFilter(Ports.OIDriverRightDrive, m_deadband);
+    m_controller.setFilter(Ports.OIDriverLeftDrive, m_deadbandTurn);
+    m_controller.setFilter(Ports.OIDriverRightDrive, m_deadbandThrottle);
     try 
     { 
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
@@ -98,10 +99,10 @@ public class Robot extends TimedRobot {
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
     final var rot =
-        -m_rotLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverLeftDrive))
+        m_rotLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverLeftDrive))
             * Drivetrain.kMaxAngularSpeed;
     System.out.println("Left Drive: " + m_controller.getFilteredAxis(Ports.OIDriverLeftDrive) + " Right Drive:" + m_controller.getFilteredAxis(Ports.OIDriverRightDrive));
 
-    m_drive.drive(-rot, xSpeed);
+    m_drive.drive(xSpeed, rot);
   }
 }

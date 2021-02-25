@@ -100,7 +100,8 @@ public class Ports
     ///////////////////////////////
     public static final int OIDriverJoystick            = 0;
 
-    public static final int OIDriverLeftDrive           = 1;  // Left Joystick Y
+    // Controls set for Arcade Drive - left stick turn, right stick throttle.
+    public static final int OIDriverLeftDrive           = 0;  // Left Joystick X
     public static final int OIDriverRightDrive          = 5;  // Right Joystick Y
 
     public static final int OIDriverSetLowGear          = 5;  // Set low gear (LeftBumper)

@@ -35,8 +35,8 @@ public class SK21BallHandling extends SubsystemBase {
      */
     public SK21BallHandling(Joystick joystickOperator)
     {
-        indexerEncoder = indexerMotor.getEncoder();
         indexerMotor = new CANSparkMax(Ports.ballHandlingBelt, MotorType.kBrushless);
+        indexerEncoder = indexerMotor.getEncoder();
         ballIndexerRoller = new BaseRoller(indexerMotor, TuningParams.BALL_INNER_SPEED);
         ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
         setDefaultCommand(ballHandling);

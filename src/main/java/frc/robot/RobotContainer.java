@@ -54,36 +54,33 @@ public class RobotContainer {
 
     private enum AutoCommands {
         DriveForward, DriveBackward, DriveForwardShoot, ShootDriveForward, OffAngleShot, OffAngleRecollectShot,
-        StraightShot, StraightRecollectShot
+        StraightShot, StraightRecollectShot, DriveSpline
     };
 
     
 
 
     //These are just place holder subsystems because we don't have the AutoCommands yet
-    private final Command simpleAut1 = new DriveStraightCommand(m_driveSubsystem, 0);
+    //private final Command simpleAut1 = new DriveStraightCommand(m_driveSubsystem, 0);
 
-    private final Command simpleAuto2 = new DriveStraightCommandNew(m_driveSubsystem, 0);
+    //private final Command simpleAuto2 = new DriveStraightCommandNew(m_driveSubsystem, 0);
 
     
     SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
+
+    SendableChooser<File> splineSelector = new SendableChooser<File>();
 
     SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
 
 
     // Here is where I do not understand the issue
-    String[] pathName;
+    
 
-    File f = new File(C:\Users\Owner\Documents\WeaverOutput\output);
+    File f = new File("C:/Users/Owner/Documents/WeaverOutput/output");
 
-    pathName = f.list();
+    File[] pathNames = f.listFiles();
 
-
-    autoCommandSelector.addOption(pathName, simpleAuto1);
-    autoCommandSelector.addOption(pathName, simpleAuto2);
-
-
-    SmartDashboard.putData(autoCommandSelector);
+    
 
     
 
@@ -142,8 +139,20 @@ public class RobotContainer {
         autoCommandSelector.addOption("Drive backwards", AutoCommands.DriveBackward);
         autoCommandSelector.addOption("Drive forward then shoot", AutoCommands.DriveForwardShoot);
         autoCommandSelector.addOption("Shoot then drive forwards", AutoCommands.ShootDriveForward);
+        autoCommandSelector.addOption("Drive Spline", AutoCommands.DriveSpline);
 
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
+
+        for (File pathname : pathNames) {
+            // Print the names of files and directories
+            System.out.println(pathname);
+            splineSelector.addOption(pathname.getName(),pathname );
+        }
+    
+        
+    
+    
+        SmartDashboard.putData(splineSelector);
 
         // TODO: add extra auto commands once tested
         // autoCommandSelector.addOption("OffAngleShooting", AutoCommands.OffAngleShot);

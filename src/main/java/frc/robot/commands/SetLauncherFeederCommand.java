@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.SK21BallHandling;
+import frc.robot.subsystems.SK21BallIndexer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class SetLauncherFeederCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21BallHandling m_subsystem;
+  private final SK21BallIndexer m_subsystem;
   private final boolean launcherFeederPosition;
 
   /**
@@ -18,11 +18,10 @@ public class SetLauncherFeederCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SetLauncherFeederCommand(boolean launcherFeederPosition, SK21BallHandling m_subsystem) 
+  public SetLauncherFeederCommand(boolean launcherFeederPosition, SK21BallIndexer m_subsystem) 
   {
     this.m_subsystem = m_subsystem;
     this.launcherFeederPosition = launcherFeederPosition;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
 
@@ -30,7 +29,7 @@ public class SetLauncherFeederCommand extends CommandBase {
   @Override
   public void initialize() 
   {
-    m_subsystem.setLauncherFeeder(launcherFeederPosition);
+    //TODO: write this
   }
 
   // Returns true when the command should end.

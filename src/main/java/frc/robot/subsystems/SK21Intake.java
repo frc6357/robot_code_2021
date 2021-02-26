@@ -37,7 +37,7 @@ public class SK21Intake extends SubsystemBase
         intakeRoller = new BaseRoller(intakeRollerMotor, TuningParams.INTAKE_MAX_SPEED);
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
 
-        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverExtend, Ports.intakeMoverRetract);
+        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
 
         intakeEntry = Shuffleboard.getTab("Intake")
             .add("solenoid",1)
@@ -57,7 +57,7 @@ public class SK21Intake extends SubsystemBase
 
     /**
      * When extend intake is called the solenoid will activate and it will 
-     * push it out to be able to turn on the motors.
+     * push the intake outside the robot perimeter ready to be started to pick up power cells.
      */
     public void extendIntake()
     {
@@ -66,7 +66,7 @@ public class SK21Intake extends SubsystemBase
 
     /**
      * When retract intake is called the solenoid will retract and pull 
-     * the intake mechanism back inside of the frame perimeter
+     * the intake mechanism back inside of the frame perimeter.
      */
     public void retractIntake()
     {
@@ -74,8 +74,7 @@ public class SK21Intake extends SubsystemBase
     }   
 
     /**
-     * When activate intake is called the motor on the intake turns on 
-     * up to the set speed until it is deactivated
+     * Start the intake roller motor running in the forward (normal) direction.
      */
     public void startIntakeRoller()
     {
@@ -83,8 +82,7 @@ public class SK21Intake extends SubsystemBase
     }
 
     /**
-     * When reverse intake is called the motor on the intake turns the opposite direction on 
-     * up to the set speed until it is deactivated
+     * Start the intake roller motor running in the reverse direction.
      */
     public void reverseIntakeRoller()
     {
@@ -92,7 +90,7 @@ public class SK21Intake extends SubsystemBase
     }
 
     /**
-     * When deactivate intake is called on the motor the intake is turned completely off
+     * Stops the intake roller motor.
      */
     public void stopIntakeRoller()
     {
@@ -100,8 +98,8 @@ public class SK21Intake extends SubsystemBase
     }
 
     /**
-     * Checks whether the intake is open or closed using the limit switch that's installed
-     * @return The intake position. kForward for out, kReverse for in
+     * Checks whether the intake is extended or retracted based on the current solenoid state
+     * @return Returns true if the intake is extended, false otherwise.
      */
     public boolean isIntakeExtended()
     {
@@ -110,7 +108,7 @@ public class SK21Intake extends SubsystemBase
     }
 
     /**
-     * Checks that the intake speed is using the encoder that's there
+     * Returns the current speed of the intake roller motor.
      * @return The speed of the intake.
      */
     public double getIntakeRollerSpeed()

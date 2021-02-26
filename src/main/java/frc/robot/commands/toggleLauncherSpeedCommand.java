@@ -27,7 +27,6 @@ public class toggleLauncherSpeedCommand extends CommandBase {
      * Creates a new toggleLauncherSpeedCommand and sets up the variables.
      *
      * @param subsystem The launcher subsystem needed by this command to control the launcher.
-     * @param speed The enum value that describes the speed that the launcher needs to achieve
      */
     public toggleLauncherSpeedCommand(SK21Launcher subsystem) {
         // Sets up the required variables from the constructer for our use

@@ -327,7 +327,7 @@ public class MotionProfileExample {
 			leftPoint.zeroPos = false;
 			if (i == 0)
 				leftPoint.zeroPos = true; /* set this to true on the first point */
-			leftPoint.useAuxPID = true;
+			// leftPoint.useAuxPID = true;
 
 			leftPoint.isLastPoint = false;
 			if ((i + 1) == totalCnt)
@@ -336,7 +336,7 @@ public class MotionProfileExample {
 			rightPoint.zeroPos = false;
 			if (i == 0)
 				rightPoint.zeroPos = true; /* set this to true on the first point */
-			rightPoint.useAuxPID = true;
+			// rightPoint.useAuxPID = true;
 
 			rightPoint.isLastPoint = false;
 			if ((i + 1) == totalCnt)
@@ -353,10 +353,9 @@ public class MotionProfileExample {
 	 * Called by application to signal Talon to start the buffered MP (when it's
 	 * able to).
 	 */
-	void start(double endHeading, boolean bForward) {
+	void start(boolean bForward) {
 		_bStart = true;
 		_bForward = bForward;
-		_endHeading = endHeading;
 	}
 
 	/**

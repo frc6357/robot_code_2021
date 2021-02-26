@@ -13,34 +13,62 @@ def orthoPointDistance(gradients, xs, ys, d):
     ysLeft = []
     xsRight = []
     ysRight = []
+
+    pair_x = []
+    pair_y = []
     # Iterates through the input x and y values to create two sets of coordinates equidistant from the original point
     for i in range(0, len(gradients)):
+
         # Makes a a copy of each x and y value as well as slope
         x, y = copy.deepcopy(xs[i]), copy.deepcopy(ys[i])
         m = copy.deepcopy(gradients[i])
 
-        # Initialzes the value of the slope perpendicular to the derivative at each point
-        m = -1/m
+        if m != 0:
+            # Initialzes the value of the slope perpendicular to the derivative at each point
+            m = -1/m
 
-        # Calculates the amount to adjust the x value to make it left or right and also of the distance specified
-        val = d / np.sqrt(1+math.pow(m, 2))
+            # Calculates the amount to adjust the x value to make it left or right and also of the distance specified
+            val = d / np.sqrt(1 + math.pow(m, 2))
 
-        # Shifts x value to the left
-        xLeft = x - val
-        # Shifts x value to the right
-        xRight = x + val
+            # Shifts x value to the left
+            x1 = x - val
+            # Shifts x value to the right
+            x2 = x + val
 
-        # calculates the corresponding y values to the above x values to make them a distance d apart
-        yLeft = m*(xLeft - x) + y
-        yRight = m*(xRight - x) + y
+            # calculates the corresponding y values to the above x values to make them a distance d apart
+            y1 = m * (x1 - x) + y
+            y2 = m * (x2 - x) + y
 
-        # Add the new calculated values to the corresponding lists initialized at the beginning
-        xsLeft.append(xLeft)
-        xsRight.append(xRight)
-        ysLeft.append(yLeft)
-        ysRight.append(yRight)
+            if y1 > y:
+                xsLeft.append(x1)
+                ysLeft.append(y1)
+                xsRight.append(x2)
+                ysRight.append(y2)
+            else:
+                xsLeft.append(x2)
+                ysLeft.append(y2)
+                xsRight.append(x1)
+                ysRight.append(y1)
+
+
+        else:
+            xsLeft.append(x)
+            xsRight.append(x)
+            ysLeft.append(y + d)
+            ysRight.append(y - d)
+
+
+
+
+
+    for i in range(0, len(xsLeft)):
+        pair_x.append([xsLeft[i], xsRight[i]])
+        pair_y.append([ysLeft[i], ysRight[i]])
+
+
 
     # After finished iterating through the list, return a dictionary of these lists containing the calculated points
-    return {"x_left" : xsLeft, "y_left" : ysLeft, "x_right" : xsRight, "y_right" : ysRight}
-
-
+    return {
+            "x_left" : xsLeft, "y_left" : ysLeft, "x_right" : xsRight, "y_right" : ysRight, "pair_x" : pair_x,
+            "pair_y" : pair_y
+            }

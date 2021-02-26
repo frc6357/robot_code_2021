@@ -20,13 +20,18 @@ public final class TuningParams
     public static final boolean ENCODER_LEFT_REVERSED           = false;
     public static final boolean ENCODER_RIGHT_REVERSED          = true;
     public static final int     ENCODER_PULSES                  = 480;
+    public static final double  DRIVETRAIN_GEAR_REDUCTION       = 12.412;
     public static final double  WHEEL_DIAMETER                  = 18.375;   // 7.5" In Centimeters
+    public static final double  WHEEL_CIRCUMFERENCE             = 57.72;
 
     public static final double  STRAIGHT_DRIVE_OFFSET_TOLERANCE = 1.0;      // In Centimeters
     public static final double  OFFSET_SPEED_INCREMENT          = 0.01;
     public static final double  AUTONOMOUS_DRIVE_SPEED          = 0.5;
     public static final double  AUTONOMOUS_LOW_SPEED_LEVEL      = 0.2;
     public static final double  AUTONOMOUS_SLOW_DISTANCE_AREA   = 40;       // In Centimeters
+
+    public static final double  DRIVETRAIN_KP                   = 0.00000485;
+    public static final double  DRIVETRAIN_KD                   = 0;
 
     public static final double  SLOWMODE_MULTIPLIER             = 0.25;
     public static final double  SLOWMODE_TRIGGER_THRESHOLD      = 0.75;     // Joystick Trigger Required Value
@@ -77,17 +82,11 @@ public final class TuningParams
     public static final boolean INTAKE_BALL_CHECK_INVERT       = false;
 
     //////////////////////////////
-    // Ball Handling Params
+    // Ball Indexer Params
     //////////////////////////////
-    public static final double BALL_OUTER_SPEED             = 1.0;
-    public static final double BALL_INNER_SPEED             = -0.7;
-    public static final boolean BALL_SENSOR_1_INVERT        = false;
-    public static final boolean BALL_SENSOR_2_INVERT        = false;
-    public static final boolean BALL_SENSOR_3_INVERT        = false;
-    public static final boolean BALL_SENSOR_4_INVERT        = false;
-    public static final boolean BALL_SENSOR_5_INVERT        = false;
+    public static final double INDEXER_SPEED                = 1.0;
+    public static final double LAUNCHER_FEEDER_SPEED        = 1.0;
     public static final double TRIGGER_THRESHOLD            = 0.9;
-
 
     ///////////////////////////////
     // Climb Params

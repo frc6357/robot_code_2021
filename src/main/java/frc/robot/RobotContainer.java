@@ -20,18 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-// import frc.robot.AutoCommands.*;
-//import frc.robot.AutoCommands.*;
-import frc.robot.commands.DriveStraightCommand;
-import frc.robot.commands.DriveStraightCommandNew;
-import frc.robot.commands.SetGear;
 import frc.robot.commands.toggleLauncherSpeedCommand;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21BallHandling;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
 // import frc.robot.subsystems.SK20Climb;
-import frc.robot.subsystems.base.SuperClasses.Gear;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 
@@ -183,10 +177,6 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        // Sets buttons for gear shifting
-        setLowGear.whenPressed(new SetGear(m_driveSubsystem, Gear.LOW));
-        setHighGear.whenPressed(new SetGear(m_driveSubsystem, Gear.HIGH));
-
         toggleLauncherSpeed.whenPressed(new toggleLauncherSpeedCommand(m_launcherSubsystem));
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,
@@ -270,11 +260,11 @@ public class RobotContainer {
 
         switch (myAuto) {
             case DriveForward:
-                return new DriveStraightCommand(m_driveSubsystem, TuningParams.AUTO_DRIVE_DISTANCE);
-
+                //return new DriveStraightCommand(m_driveSubsystem, TuningParams.AUTO_DRIVE_DISTANCE);
+                
             case DriveBackward:
-                return new DriveStraightCommand(m_driveSubsystem, -(TuningParams.AUTO_DRIVE_DISTANCE));
-
+                //return new DriveStraightCommand(m_driveSubsystem, -(TuningParams.AUTO_DRIVE_DISTANCE));
+                
             case DriveForwardShoot:
                 // DriveForwardShootAuto m_DriveShoot = new
                 // DriveForwardShootAuto(m_driveSubsystem, m_launcherSubsystem);

@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.subsystems.SK21BallHandling;
+import frc.robot.subsystems.SK21BallIndexer;
 
 /**
  * A command that runs the ball transfer motors. Motors run whenever we do not
  * have a full compliment of 5 balls in the intake/transfer mechanism.
  */
 public class DefaultBallHandlingCommand extends CommandBase {
-    private final SK21BallHandling subsystem;
+    private final SK21BallIndexer subsystem;
     private final boolean endable;
     private final Joystick joystickOperator;
 
@@ -23,7 +23,7 @@ public class DefaultBallHandlingCommand extends CommandBase {
      * 
      * TODO: What is endable?
      */
-    public DefaultBallHandlingCommand(SK21BallHandling subsystem, Joystick joystickOperator, boolean endable) 
+    public DefaultBallHandlingCommand(SK21BallIndexer subsystem, Joystick joystickOperator, boolean endable) 
     {
         this.subsystem = subsystem;
         addRequirements(subsystem);
@@ -37,11 +37,11 @@ public class DefaultBallHandlingCommand extends CommandBase {
     {
         if (endable)
         {
-            subsystem.startRoller();
+            subsystem.startIndexerRotation();
         }
         else
         {
-            subsystem.stopRoller();
+            subsystem.stopIndexerRotation();
         }
     }
 
@@ -50,11 +50,11 @@ public class DefaultBallHandlingCommand extends CommandBase {
     public void execute() {
         if (this.joystickOperator.getRawAxis(Ports.OIOperatorActivateIBM) > TuningParams.TRIGGER_THRESHOLD) 
         {
-            subsystem.stopRoller();
+            subsystem.stopIndexerRotation();
         } 
         else if (this.joystickOperator.getRawAxis(Ports.OIOperatorDeactivateBMI) > TuningParams.TRIGGER_THRESHOLD)
         {
-            subsystem.startRoller();
+            subsystem.startIndexerRotation();
         }
     }
 

@@ -21,13 +21,14 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 
 /** Represents a differential drive style drivetrain. */
 public class Drivetrain {
-  public static final double  kMaxSpeed          = 3.0;         // meters per second
-  public static final double  kMaxAngularSpeed   = 2 * Math.PI; // one rotation per second
+  public static final double  kMaxSpeed          = 5.0;         // meters per second
+  // TODO: This needs to get tuned to make sure that it we don't have it turning too fast
+  public static final double  kMaxAngularSpeed   = 0.25 * Math.PI; // one rotation per second
 
 
   private static final double kTrackWidth        = 0.381 * 2;   // meters
   private static final double kWheelRadius       = 0.0508;      // meters
-  private static final int    kEncoderResolution = 4096;
+  private static final int    kEncoderResolution = 2048;
 
   public static final double kDistancePerEncoderPulse = 2 * Math.PI * kWheelRadius / kEncoderResolution;
 
@@ -48,8 +49,9 @@ public class Drivetrain {
   // private final AnalogGyro m_gyro = new AnalogGyro(0);
   private final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
 
-  private final PIDController m_leftPIDController = new PIDController(1, 0, 0);
-  private final PIDController m_rightPIDController = new PIDController(1, 0, 0);
+  // TODO: Tune this PID using the values gathered in the frc-characterization tool - Also tune I Values
+  private final PIDController m_leftPIDController = new PIDController(0.00000485, 0, 0);
+  private final PIDController m_rightPIDController = new PIDController(0.00000485, 0, 0);
 
   private final DifferentialDriveKinematics m_kinematics =
       new DifferentialDriveKinematics(kTrackWidth);

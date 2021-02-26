@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.toggleLauncherSpeedCommand;
 import frc.robot.subsystems.SK20Drive;
-import frc.robot.subsystems.SK21BallHandling;
+
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
 // import frc.robot.subsystems.SK20Climb;
@@ -81,7 +81,7 @@ public class RobotContainer {
     private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
     private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
 
-    private final SK21BallHandling m_BallHandling = new SK21BallHandling(joystickOperator);
+   
     private final SK21Intake m_Intake = new SK21Intake();
 
     // Gear Shifter Button
@@ -317,9 +317,7 @@ public class RobotContainer {
         }
     }
 
-    public void runBallHandling() {
-        m_BallHandling.setForwardIndexMotor();
-    }
+    
 
     public void runIntake(){
         m_Intake.extendIntake();

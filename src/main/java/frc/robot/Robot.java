@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,21 +20,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot 
 {
-    private enum TestModeChoice 
-    {
-        DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
-    };
-
     // private enum driveTestModeChoice{TestStraightCommandGroup,
     // TestStraightInterruptCommandGroup, TestTurnCommandGroup,
     // TestTurnInterruptCommandGroup}
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-
-    SendableChooser<TestModeChoice> testModeSelector = new SendableChooser<TestModeChoice>();
-    
-    // SendableChooser<driveTestModeChoice> driveTestModeSelector = new
-    // SendableChooser<driveTestModeChoice>();
 
     // public Robot() {
     // WPI_VictorSPX frontLeft = new WPI_VictorSPX(Ports.frontLeftDrive);

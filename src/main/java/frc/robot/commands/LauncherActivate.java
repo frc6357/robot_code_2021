@@ -36,14 +36,7 @@ public class LauncherActivate extends CommandBase
         addRequirements(subsystem);
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() 
-    {
-        // m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW);
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
+   // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {

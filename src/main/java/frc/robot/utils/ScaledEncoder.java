@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 
 public class ScaledEncoder extends Encoder
 {
-    private int pulsesPerRotation;
+    private final int pulsesPerRotation;
 
     /**
      * Constructor for the Scaled Encoder

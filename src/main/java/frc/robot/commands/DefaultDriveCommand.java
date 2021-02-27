@@ -27,12 +27,6 @@ public class DefaultDriveCommand extends CommandBase {
         addRequirements(m_subsystem);
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-
-    }
-
     /**
      * This method, which is usually run every 20ms, takes in the filtered joystick
      * values and sets the speeds that the drivetrain motors need to achieve.
@@ -41,16 +35,11 @@ public class DefaultDriveCommand extends CommandBase {
     @Override
     public void execute() {
         double rightTriggerValue = joystickDriver.getRawAxis(Ports.OIDriverSlowmode);
-        m_subsystem.setSlowmode((rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD) ? true : false);
+        m_subsystem.setSlowmode(rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD);
 
         double speedLeft = joystickDriver.getFilteredAxis(Ports.OIDriverLeftDrive);
         double speedRight = joystickDriver.getFilteredAxis(Ports.OIDriverRightDrive);
         m_subsystem.setSpeeds(speedLeft, speedRight);
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.

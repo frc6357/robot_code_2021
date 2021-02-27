@@ -40,7 +40,7 @@ public class RobotContainer {
 
     //public static SendableChooser<String> chooser = new SendableChooser<>();
 
-    private enum testModeChoice {
+    private enum TestModeChoice {
         DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
     };
 
@@ -62,7 +62,7 @@ public class RobotContainer {
 
     SendableChooser<File> splineSelector = new SendableChooser<File>();
 
-    SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
+    SendableChooser<TestModeChoice> testModeSelector = new SendableChooser<TestModeChoice>();
 
 
     // Here is where I do not understand the issue

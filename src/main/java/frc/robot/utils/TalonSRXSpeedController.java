@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;;
 
 public class TalonSRXSpeedController implements SpeedController
 {
-    WPI_TalonSRX speedController;
+    private final WPI_TalonSRX speedController;
 
     public TalonSRXSpeedController(int CANAddress)
     {

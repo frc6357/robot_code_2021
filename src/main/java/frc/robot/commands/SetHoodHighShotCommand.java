@@ -15,7 +15,7 @@ import frc.robot.subsystems.SK21Launcher;
  */
 public class SetHoodHighShotCommand extends CommandBase 
 {
-    private SK21Launcher subsystem;
+    private final SK21Launcher subsystem;
 
     public SetHoodHighShotCommand(SK21Launcher subsystem) 
     {
@@ -32,22 +32,10 @@ public class SetHoodHighShotCommand extends CommandBase
         subsystem.setHoodForHighAngleShot(true);        
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    @Override
-    public void execute() 
-    {
-    }
-
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() 
     {
         return true;
-    }
-
-    // Called once after isFinished returns true
-    @Override
-    public void end(boolean interrupted) 
-    {
     }
 }

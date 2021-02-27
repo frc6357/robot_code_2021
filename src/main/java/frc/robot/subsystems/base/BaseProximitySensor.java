@@ -1,16 +1,15 @@
 package frc.robot.subsystems.base;
 
 /**
- * Base class for any proximity sensor
+ * Base class for any proximity sensor.
  */
 public class BaseProximitySensor extends LimitSensor
 {
     /**
-     * Constructor
+     * Constructs a new BaseProximitySensor using the given DIO port.
      *
      * @param port
-     *      - Type: int
-     *      - DIO port for proximity sensor
+     *            DIO port for proximity sensor
      */
     public BaseProximitySensor(int port)
     {
@@ -18,15 +17,13 @@ public class BaseProximitySensor extends LimitSensor
     }
 
     /**
-     * Constructor
+     * Constructs a new BaseProximitySensor using the given DIO port and triggeredState.
      *
      * @param port
-     *      - Type: int
-     *      - DIO port for proximity sensor
+     *            DIO port for proximity sensor
      *
      * @param triggeredState
-     *      - Type: boolean
-     *      - Set when the sensor is triggered
+     *            Set when the sensor is triggered
      */
     public BaseProximitySensor(int port, boolean triggeredState)
     {

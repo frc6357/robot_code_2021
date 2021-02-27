@@ -11,8 +11,8 @@
 // PCM 0 - colorSpinnerExtend
 //     1 - launcherHoodExtend
 //     2 - intakeMoverRaise  
-//     3 - launcherFeederRetract
-//     4 - launcherFeederExtend 
+//     3 - launcherFeederDrop
+//     4 - launcherFeederRaise 
 //     5 - intakeMoverDrop 
 //     6 - launcherHoodRetract      
 //     7 - colorSpinnerRetract
@@ -59,8 +59,8 @@ public class Ports
     public static final int indexerMotor                = 21; // CAN ID
     public static final int feederMotor                 = 22; // CAN ID
 
-    public static final int launcherFeederRetract          = 3;  // PCM 1, Output
-    public static final int launcherFeederExtend         = 4;  // PCM 1, Output
+    public static final int launcherFeederDrop          = 3;  // PCM 1, Output
+    public static final int launcherFeederRaise         = 4;  // PCM 1, Output
 
     ///////////////////////////////
     // Ball Launcher Addresses
@@ -98,8 +98,9 @@ public class Ports
     ///////////////////////////////
     public static final int OIDriverJoystick            = 0;
 
-    public static final int OIDriverLeftDrive           = 1;  // Left Joystick Y
-    public static final int OIDriverRightDrive          = 5;  // Right Joystick Y
+    // Controls set for Arcade Drive - left stick turn, right stick throttle.
+    public static final int OIDriverTurn                = 0;  // Left Joystick X
+    public static final int OIDriverMove                = 5;  // Right Joystick Y
 
     public static final int OIDriverSetLowGear          = 5;  // Set low gear (LeftBumper)
     public static final int OIDriverSetHighGear         = 6;  // Set high gear (RightBumper)
@@ -116,18 +117,17 @@ public class Ports
     public static final int OIOperatorStartSetColor     = 10;   // Right Joystick press button
     public static final int OIOperatorColorWheelLift    = 7;    // Back button
     
-    
+    public static final int OIOperatorToggleIntake      = 3;    // Button X
     public static final int OIOperatorReverseIntake     = 9;    // Left Joystick Button
     
     public static final int OIOperatorActivateIBM       = 2;    // Left Trigger Axis
     public static final int OIOperatorDeactivateBMI     = 3;    // Right Trigger Axis
     
-    public static final int OIOperatorHighHoodAngle     = 5;    // Left Bumper
-    public static final int OIOperatorLowHoodAngle      = 6;    // Right Bumper
+    public static final int OIOperatorHighHoodAngle     = 5;;    // Left Bumper
     public static final int OIOperatorShootBall         = 2;    // Button B
 
     public static final int OIOperatorArmClimb          = 4;    // Button Y
-    public static final int OIOperatorRunWinchArm       = 3;    // Button X
+    public static final int OIOperatorRunWinchArm       = 6;    // Motor for Winching arm while held (RightBumper)
 
     public static final int OIOperatorSetLauncherSpeed  = 8;    // Goes through launcher speed list TODO: Set this correctly
 

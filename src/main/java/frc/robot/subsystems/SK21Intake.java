@@ -22,10 +22,9 @@ public class SK21Intake extends SubsystemBase
 {
     private final BaseRoller intakeRoller;
     private final DoubleSolenoid intakeMover;
-    private final CANSparkMax intakeRollerMotor;
     private final CANEncoder intakeRollerEncoder;
 
-    private NetworkTableEntry intakeEntry;
+    
 
     /**
      * Sets up the intake control such that it takes the values that are 
@@ -33,26 +32,11 @@ public class SK21Intake extends SubsystemBase
      */
     public SK21Intake()
     {
-        intakeRollerMotor = new CANSparkMax(Ports.intakeMotor, MotorType.kBrushless);
+        CANSparkMax intakeRollerMotor = new CANSparkMax(Ports.intakeMotor, MotorType.kBrushless);
         intakeRoller = new BaseRoller(intakeRollerMotor, TuningParams.INTAKE_MAX_SPEED);
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
 
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
-
-        intakeEntry = Shuffleboard.getTab("Intake")
-            .add("solenoid",1)
-            .withWidget(BuiltInWidgets.kToggleButton)
-            .withSize(2,1)
-            .withPosition(0, 0)
-            .getEntry();
-
-            /*
-            .add("motor",3)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withSize(1,1)
-            .withPosition(0,4)
-            .getEntry();
-            */
     }
 
     /**
@@ -115,4 +99,5 @@ public class SK21Intake extends SubsystemBase
     {
         return intakeRollerEncoder.getVelocity();
     }
+
 }

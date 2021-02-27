@@ -15,6 +15,7 @@ import frc.robot.filters.FilterDeadband;
 import frc.robot.utils.FilteredJoystick;
 import java.io.IOException;
 import java.nio.file.*;
+import java.io.File;
 
 public class Robot extends TimedRobot {
   private final FilteredJoystick m_controller = new FilteredJoystick(0);
@@ -25,7 +26,7 @@ public class Robot extends TimedRobot {
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
-  private final String trajectoryJSON = "paths/StartupPath1.wpilib.json";
+  private final String trajectoryJSON = "/home/lvuser/deploy/paths/StartupPath1.wpilib.json";
 
   // An example trajectory to follow during the autonomous period.
   private Trajectory m_trajectory;
@@ -42,15 +43,18 @@ public class Robot extends TimedRobot {
     // trajectories here to avoid wasting time in autonomous.
     m_controller.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
     m_controller.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
-    //try 
-    //{ 
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      //m_trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    //}
-    //catch(IOException ex)
-    //{
-    //  System.out.println("No trajectory file found!");
-    //}
+    try 
+    { 
+      File deployDir = Filesystem.getDeployDirectory();
+      Path deployPathDir = deployDir.toPath();
+      Path trajectoryPath = deployPathDir.resolve(trajectoryJSON);
+      m_trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    }
+    catch(IOException ex)
+    {
+     System.out.println("No trajectory file found!" + ex);
+    }
+    System.out.println("Finished robotInit.");
   }
 
   @Override

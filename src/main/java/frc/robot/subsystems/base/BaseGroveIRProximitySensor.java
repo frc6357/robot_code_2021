@@ -6,12 +6,10 @@ package frc.robot.subsystems.base;
 public class BaseGroveIRProximitySensor extends BaseProximitySensor
 {
     /**
-     * Constructor
-     * Calls super with the port number
+     * Constructs a new BaseGroveIRProximitySensor using the given port.
      *
      * @param port
-     *      - Type: int
-     *      - port of the Grove IR sensor
+     *            Port of the Grove IR sensor
      */
     public BaseGroveIRProximitySensor(int port)
     {

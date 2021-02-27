@@ -2,25 +2,39 @@ package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
-import frc.robot.Ports;
 import frc.robot.TuningParams;
 
-public class TriggerButton extends Button {
+/**
+ * Creates a Button for a Trigger (which normally doesn't behave like a button).
+ */
+public class TriggerButton extends Button
+{
 
-  private final Joystick joystick;
-  private final int axis;
+    /**
+     * The Joystick on which the Trigger exists.
+     */
+    private final Joystick joystick;
 
-  public TriggerButton(Joystick joystick, int axis) {
-    this.joystick = joystick;
-    this.axis = axis;
+    /**
+     * The axis for the Trigger to be converted to a Button
+     */
+    private final int axis;
 
-  }
+    /**
+     * Constructs a new TriggerButton for the given Joystick and axis.
+     * 
+     * @param joystick The Joystick on which the Trigger exists
+     * @param axis The axis on the given Joystick to be converted to a Button
+     */
+    public TriggerButton(Joystick joystick, int axis)
+    {
+        this.joystick = joystick;
+        this.axis = axis;
+    }
 
-  @Override
-  public boolean get() {
-    double triggerValue = joystick.getRawAxis(axis);
-    return triggerValue >= TuningParams.TRIGGER_THRESHOLD;
-  }
-
-  
+    @Override
+    public boolean get()
+    {
+        return joystick.getRawAxis(axis) >= TuningParams.TRIGGER_THRESHOLD;
+    }
 }

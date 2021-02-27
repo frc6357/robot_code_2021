@@ -21,12 +21,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultIntakeCommand;
+import frc.robot.commands.DisableShotCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
+import frc.robot.commands.TriggerShotCommand;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Intake;
@@ -90,6 +92,8 @@ public class RobotContainer {
     private final DpadUpButton extendIntakeButton = new DpadUpButton(dpad);
     private final DpadDownButton retractIntakeButton = new DpadDownButton(dpad);
     private final JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
+
+    
 
     // Launcher control buttons
     private final JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
@@ -189,6 +193,9 @@ public class RobotContainer {
 
         startIndexer.whenPressed(new StartIndexerCommand(m_ballIndexerSubsystem));
         stopIndexer.whenPressed(new StopIndexerCommand(m_ballIndexerSubsystem));
+
+        launchBall.whenPressed(new TriggerShotCommand(m_ballIndexerSubsystem));
+        launchBall.whenReleased(new DisableShotCommand(m_ballIndexerSubsystem));
 
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,

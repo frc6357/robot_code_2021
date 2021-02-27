@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Intake;
 
 /**
- * This command toggles the intake position to be extended or retracted.
+ * This command retracts the intake.
  */
 public class RetractIntake extends CommandBase 
 {

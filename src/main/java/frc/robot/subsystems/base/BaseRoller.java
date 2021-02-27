@@ -3,7 +3,7 @@ package frc.robot.subsystems.base;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /**
- *  Base class to be extended by any class requiring rollers
+ * Base class to be extended by any class requiring rollers
  */
 public class BaseRoller
 {
@@ -11,17 +11,21 @@ public class BaseRoller
     private final SpeedController motorController;
     private double speed = 1.0;
     private double currentSpeed = 0.0;
-    public static enum Direction { BACKWARD, STOPPED, FORWARD };
+
+    public static enum Direction
+    {
+        BACKWARD, STOPPED, FORWARD
+    };
+
     private Direction directionReader;
 
     /**
-     *  Constructor:
+     * Constructor:
      * 
-     *  Creates the base class for any rollers
+     * Creates the base class for any rollers
      * 
-     *  @param motorController
-     *      - Type: Motor Controller
-     *      - Used to control the speed of the motor
+     * @param motorController
+     *            - Type: Motor Controller - Used to control the speed of the motor
      * 
      */
     public BaseRoller(SpeedController motorController)
@@ -31,17 +35,14 @@ public class BaseRoller
     }
 
     /**
-     *  Constructor:
+     * Constructor:
      * 
-     *  Creates the base class for any rollers
+     * Creates the base class for any rollers
      * 
-    //  *  @param motorController
-     *      - Type: Motor Controller
-     *      - Used to control the speed of the motor
-     * 
-     *  @param speed
-     *      - Type: double
-     *      - Used to set a slower speed when neccesary
+     * @param motorController
+     *            The SpeedController for the BaseRoller
+     * @param speed
+     *            Set the initial speed of the roller
      */
     public BaseRoller(SpeedController motorController, double speed)
     {
@@ -50,11 +51,11 @@ public class BaseRoller
     }
 
     /**
-     *  Sets the roller motor/s to be spinning forwards
+     * Sets the roller motor/s to be spinning forwards.
      */
     public void setForwards()
     {
-        if(currentSpeed != speed)
+        if (currentSpeed != speed)
         {
             currentSpeed = speed;
             motorController.set(currentSpeed);
@@ -63,11 +64,11 @@ public class BaseRoller
     }
 
     /**
-     *  Sets the roller motor/s to be spinning backwards at a speed set by the speed
+     * Sets the roller motor/s to be spinning backwards at a speed set by the speed
      */
     public void setBackwards()
     {
-        if(currentSpeed != -speed)
+        if (currentSpeed != -speed)
         {
             currentSpeed = -speed;
             motorController.set(currentSpeed);
@@ -76,11 +77,11 @@ public class BaseRoller
     }
 
     /**
-     *  Sets the roller motors to stop
+     * Sets the roller motors to stop.
      */
     public void setStop()
     {
-        if(currentSpeed != 0.0)
+        if (currentSpeed != 0.0)
         {
             currentSpeed = 0.0;
             motorController.set(0.0);
@@ -89,11 +90,10 @@ public class BaseRoller
     }
 
     /**
-     *  Returns the direction that the motor is set to
-     *  @return 
-     *      - Type int
-     *      - Values of -1, 0, 1
-     *      - Used to check whether motor is stopped, moving forwards or backwards
+     * Returns the direction that the motor is set to
+     * 
+     * @return - Type int - Values of -1, 0, 1 - Used to check whether motor is stopped,
+     *         moving forwards or backwards
      */
     public BaseRoller.Direction getDirection()
     {
@@ -101,10 +101,10 @@ public class BaseRoller
     }
 
     /**
-     *  Sets or changes the speed that is used by the motor controller
-     *  @param newSpeed
-     *      - Type double
-     *      - Changes the speed of the rollers
+     * Sets or changes the speed that is used by the motor controller
+     * 
+     * @param newSpeed
+     *            - Type double - Changes the speed of the rollers
      */
     public void setSpeed(double newSpeed)
     {
@@ -112,10 +112,9 @@ public class BaseRoller
     }
 
     /**
-     *  Returns the speed that is set to the default motherboard
-     *  @return
-     *      - Type double
-     *      - Current speed that the motor controller is utilizing
+     * Returns the speed that is set to the default motherboard
+     * 
+     * @return - Type double - Current speed that the motor controller is utilizing
      */
     public double returnSpeed()
     {
@@ -125,17 +124,21 @@ public class BaseRoller
     /**
      * Function for test use only. This sets the motor to run at the commanded speed,
      * regardless of the speed set during initialization.
-     * @param speed The speed to set the roller at
+     * 
+     * @param speed
+     *            The speed to set the roller at
      */
     public void testSetSpeed(double speed)
     {
         currentSpeed = speed;
         motorController.set(speed);
-        directionReader = (speed > 0.0) ? Direction.FORWARD : ((speed == 0.0) ? Direction.STOPPED : Direction.BACKWARD);
+        directionReader = (speed > 0.0) ? Direction.FORWARD
+            : ((speed == 0.0) ? Direction.STOPPED : Direction.BACKWARD);
     }
 
     /**
      * Retrieve the current speed of the roller.
+     * 
      * @return The current speed that the encoder reads
      */
     public double testGetSpeed()

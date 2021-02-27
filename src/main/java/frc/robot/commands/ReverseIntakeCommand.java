@@ -8,44 +8,48 @@ import frc.robot.subsystems.SK21Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An intake command that reverses the direction 
- * of the intake rollers when it is extended.
+ * An intake command that reverses the direction of the intake rollers when it is
+ * extended.
  */
-public class ReverseIntakeCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21Intake m_subsystem;
+public class ReverseIntakeCommand extends CommandBase
+{
 
-  /**
-   * Creates a new ReverseIntake which takes in the
-   * required subsystem
-   *
-   * @param subsystem The intake subsystem used by this command.
-   */
-  public ReverseIntakeCommand(SK21Intake subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+    /**
+     * The Ball Intake Subsystem.
+     */
+    private final SK21Intake intakeSubsystem;
 
-  // Called when the command is initially scheduled.
-  /**
-   * It will set the intake to go to the right direction
-   * and will only set it if the intake is extended out
-   */
-  @Override
-  public void initialize() {
-    if(m_subsystem.isIntakeExtended())
+    /**
+     * Creates a new ReverseIntakeCommand which takes in the required subsystem
+     *
+     * @param intakeSubsystem
+     *            The intake subsystem used by this command.
+     */
+    public ReverseIntakeCommand(SK21Intake intakeSubsystem)
     {
-      m_subsystem.reverseIntakeRoller();
+        this.intakeSubsystem = intakeSubsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(intakeSubsystem);
     }
-  }
 
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+    // Called once when the command is initially scheduled - we use as a "one shot"
+    /**
+     * It will set the intake to go to the reverse direction and will only set it if the
+     * intake is extended.
+     */
+    @Override
+    public void initialize()
+    {
+        if (intakeSubsystem.isIntakeExtended())
+        {
+            intakeSubsystem.reverseIntakeRoller();
+        }
+    }
+
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

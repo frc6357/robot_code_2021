@@ -7,44 +7,41 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
 
-
 /**
- * An intake command that reverses the direction 
- * of the intake rollers when it is extended.
+ * An intake command that starts the ball indexer.
  */
-public class StartIndexerCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21BallIndexer m_subsystem;
+public class StartIndexerCommand extends CommandBase
+{
 
-  /**
-   * Creates a new ReverseIntake which takes in the
-   * required subsystem
-   *
-   * @param subsystem The intake subsystem used by this command.
-   */
-  public StartIndexerCommand(SK21BallIndexer subsystem) {
-    m_subsystem = subsystem;
+    /**
+     * The Ball Indexer Subsystem.
+     */
+    private final SK21BallIndexer indexerSubsystem;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+    /**
+     * Creates a new StartIndexerCommand which takes in the required subsystem
+     *
+     * @param indexerSubsystem
+     *            The indexer subsystem used by this command.
+     */
+    public StartIndexerCommand(SK21BallIndexer indexerSubsystem)
+    {
+        this.indexerSubsystem = indexerSubsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(indexerSubsystem);
+    }
 
-  // Called when the command is initially scheduled.
-  /**
-   * It will set the intake to go to the right direction
-   * and will only set it if the intake is extended out
-   */
-  @Override
-  public void initialize() {
-    m_subsystem.startIndexerRotation();
-  }
+    // Called once when the command is initially scheduled - we use as a "one shot"
+    @Override
+    public void initialize()
+    {
+        indexerSubsystem.startIndexerRotation();
+    }
 
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

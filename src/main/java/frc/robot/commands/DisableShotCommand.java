@@ -2,28 +2,43 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
-import frc.robot.subsystems.SK21Intake;
 
-public class DisableShotCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21BallIndexer m_subsystem;
+/**
+ * Disables the shoot activity (retracts the arm that pushes a ball into the launcher and
+ * stops the feeder motor).
+ */
+public class DisableShotCommand extends CommandBase
+{
+    /**
+     * The Ball Indexer Subsystem.
+     */
+    private final SK21BallIndexer indexerSubsystem;
 
- 
-  public DisableShotCommand(SK21BallIndexer subsystem) {
-    m_subsystem = subsystem;
-   
-    addRequirements(subsystem);
-  }
+    /**
+     * Creates a new DisableShotCommand which takes in the required subsystem
+     *
+     * @param indexerSubsystem
+     *            The indexer subsystem used by this command.
+     */
+    public DisableShotCommand(SK21BallIndexer indexerSubsystem)
+    {
+        this.indexerSubsystem = indexerSubsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(indexerSubsystem);
+    }
 
-  @Override
-  public void initialize() {
-    m_subsystem.stopLauncherFeederMotor();
-    m_subsystem.retractLauncherFeederArm();
-  }
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+    // Called once when the command is initially scheduled - we use as a "one shot"
+    @Override
+    public void initialize()
+    {
+        indexerSubsystem.retractLauncherFeederArm();
+        indexerSubsystem.stopLauncherFeederMotor();
+    }
 
-  
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

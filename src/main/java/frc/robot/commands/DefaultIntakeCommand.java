@@ -8,44 +8,48 @@ import frc.robot.subsystems.SK21Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An intake command that normalizes the direction 
- * of the intake rollers when it is extended.
+ * An intake command that normalizes the direction of the intake rollers when it is
+ * extended.
  */
-public class DefaultIntakeCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21Intake m_subsystem;
+public class DefaultIntakeCommand extends CommandBase
+{
 
-  /**
-   * Creates a new DefaultIntake which takes in the
-   * required subsystem
-   *
-   * @param subsystem The intake subsystem used by this command.
-   */
-  public DefaultIntakeCommand(SK21Intake subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+    /**
+     * The Ball Intake Subsystem
+     */
+    private final SK21Intake subsystem;
 
-  // Called when the command is initially scheduled.
-  /**
-   * It will set the intake to go to the right direction
-   * and will only set it if the intake is extended out
-   */
-  @Override
-  public void initialize() {
-    if(m_subsystem.isIntakeExtended())
+    /**
+     * Creates a new DefaultIntakeCommand which takes in the required subsystem
+     *
+     * @param subsystem
+     *            The intake subsystem used by this command.
+     */
+    public DefaultIntakeCommand(SK21Intake subsystem)
     {
-      m_subsystem.startIntakeRoller();
+        this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
     }
-  }
 
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+    // Called once when the command is initially scheduled - we use as a "one shot"
+    /**
+     * It will set the intake to go to the forward direction and will only set it if the
+     * intake is extended.
+     */
+    @Override
+    public void initialize()
+    {
+        if (subsystem.isIntakeExtended())
+        {
+            subsystem.startIntakeRoller();
+        }
+    }
+
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
 public class SetLauncherFeederCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   private final SK21BallIndexer m_subsystem;
   private final boolean launcherFeederPosition;
 
@@ -22,6 +22,7 @@ public class SetLauncherFeederCommand extends CommandBase {
   {
     this.m_subsystem = m_subsystem;
     this.launcherFeederPosition = launcherFeederPosition;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
 

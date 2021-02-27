@@ -4,12 +4,13 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SK21Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/** An intake command that reverses the direction 
- * of the intake rollers when it is extended. */
+/**
+ * An intake command that reverses the direction 
+ * of the intake rollers when it is extended.
+ */
 public class ToggleIntakeDirectionCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SK21Intake m_subsystem;
@@ -27,8 +28,9 @@ public class ToggleIntakeDirectionCommand extends CommandBase {
   }
 
   // Called when the command is initially scheduled.
-  /** It will set the intake to go to the right direction
-   *  and will only set it if the intake is extended out
+  /**
+   * It will set the intake to go to the right direction
+   * and will only set it if the intake is extended out
    */
   @Override
   public void initialize() {
@@ -48,14 +50,18 @@ public class ToggleIntakeDirectionCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
-  // Returns true when the command should end, which should always be true
-  // as the functionality ends immediately after the intialize function.
+  /*
+   * Returns true when the command should end, which should always be true
+   * as the functionality ends immediately after the intialize function.
+   */
   @Override
   public boolean isFinished() {
     return true;

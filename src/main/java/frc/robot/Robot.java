@@ -21,12 +21,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot 
 {
-    private enum testModeChoice 
+    private enum TestModeChoice 
     {
         DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
     };
-
-    
 
     // private enum driveTestModeChoice{TestStraightCommandGroup,
     // TestStraightInterruptCommandGroup, TestTurnCommandGroup,
@@ -34,7 +32,7 @@ public class Robot extends TimedRobot
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
 
-    SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
+    SendableChooser<TestModeChoice> testModeSelector = new SendableChooser<TestModeChoice>();
     
     // SendableChooser<driveTestModeChoice> driveTestModeSelector = new
     // SendableChooser<driveTestModeChoice>();
@@ -91,7 +89,6 @@ public class Robot extends TimedRobot
      * This function is called every robot packet, no matter the mode. Use this for
      * items like diagnostics that you want ran during disabled, autonomous,
      * teleoperated and test.
-     *
      * <p>
      * This runs after the mode specific periodic functions, but before LiveWindow
      * and SmartDashboard integrated updating.
@@ -100,13 +97,12 @@ public class Robot extends TimedRobot
     public void robotPeriodic() 
     {
         
-        // Runs the Scheduler. This is responsible for polling buttons, adding
-        // newly-scheduled
-        // commands, running already-scheduled commands, removing finished or
-        // interrupted commands,
-        // and running subsystem periodic() methods. This must be called from the
-        // robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        /* Runs the Scheduler. This is responsible for polling buttons, adding
+         * newly-scheduled commands, running already-scheduled commands, removing
+         * finished or interrupted commands, and running subsystem periodic()
+         * methods. This must be called from the robot's periodic block in order
+         * for anything in the Command-based framework to work.
+         */
         CommandScheduler.getInstance().run();
         // boolean IBMToggle = SmartDashboard.getBoolean("Ball Mangement Toggle", true);
         // RobotContainer.toggleBallManagement.setPressed(IBMToggle);

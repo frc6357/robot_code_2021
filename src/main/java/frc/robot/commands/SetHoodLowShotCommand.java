@@ -16,6 +16,7 @@ import frc.robot.subsystems.SK21Launcher;
 public class SetHoodLowShotCommand extends CommandBase 
 {
     private SK21Launcher subsystem;
+
     public SetHoodLowShotCommand(SK21Launcher subsystem) 
     {
         // Use requires() here to declare subsystem dependencies

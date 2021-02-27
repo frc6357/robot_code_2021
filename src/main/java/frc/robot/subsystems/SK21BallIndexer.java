@@ -21,8 +21,6 @@ public class SK21BallIndexer extends SubsystemBase {
     private boolean indexerMotorIsEnabled = false;
     private boolean feederMotorIsEnabled = false;
     private boolean feederArmIsDropped = false;
-    
-
 
     /**
      * Activates the motor that rotates the ball indexer
@@ -69,7 +67,7 @@ public class SK21BallIndexer extends SubsystemBase {
 
     public void raiseLauncherFeederArm()
     {
-       //TODo: write this
+       //TODO: write this
     }
 
     public void startLauncherFeederRoller()

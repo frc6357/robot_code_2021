@@ -20,9 +20,9 @@ public class DefaultDriveCommand extends CommandBase {
      * @param subsystem The subsystem used by the command to set drivetrain motor
      *                  speeds.
      */
-    public DefaultDriveCommand(SK20Drive subsystem,FilteredJoystick joystickDriver) {
+    public DefaultDriveCommand(SK20Drive subsystem, FilteredJoystick joystickDriver) {
         m_subsystem = subsystem;
-        this.joystickDriver=joystickDriver;
+        this.joystickDriver = joystickDriver;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(m_subsystem);
     }

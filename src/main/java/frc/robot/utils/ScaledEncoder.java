@@ -41,7 +41,7 @@ public class ScaledEncoder extends Encoder
      */
     public double getAngleDegrees()
     {
-        return ((get() * 360) / pulsesPerRotation);
+        return (get() * 360) / pulsesPerRotation;
     }
 
     /**
@@ -50,7 +50,7 @@ public class ScaledEncoder extends Encoder
      */
     public double getAngleRadians()
     {
-        return ((get() * 2 * Math.PI) / pulsesPerRotation);
+        return (get() * 2 * Math.PI) / pulsesPerRotation;
     }
 
     /**
@@ -59,6 +59,6 @@ public class ScaledEncoder extends Encoder
      */
     public double getRotations()
     {
-        return(get() / pulsesPerRotation);
+        return get() / pulsesPerRotation;
     }
 }

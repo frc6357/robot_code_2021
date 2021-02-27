@@ -16,6 +16,7 @@ import frc.robot.subsystems.SK21Intake;
 public class ToggleIntakeCommand extends CommandBase 
 {
     private SK21Intake subsystem;
+
     public ToggleIntakeCommand(SK21Intake subsystem) 
     {
         // Use requires() here to declare subsystem dependencies

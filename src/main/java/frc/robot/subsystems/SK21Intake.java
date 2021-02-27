@@ -104,7 +104,7 @@ public class SK21Intake extends SubsystemBase
     public boolean isIntakeExtended()
     {
         DoubleSolenoid.Value currentState = intakeMover.get();
-        return (currentState.equals(Value.kForward)) ? true : false;
+        return currentState.equals(Value.kForward);
     }
 
     /**

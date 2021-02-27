@@ -25,7 +25,10 @@ import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntake;
 import frc.robot.commands.ReverseIntake;
+import frc.robot.commands.StartIndexerCommand;
+import frc.robot.commands.StopIndexerCommand;
 import frc.robot.subsystems.SK20Drive;
+import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
 import frc.robot.subsystems.base.Dpad;
@@ -97,6 +100,8 @@ public class RobotContainer {
     private final TriggerButton startIndexer = new TriggerButton(joystickOperator, Ports.OIOperatorActivateIBM);
     private final TriggerButton stopIndexer = new TriggerButton(joystickOperator,Ports.OIOperatorDeactivateBMI);
 
+    
+
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new
     // JoystickButton(joystickOperator,
@@ -110,8 +115,7 @@ public class RobotContainer {
     // private final SK20Climb m_climbSubsystem = new SK20Climb();
     // private final SK20Intake m_intakeSubsystem = new SK20Intake();
     private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
-    // private final SK20BallHandling m_ballHandlingSubsystem = new
-    // SK20BallHandling();
+    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer(joystickOperator);
 
     // TODO: Reinstate color wheel later
     // Color wheel buttons
@@ -183,7 +187,8 @@ public class RobotContainer {
         reverseIntake.whenPressed(new ReverseIntake(m_Intake));
         reverseIntake.whenReleased(new DefaultIntake(m_Intake));
 
-        
+        startIndexer.whenPressed(new StartIndexerCommand(m_ballIndexerSubsystem));
+        stopIndexer.whenPressed(new StopIndexerCommand(m_ballIndexerSubsystem));
 
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,

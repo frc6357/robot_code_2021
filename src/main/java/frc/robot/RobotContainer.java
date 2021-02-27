@@ -20,10 +20,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.LauncherSpeedCommand;
+import frc.robot.commands.RetractIntake;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
+import frc.robot.subsystems.base.Dpad;
+import frc.robot.subsystems.base.DpadDownButton;
+import frc.robot.subsystems.base.DpadUpButton;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 
@@ -95,6 +100,12 @@ public class RobotContainer {
     private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
     private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
             Ports.OIOperatorSetLauncherSpeed);
+
+    private final Dpad dpad = new Dpad(joystickOperator);
+
+    private final DpadUpButton dpadUp = new DpadUpButton(dpad);
+    private final DpadDownButton dpadDown = new DpadDownButton(dpad);
+    
 
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new
@@ -176,6 +187,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
+        dpadUp.whenPressed(new ExtendIntake(m_Intake));
+        dpadDown.whenPressed(new RetractIntake(m_Intake));
+
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,
         // this));

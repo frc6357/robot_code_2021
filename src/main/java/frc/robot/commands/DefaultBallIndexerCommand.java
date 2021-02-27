@@ -10,7 +10,7 @@ import frc.robot.subsystems.SK21BallIndexer;
  * A command that runs the ball transfer motors. Motors run whenever we do not
  * have a full compliment of 5 balls in the intake/transfer mechanism.
  */
-public class DefaultBallHandlingCommand extends CommandBase {
+public class DefaultBallIndexerCommand extends CommandBase {
     private final SK21BallIndexer subsystem;
     private final boolean endable;
     private final Joystick joystickOperator;
@@ -23,7 +23,7 @@ public class DefaultBallHandlingCommand extends CommandBase {
      * 
      * TODO: What is endable?
      */
-    public DefaultBallHandlingCommand(SK21BallIndexer subsystem, Joystick joystickOperator, boolean endable) 
+    public DefaultBallIndexerCommand(SK21BallIndexer subsystem, Joystick joystickOperator, boolean endable) 
     {
         this.subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.

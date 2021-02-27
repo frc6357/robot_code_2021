@@ -221,7 +221,7 @@ public class RobotContainer {
 
         // Toggles ball management on and off
         // toggleBallManagement.whileHeld(new
-        // ToggleBallManagementCommand(m_ballHandlingSubsystem));
+        // ToggleBallManagementCommand(m_ballIndexerSubsystem));
 
         // Set the ball launcher buttons to do correct commands
         // setHighAngle.whenPressed(new SetAngleCommand(m_launcherSubsystem, true));
@@ -282,7 +282,7 @@ public class RobotContainer {
 
         // StraightShotToMoveAuto autoCommand = new
         // StraightShotToMoveAuto(m_driveSubsystem, m_launcherSubsystem,
-        // m_ballHandlingSubsystem);
+        // m_ballIndexerSubsystem);
         // return autoCommand.getCommandGroup();
 
         // TODO: Put this back in later!!
@@ -318,7 +318,7 @@ public class RobotContainer {
                 // case StraightShot:
                 // StraightShotToMoveAuto m_autoPath2 = new
                 // StraightShotToMoveAuto(m_driveSubsystem,
-                // m_launcherSubsystem,m_ballHandlingSubsystem);
+                // m_launcherSubsystem,m_ballIndexerSubsystem);
 
                 // return m_autoPath2.getCommandGroup();
                 // case StraightRecollectShot:

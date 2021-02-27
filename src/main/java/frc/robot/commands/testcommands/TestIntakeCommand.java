@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.testcommands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;

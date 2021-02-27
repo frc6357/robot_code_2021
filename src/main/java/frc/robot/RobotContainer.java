@@ -72,16 +72,9 @@ public class RobotContainer {
     SendableChooser<TestModeChoice> testModeSelector = new SendableChooser<TestModeChoice>();
 
 
-    // Here is where I do not understand the issue
-    
-
     File f = new File("C:/Users/Owner/Documents/WeaverOutput/output");
 
     File[] pathNames = f.listFiles();
-
-    
-
-    
 
     private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
     private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
@@ -93,8 +86,10 @@ public class RobotContainer {
     private final JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
     private final JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
 
-    // Intake control button
-
+    // Intake controls
+    private final Dpad dpad = new Dpad(joystickOperator);
+    private final DpadUpButton extendIntakeButton = new DpadUpButton(dpad);
+    private final DpadDownButton retractIntakeButton = new DpadDownButton(dpad);
     private final JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
 
     // Launcher control buttons
@@ -102,12 +97,6 @@ public class RobotContainer {
     private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
     private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
             Ports.OIOperatorSetLauncherSpeed);
-
-    private final Dpad dpad = new Dpad(joystickOperator);
-
-    private final DpadUpButton dpadUp = new DpadUpButton(dpad);
-    private final DpadDownButton dpadDown = new DpadDownButton(dpad);
-    
 
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new
@@ -189,8 +178,8 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
-        dpadUp.whenPressed(new ExtendIntake(m_Intake));
-        dpadDown.whenPressed(new RetractIntake(m_Intake));
+        extendIntakeButton.whenPressed(new ExtendIntake(m_Intake));
+        retractIntakeButton.whenPressed(new RetractIntake(m_Intake));
 
         reverseIntake.whenPressed(new ReverseIntake(m_Intake));
         reverseIntake.whenReleased(new DefaultIntake(m_Intake));

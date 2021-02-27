@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.utils;
 
 import frc.robot.filters.Filter;
 
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class FilteredJoystick extends Joystick
 {
-    static final int MAX_AXES = 16;
+    private static final int MAX_AXES = 16;
 
     private Filter[] filters;
 

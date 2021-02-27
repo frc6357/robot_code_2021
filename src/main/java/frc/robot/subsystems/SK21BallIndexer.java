@@ -22,9 +22,9 @@ public class SK21BallIndexer extends SubsystemBase {
     private BaseRoller feederRoller; 
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
-    private boolean feederArmIsDropped = false;
+    private boolean feederArmIsExtended = false;
     private DoubleSolenoid feederArmSolenoid;
-    private final DefaultBallIndexerCommand ballIndexer; //change name
+    private final DefaultBallIndexerCommand ballIndexer; 
     
 
 
@@ -37,7 +37,7 @@ public class SK21BallIndexer extends SubsystemBase {
         feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless); 
         indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
-        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederDrop, Ports.launcherFeederRaise);
+        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederRetract, Ports.launcherFeederExtend);
         ballIndexer = new DefaultBallIndexerCommand(this, joystickOperator, false);
         setDefaultCommand(ballIndexer);
     }
@@ -60,37 +60,52 @@ public class SK21BallIndexer extends SubsystemBase {
         indexerMotorIsStarted = false;
     }
 
-
+    /**
+     * Returns the current state of the Indexer Motor
+     * @return the current state of the Indexer Motor
+     */
     public boolean isIndexerMotorStarted() 
     {
         return indexerMotorIsStarted;
     }
 
     /**
-     * Activates or deactivates the launcher feeder
+     * Activates or deactivates the launcher feeder Arm
      * extend - the launcher feeder can pop out the ball
      * retract - the launcher feeder does nothing
      */
     public void extendLauncherFeederArm() 
     {
-        //TODO: write this
+        feederArmSolenoid.set(DoubleSolenoid.Value.kForward);
+        feederArmIsExtended = true;
     } 
 
     public void retractLauncherFeederArm()
     {
-       //TODO: write this
+       feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
+       feederArmIsExtended = false;
     }
-
+    /**
+     * startLauncherFeederMotor activates the motor for the rollers to push out the balls
+     * stopLauncherFeederMotor deactivates the motor and the rollers - this should be 
+     * used when the Arm lowers 
+     */
     public void startLauncherFeederMotor()
     {
-       //TODO: write this
+        feederRoller.setForwards();
+        feederMotorIsStarted = true;
     }
 
     public void stopLauncherFeederMotor()
     {
-       //TODO: write this
+        feederRoller.setStop();
+        feederMotorIsStarted = false;
     }
 
+    /**
+     * Returns current state of the Feeder Motor
+     * @return current state of the feeder motor (true=yes/false=no)
+     */
     public boolean isLauncherFeederMotorStarted() 
     {
         return feederMotorIsStarted;
@@ -100,9 +115,9 @@ public class SK21BallIndexer extends SubsystemBase {
      * Returns current state of launcher feeder
      * @return current state of launcher feeder (true=yes/false=no)
      */
-    public boolean isLauncherFeederArmDropped() 
+    public boolean isLauncherFeederArmExtended() 
     {
-        return feederArmIsDropped;
+        return feederArmIsExtended;
     }
 
 }

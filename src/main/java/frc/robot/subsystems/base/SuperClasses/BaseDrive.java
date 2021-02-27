@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class BaseDrive {
     private final SpeedControllerGroup motorGroupLeft, motorGroupRight;
     private final DifferentialDrive driveDiff;
-    private double lastLeftSetSpeed = 0;
-    private double lastRightSetSpeed = 0;
 
     /**
      * Constructor of the BaseDrive and Sets up Differential Drive
@@ -42,8 +40,6 @@ public class BaseDrive {
     public void SetSpeed(double speedLeft, double speedRight) 
     {
             driveDiff.tankDrive(speedLeft, speedRight);
-            speedLeft = lastLeftSetSpeed;
-            speedRight = lastRightSetSpeed;        
     }
 
     /**

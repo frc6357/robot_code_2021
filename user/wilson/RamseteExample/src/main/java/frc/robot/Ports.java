@@ -6,6 +6,17 @@
  * specification.
  */
 
+// Resource Allocations:
+//
+// PCM 0 - colorSpinnerExtend
+//     1 - launcherHoodExtend
+//     2 - intakeMoverRaise  
+//     3 - launcherFeederDrop
+//     4 - launcherFeederRaise 
+//     5 - intakeMoverDrop 
+//     6 - launcherHoodRetract      
+//     7 - colorSpinnerRetract
+
 package frc.robot;
 
 public class Ports 
@@ -29,21 +40,13 @@ public class Ports
     public static final int backLeftDrive               = 12; // CAN ID
     public static final int backRightDrive              = 13; // CAN ID
 
-    public static final int gearShifterA                = 3; // PCM 0 ID
-    public static final int gearShifterB                = 4;
-
-    public static final int leftEncoderA                = 0;  // DIO
-    public static final int leftEncoderB                = 1;  // DIO
-    public static final int rightEncoderA               = 2;  // DIO
-    public static final int rightEncoderB               = 3;  // DIO
-
     //////////////////////////////
     // Intake Addresses
     //////////////////////////////
     public static final int intakeMotor                 = 20; // CAN ID
 
-    public static final int intakeMoverExtend           = 5;  // PCM 1, Output
-    public static final int intakeMoverRetract          = 2;  // PCM 1, Output
+    public static final int intakeMoverDrop             = 5;  // PCM 1, Output
+    public static final int intakeMoverRaise            = 2;  // PCM 1, Output
 
     public static final int intakeOpenCheck             = 4;  // DIO
     public static final int intakeSpeedCheckA           = 5;  // DIO
@@ -51,16 +54,13 @@ public class Ports
     public static final int intakeBallCheck             = 7;  // DIO
 
     ///////////////////////////////
-    // Ball Handling Addresses
+    // Ball Indexer Addresses
     ///////////////////////////////
-    public static final int indexerMotor            = 21; // CAN ID
-    public static final int feederMotor           = 22; // CAN ID
+    public static final int indexerMotor                = 21; // CAN ID
+    public static final int feederMotor                 = 22; // CAN ID
 
-    public static final int ballSensor1                 = 8;  // DIO
-    public static final int ballSensor2                 = 9;  // DIO
-    public static final int ballSensor3                 = 10; // DIO
-    public static final int ballSensor4                 = 11; // DIO
-    public static final int ballSensor5                 = 12; // DIO
+    public static final int launcherFeederDrop          = 3;  // PCM 1, Output
+    public static final int launcherFeederRaise         = 4;  // PCM 1, Output
 
     ///////////////////////////////
     // Ball Launcher Addresses
@@ -78,16 +78,14 @@ public class Ports
     public static final int winchClimbLeft              = 30; // CAN ID
     public static final int winchClimbRight             = 31; // CAN ID
 
-    public static final int armLockDown                 = 6;  // PCM 1, Output 6
 
     ///////////////////////////////
     // Control Wheel Addresses
     ///////////////////////////////
     public static final int colorWheelSpinner           = 40; // CAN ID
 
-    public static final int colorSpinnerExtend          = 0;  // PCM 2, Output 
-    public static final int colorSpinnerRetract         = 7;  // PCM 2, Output
-
+    public static final int colorSpinnerExtend          = 0;  // PCM 1, Output 
+    public static final int colorSpinnerRetract         = 7;  // PCM 1, Output
 
 
     ///////////////////////////////
@@ -112,6 +110,7 @@ public class Ports
 
 
     public static final int OIOperatorJoystick          = 1;
+    public static final int OIOperatorDpad = 0; 
 
     // public static final int OIOperatorStopColorWheel    = 1;    // Button A
     // public static final int OIOperatorStartThreeRotate  = 9;    // Left Joystick press button
@@ -130,7 +129,7 @@ public class Ports
     public static final int OIOperatorArmClimb          = 4;    // Button Y
     public static final int OIOperatorRunWinchArm       = 6;    // Motor for Winching arm while held (RightBumper)
 
-
+    public static final int OIOperatorSetLauncherSpeed  = 8;    // Goes through launcher speed list TODO: Set this correctly
 
 
 

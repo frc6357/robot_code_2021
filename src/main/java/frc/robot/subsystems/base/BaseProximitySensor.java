@@ -32,13 +32,4 @@ public class BaseProximitySensor extends LimitSensor
     {
         super(port, triggeredState);
     }
-
-    /**
-     * Gets if sensor is triggered
-     */
-    @Override
-    public boolean get()
-    {
-        return super.get();
-    }
 }

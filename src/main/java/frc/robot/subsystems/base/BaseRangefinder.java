@@ -7,7 +7,7 @@ public abstract class BaseRangefinder
 {
     public static final double OUT_OF_RANGE = -99999.0;
     public static final double NO_READING   = 0.0;
-    private final double INCHES_PER_MM      = 0.0393701;
+    private static final double INCHES_PER_MM      = 0.0393701;
 
     /**
      * This function may be used to read the most recent rangefinder reading

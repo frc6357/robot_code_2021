@@ -12,15 +12,15 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * This command will be used to set the speeds of the of the launcher motor to
  * the desired speed, out of the desired list of speeds.
  */
-public class toggleLauncherSpeedCommand extends CommandBase {
+public class ToggleLauncherSpeedCommand extends CommandBase {
     
     private final SK21Launcher m_subsystem;
     private int speedIndex = 0;
-    
-    private double[] possibleSpeeds = {TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW,
-                                        TuningParams.LAUNCHER_SET_PERCENTAGE_MEDIUM,
-                                        TuningParams.LAUNCHER_SET_PERCENTAGE_HIGH,
-                                        TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL};
+
+    private final double[] possibleSpeeds = {TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW,
+                                             TuningParams.LAUNCHER_SET_PERCENTAGE_MEDIUM,
+                                             TuningParams.LAUNCHER_SET_PERCENTAGE_HIGH,
+                                             TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL};
 
 
     /**
@@ -28,7 +28,7 @@ public class toggleLauncherSpeedCommand extends CommandBase {
      *
      * @param subsystem The launcher subsystem needed by this command to control the launcher.
      */
-    public toggleLauncherSpeedCommand(SK21Launcher subsystem) {
+    public ToggleLauncherSpeedCommand(SK21Launcher subsystem) {
         // Sets up the required variables from the constructer for our use
         m_subsystem = subsystem;
 
@@ -44,16 +44,6 @@ public class toggleLauncherSpeedCommand extends CommandBase {
         // next time it is called.
         m_subsystem.setLauncherSpeed(possibleSpeeds[speedIndex]);
         speedIndex = (speedIndex + 1) % 4;
-    }
-
-    // This should never be called
-    @Override
-    public void execute() {
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
     }
 
     // Returns true when the command should end.

@@ -4,8 +4,11 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -17,10 +20,12 @@ import frc.robot.subsystems.base.BaseRoller;
  */
 public class SK21Intake extends SubsystemBase
 {
-    private BaseRoller intakeRoller;
-    private DoubleSolenoid intakeMover;
-    private CANSparkMax intakeRollerMotor;
-    private CANEncoder intakeRollerEncoder;
+    private final BaseRoller intakeRoller;
+    private final DoubleSolenoid intakeMover;
+    private final CANSparkMax intakeRollerMotor;
+    private final CANEncoder intakeRollerEncoder;
+
+    private NetworkTableEntry intakeEntry;
 
     /**
      * Sets up the intake control such that it takes the values that are 
@@ -33,6 +38,21 @@ public class SK21Intake extends SubsystemBase
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
 
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
+
+        intakeEntry = Shuffleboard.getTab("Intake")
+            .add("solenoid",1)
+            .withWidget(BuiltInWidgets.kToggleButton)
+            .withSize(2,1)
+            .withPosition(0, 0)
+            .getEntry();
+
+            /*
+            .add("motor",3)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withSize(1,1)
+            .withPosition(0,4)
+            .getEntry();
+            */
     }
 
     /**
@@ -84,7 +104,7 @@ public class SK21Intake extends SubsystemBase
     public boolean isIntakeExtended()
     {
         DoubleSolenoid.Value currentState = intakeMover.get();
-        return (currentState.equals(Value.kForward)) ? true : false;
+        return currentState.equals(Value.kForward);
     }
 
     /**

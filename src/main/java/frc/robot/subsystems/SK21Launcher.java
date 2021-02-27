@@ -102,8 +102,7 @@ public class SK21Launcher extends SubsystemBase
     public boolean isHoodSetToShootHigh()
     {
         DoubleSolenoid.Value value = hoodMover.get();
-
-        return (value == DoubleSolenoid.Value.kForward) ? true : false;
+        return (value == DoubleSolenoid.Value.kForward);
     }
 
     /**

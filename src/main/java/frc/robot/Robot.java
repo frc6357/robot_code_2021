@@ -8,7 +8,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,23 +20,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot 
 {
-    private enum testModeChoice 
-    {
-        DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
-    };
-
-    
-
     // private enum driveTestModeChoice{TestStraightCommandGroup,
     // TestStraightInterruptCommandGroup, TestTurnCommandGroup,
     // TestTurnInterruptCommandGroup}
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-
-    SendableChooser<testModeChoice> testModeSelector = new SendableChooser<testModeChoice>();
-    
-    // SendableChooser<driveTestModeChoice> driveTestModeSelector = new
-    // SendableChooser<driveTestModeChoice>();
 
     // public Robot() {
     // WPI_VictorSPX frontLeft = new WPI_VictorSPX(Ports.frontLeftDrive);
@@ -91,7 +78,6 @@ public class Robot extends TimedRobot
      * This function is called every robot packet, no matter the mode. Use this for
      * items like diagnostics that you want ran during disabled, autonomous,
      * teleoperated and test.
-     *
      * <p>
      * This runs after the mode specific periodic functions, but before LiveWindow
      * and SmartDashboard integrated updating.
@@ -99,17 +85,19 @@ public class Robot extends TimedRobot
     @Override
     public void robotPeriodic() 
     {
-        // Runs the Scheduler. This is responsible for polling buttons, adding
-        // newly-scheduled
-        // commands, running already-scheduled commands, removing finished or
-        // interrupted commands,
-        // and running subsystem periodic() methods. This must be called from the
-        // robot's periodic
-        // block in order for anything in the Command-based framework to work.
+        
+        /* Runs the Scheduler. This is responsible for polling buttons, adding
+         * newly-scheduled commands, running already-scheduled commands, removing
+         * finished or interrupted commands, and running subsystem periodic()
+         * methods. This must be called from the robot's periodic block in order
+         * for anything in the Command-based framework to work.
+         */
         CommandScheduler.getInstance().run();
         // boolean IBMToggle = SmartDashboard.getBoolean("Ball Mangement Toggle", true);
         // RobotContainer.toggleBallManagement.setPressed(IBMToggle);
         boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
+
+        m_robotContainer.runIntake();
         // TODO: Reinstate this later
         // RobotContainer.spinColorWheel.setPressed(colorWheelActivate);
     }

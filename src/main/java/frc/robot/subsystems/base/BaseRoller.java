@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class BaseRoller
 {
     // Speed Controller
-    private SpeedController motorController;
+    private final SpeedController motorController;
     private double speed = 1.0;
     private double currentSpeed = 0.0;
     public static enum Direction { BACKWARD, STOPPED, FORWARD };

@@ -76,7 +76,7 @@ public class SK21BallIndexer extends SubsystemBase {
 
     public void raiseLauncherFeederArm()
     {
-       //TODo: write this
+       //TODO: write this
     }
 
     public void startLauncherFeederMotor()

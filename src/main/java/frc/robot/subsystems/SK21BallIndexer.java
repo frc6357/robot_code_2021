@@ -68,13 +68,15 @@ public class SK21BallIndexer extends SubsystemBase {
 
     /**
      * Activates or deactivates the launcher feeder
+     * extend - the launcher feeder can pop out the ball
+     * retract - the launcher feeder does nothing
      */
-    public void dropLauncherFeederArm() 
+    public void extendLauncherFeederArm() 
     {
         //TODO: write this
     } 
 
-    public void raiseLauncherFeederArm()
+    public void retractLauncherFeederArm()
     {
        //TODO: write this
     }

@@ -17,6 +17,7 @@ public class DisableShotCommand extends CommandBase {
 
   @Override
   public void initialize() {
+    m_subsystem.stopLauncherFeederMotor();
     m_subsystem.retractLauncherFeederArm();
   }
   @Override

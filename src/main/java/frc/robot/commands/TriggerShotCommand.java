@@ -8,6 +8,8 @@ public class TriggerShotCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SK21BallIndexer m_subsystem;
 
+
+
   /**
    * Creates a new ReverseIntake which takes in the
    * required subsystem
@@ -27,7 +29,7 @@ public class TriggerShotCommand extends CommandBase {
    */
   @Override
   public void initialize() {
-    
+    m_subsystem.extendLauncherFeederArm();
   }
 
   /*

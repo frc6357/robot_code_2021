@@ -11,8 +11,8 @@
 // PCM 0 - colorSpinnerExtend
 //     1 - launcherHoodExtend
 //     2 - intakeMoverRaise  
-//     3 - launcherFeederDrop
-//     4 - launcherFeederRaise 
+//     3 - launcherFeederRetract
+//     4 - launcherFeederExtend 
 //     5 - intakeMoverDrop 
 //     6 - launcherHoodRetract      
 //     7 - colorSpinnerRetract
@@ -59,8 +59,8 @@ public class Ports
     public static final int indexerMotor                = 21; // CAN ID
     public static final int feederMotor                 = 22; // CAN ID
 
-    public static final int launcherFeederDrop          = 3;  // PCM 1, Output
-    public static final int launcherFeederRaise         = 4;  // PCM 1, Output
+    public static final int launcherFeederRetract          = 3;  // PCM 1, Output
+    public static final int launcherFeederExtend         = 4;  // PCM 1, Output
 
     ///////////////////////////////
     // Ball Launcher Addresses

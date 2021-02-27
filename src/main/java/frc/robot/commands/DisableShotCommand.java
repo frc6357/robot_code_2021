@@ -12,7 +12,7 @@ public class DisableShotCommand extends CommandBase
     /**
      * The Ball Indexer Subsystem
      */
-    private final SK21BallIndexer m_subsystem;
+    private final SK21BallIndexer subsystem;
 
     /**
      * Creates a new DisableShotCommand which takes in the required subsystem
@@ -22,7 +22,7 @@ public class DisableShotCommand extends CommandBase
      */
     public DisableShotCommand(SK21BallIndexer subsystem)
     {
-        m_subsystem = subsystem;
+        this.subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
@@ -30,7 +30,8 @@ public class DisableShotCommand extends CommandBase
     @Override
     public void initialize()
     {
-        m_subsystem.retractLauncherFeederArm();
+        subsystem.retractLauncherFeederArm();
+        subsystem.stopLauncherFeederMotor();
     }
 
     @Override

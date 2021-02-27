@@ -28,6 +28,7 @@ public class TriggerShotCommand extends CommandBase {
    */
   @Override
   public void initialize() {
+    m_subsystem.startLauncherFeederMotor();
     m_subsystem.extendLauncherFeederArm();
   }
 

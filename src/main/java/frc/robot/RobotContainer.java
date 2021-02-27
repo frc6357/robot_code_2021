@@ -31,6 +31,7 @@ import frc.robot.subsystems.SK21Launcher;
 import frc.robot.subsystems.base.Dpad;
 import frc.robot.subsystems.base.DpadDownButton;
 import frc.robot.subsystems.base.DpadUpButton;
+import frc.robot.subsystems.base.TriggerButton;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.filters.CubicDeadbandFilter;
 
@@ -97,6 +98,9 @@ public class RobotContainer {
     private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
     private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
             Ports.OIOperatorSetLauncherSpeed);
+
+    private final TriggerButton startIndexer = new TriggerButton(joystickOperator, Ports.OIOperatorActivateIBM);
+    private final TriggerButton stopIndexer = new TriggerButton(joystickOperator,Ports.OIOperatorDeactivateBMI);
 
     // Climb Buttons
     // public static JoystickButton operatorClimbArmDeploy = new
@@ -183,6 +187,8 @@ public class RobotContainer {
 
         reverseIntake.whenPressed(new ReverseIntake(m_Intake));
         reverseIntake.whenReleased(new DefaultIntake(m_Intake));
+
+        
 
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,

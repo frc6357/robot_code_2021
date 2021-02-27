@@ -79,12 +79,7 @@ public class RobotContainer {
     private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
     private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
 
-   
     private final SK21Intake m_Intake = new SK21Intake();
-
-    // Gear Shifter Button
-    private final JoystickButton setLowGear = new JoystickButton(joystickDriver, Ports.OIDriverSetLowGear);
-    private final JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
 
     // Intake controls
     private final Dpad dpad = new Dpad(joystickOperator);

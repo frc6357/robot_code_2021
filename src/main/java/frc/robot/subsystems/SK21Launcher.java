@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.commands.LauncherActivate;
+import frc.robot.commands.LauncherActivateCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
@@ -49,7 +49,7 @@ public class SK21Launcher extends SubsystemBase
         launcherMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
         setPIDValues();
         setHoodForHighAngleShot(false);
-        setDefaultCommand(new LauncherActivate(this, false));
+        setDefaultCommand(new LauncherActivateCommand(this, false));
     }
 
     /**

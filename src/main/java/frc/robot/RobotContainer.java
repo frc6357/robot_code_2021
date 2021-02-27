@@ -20,11 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DefaultIntake;
-import frc.robot.commands.ExtendIntake;
+import frc.robot.commands.DefaultIntakeCommand;
+import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
-import frc.robot.commands.RetractIntake;
-import frc.robot.commands.ReverseIntake;
+import frc.robot.commands.RetractIntakeCommand;
+import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -177,11 +177,11 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
-        extendIntakeButton.whenPressed(new ExtendIntake(m_Intake));
-        retractIntakeButton.whenPressed(new RetractIntake(m_Intake));
+        extendIntakeButton.whenPressed(new ExtendIntakeCommand(m_Intake));
+        retractIntakeButton.whenPressed(new RetractIntakeCommand(m_Intake));
 
-        reverseIntake.whenPressed(new ReverseIntake(m_Intake));
-        reverseIntake.whenReleased(new DefaultIntake(m_Intake));
+        reverseIntake.whenPressed(new ReverseIntakeCommand(m_Intake));
+        reverseIntake.whenReleased(new DefaultIntakeCommand(m_Intake));
 
         
 

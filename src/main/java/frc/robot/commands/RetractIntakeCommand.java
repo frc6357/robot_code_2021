@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Intake;
 
 /**
- * This command extends the intake.
+ * This command retracts the intake.
  */
-public class ExtendIntake extends CommandBase 
+public class RetractIntakeCommand extends CommandBase 
 {
     private final SK21Intake subsystem;
 
-    public ExtendIntake(SK21Intake subsystem) 
+    public RetractIntakeCommand(SK21Intake subsystem) 
     {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -28,9 +28,9 @@ public class ExtendIntake extends CommandBase
     // Called just before this Command runs the first time
     @Override
     public void initialize() 
-    {
-        subsystem.extendIntake();
-        subsystem.startIntakeRoller();
+    { 
+        subsystem.retractIntake();
+        subsystem.stopIntakeRoller();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -8,20 +8,20 @@ import frc.robot.subsystems.SK21Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An intake command that reverses the direction 
+ * An intake command that normalizes the direction 
  * of the intake rollers when it is extended.
  */
-public class ReverseIntake extends CommandBase {
+public class DefaultIntakeCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SK21Intake m_subsystem;
 
   /**
-   * Creates a new ReverseIntake which takes in the
+   * Creates a new DefaultIntake which takes in the
    * required subsystem
    *
    * @param subsystem The intake subsystem used by this command.
    */
-  public ReverseIntake(SK21Intake subsystem) {
+  public DefaultIntakeCommand(SK21Intake subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -36,7 +36,7 @@ public class ReverseIntake extends CommandBase {
   public void initialize() {
     if(m_subsystem.isIntakeExtended())
     {
-      m_subsystem.reverseIntakeRoller();
+      m_subsystem.startIntakeRoller();
     }
   }
 

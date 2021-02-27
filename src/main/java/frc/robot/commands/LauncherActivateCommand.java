@@ -18,7 +18,7 @@ import frc.robot.subsystems.SK21Launcher;
  *    the PID gets tuned properly and the code is built to be able to take multiple different speeds
  *    based off of a SmartDashboard Chooser
  */
-public class LauncherActivate extends CommandBase 
+public class LauncherActivateCommand extends CommandBase 
 {
     private final SK21Launcher m_subsystem;
     private final boolean endable;
@@ -28,7 +28,7 @@ public class LauncherActivate extends CommandBase
      *
      * @param subsystem The subsystem used by this command.
      */
-    public LauncherActivate(SK21Launcher subsystem, boolean endable) 
+    public LauncherActivateCommand(SK21Launcher subsystem, boolean endable) 
     {
         m_subsystem = subsystem;
         this.endable = endable;

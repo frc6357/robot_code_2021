@@ -8,7 +8,7 @@ import frc.robot.subsystems.SK21Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * An intake command that reverses the direction 
+ * An intake command that normalizes the direction 
  * of the intake rollers when it is extended.
  */
 public class DefaultIntake extends CommandBase {
@@ -16,7 +16,7 @@ public class DefaultIntake extends CommandBase {
   private final SK21Intake m_subsystem;
 
   /**
-   * Creates a new ToggleIntakeDirectionCommand which takes in the
+   * Creates a new DefaultIntake which takes in the
    * required subsystem
    *
    * @param subsystem The intake subsystem used by this command.
@@ -34,11 +34,9 @@ public class DefaultIntake extends CommandBase {
    */
   @Override
   public void initialize() {
-
     if(m_subsystem.isIntakeExtended())
     {
-        
-            m_subsystem.startIntakeRoller();
+      m_subsystem.startIntakeRoller();
     }
   }
 

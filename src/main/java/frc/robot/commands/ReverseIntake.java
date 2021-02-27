@@ -16,7 +16,7 @@ public class ReverseIntake extends CommandBase {
   private final SK21Intake m_subsystem;
 
   /**
-   * Creates a new ToggleIntakeDirectionCommand which takes in the
+   * Creates a new ReverseIntake which takes in the
    * required subsystem
    *
    * @param subsystem The intake subsystem used by this command.
@@ -34,11 +34,9 @@ public class ReverseIntake extends CommandBase {
    */
   @Override
   public void initialize() {
-
     if(m_subsystem.isIntakeExtended())
     {
-        
-            m_subsystem.reverseIntakeRoller();
+      m_subsystem.reverseIntakeRoller();
     }
   }
 

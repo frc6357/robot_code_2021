@@ -19,9 +19,8 @@ public class RetractIntakeCommand extends CommandBase
 
     public RetractIntakeCommand(SK21Intake subsystem) 
     {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 

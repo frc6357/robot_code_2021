@@ -26,6 +26,7 @@ public class DefaultBallHandlingCommand extends CommandBase {
     public DefaultBallHandlingCommand(SK21BallIndexer subsystem, Joystick joystickOperator, boolean endable) 
     {
         this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
         this.endable = endable;
         this.joystickOperator = joystickOperator;

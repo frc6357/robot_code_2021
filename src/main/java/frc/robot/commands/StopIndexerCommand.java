@@ -6,23 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
-import frc.robot.subsystems.SK21Intake;
 
 /**
- * An intake command that reverses the direction 
- * of the intake rollers when it is extended.
+ * An intake command that stops the ball indexer.
  */
-public class StopIndexerCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class StopIndexerCommand extends CommandBase
+{
+
   private final SK21BallIndexer m_subsystem;
 
   /**
-   * Creates a new ReverseIntake which takes in the
+   * Creates a new StopIndexerCommand which takes in the
    * required subsystem
    *
-   * @param subsystem The intake subsystem used by this command.
+   * @param subsystem The indexer subsystem used by this command.
    */
-  public StopIndexerCommand(SK21BallIndexer subsystem) {
+  public StopIndexerCommand(SK21BallIndexer subsystem)
+  {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -30,11 +30,11 @@ public class StopIndexerCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   /**
-   * It will set the intake to go to the right direction
-   * and will only set it if the intake is extended out
+   * Stops the indexer.
    */
   @Override
-  public void initialize() {
+  public void initialize()
+  {
     m_subsystem.stopIndexerRotation();
   }
 
@@ -43,7 +43,8 @@ public class StopIndexerCommand extends CommandBase {
    * as the functionality ends immediately after the intialize function.
    */
   @Override
-  public boolean isFinished() {
+  public boolean isFinished()
+  {
     return true;
   }
 }

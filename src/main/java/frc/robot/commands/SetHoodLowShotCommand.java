@@ -19,9 +19,8 @@ public class SetHoodLowShotCommand extends CommandBase
 
     public SetHoodLowShotCommand(SK21Launcher subsystem) 
     {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 

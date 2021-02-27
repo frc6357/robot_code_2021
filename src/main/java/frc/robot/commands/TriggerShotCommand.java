@@ -2,10 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
-import frc.robot.subsystems.SK21Intake;
 
 public class TriggerShotCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   private final SK21BallIndexer m_subsystem;
 
   /**
@@ -37,7 +36,5 @@ public class TriggerShotCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return true;
-  }
-
-  
+  }  
 }

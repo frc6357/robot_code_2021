@@ -12,16 +12,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * of the intake rollers when it is extended.
  */
 public class DefaultIntakeCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   private final SK21Intake m_subsystem;
 
   /**
-   * Creates a new DefaultIntake which takes in the
+   * Creates a new DefaultIntakeCommand which takes in the
    * required subsystem
    *
    * @param subsystem The intake subsystem used by this command.
    */
-  public DefaultIntakeCommand(SK21Intake subsystem) {
+  public DefaultIntakeCommand(SK21Intake subsystem)
+  {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -33,7 +34,8 @@ public class DefaultIntakeCommand extends CommandBase {
    * and will only set it if the intake is extended out
    */
   @Override
-  public void initialize() {
+  public void initialize()
+  {
     if(m_subsystem.isIntakeExtended())
     {
       m_subsystem.startIntakeRoller();
@@ -45,7 +47,8 @@ public class DefaultIntakeCommand extends CommandBase {
    * as the functionality ends immediately after the intialize function.
    */
   @Override
-  public boolean isFinished() {
+  public boolean isFinished()
+  {
     return true;
   }
 }

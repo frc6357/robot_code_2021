@@ -22,6 +22,7 @@ public class SetLauncherFeederCommand extends CommandBase {
   {
     this.m_subsystem = m_subsystem;
     this.launcherFeederPosition = launcherFeederPosition;
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_subsystem);
   }
 

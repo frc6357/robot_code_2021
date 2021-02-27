@@ -17,11 +17,16 @@ public class ExtendIntakeCommand extends CommandBase
 {
     private final SK21Intake subsystem;
 
-    public ExtendIntakeCommand(SK21Intake subsystem) 
+   /**
+   * Creates a new ExtendIntakeCommand which takes in the
+   * required subsystem
+   *
+   * @param subsystem The intake subsystem used by this command.
+   */
+  public ExtendIntakeCommand(SK21Intake subsystem) 
     {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
         this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 

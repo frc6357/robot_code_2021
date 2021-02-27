@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.commands.DefaultBallHandlingCommand;
+import frc.robot.commands.DefaultBallIndexerCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
@@ -24,7 +24,7 @@ public class SK21BallIndexer extends SubsystemBase {
     private boolean feederMotorIsStarted = false;
     private boolean feederArmIsDropped = false;
     private DoubleSolenoid feederArmSolenoid;
-    private final DefaultBallHandlingCommand ballHandling; //change name
+    private final DefaultBallIndexerCommand ballIndexer; //change name
     
 
 
@@ -38,8 +38,8 @@ public class SK21BallIndexer extends SubsystemBase {
         indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
         feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederDrop, Ports.launcherFeederRaise);
-        ballHandling = new DefaultBallHandlingCommand(this, joystickOperator, false);
-        setDefaultCommand(ballHandling);
+        ballIndexer = new DefaultBallIndexerCommand(this, joystickOperator, false);
+        setDefaultCommand(ballIndexer);
     }
 
     /**

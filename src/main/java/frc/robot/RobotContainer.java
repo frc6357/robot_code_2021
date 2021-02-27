@@ -26,6 +26,8 @@ import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.SetHoodHighShotCommand;
+import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
@@ -98,11 +100,16 @@ public class RobotContainer {
     // Launcher control buttons
     private final JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
     private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
+
+    private final JoystickButton setLowAngle = new JoystickButton(joystickOperator, Ports.OIOperatorLowHoodAngle);
+
     private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
             Ports.OIOperatorSetLauncherSpeed);
 
     private final TriggerButton startIndexer = new TriggerButton(joystickOperator, Ports.OIOperatorActivateIBM);
     private final TriggerButton stopIndexer = new TriggerButton(joystickOperator,Ports.OIOperatorDeactivateBMI);
+
+    
 
     
 
@@ -197,6 +204,9 @@ public class RobotContainer {
         launchBall.whenPressed(new TriggerShotCommand(m_ballIndexerSubsystem));
         launchBall.whenReleased(new DisableShotCommand(m_ballIndexerSubsystem));
 
+        setHighAngle.whenPressed(new SetHoodHighShotCommand(m_launcherSubsystem));
+        setLowAngle.whenPressed(new SetHoodLowShotCommand(m_launcherSubsystem));
+
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,
         // this));
@@ -211,7 +221,7 @@ public class RobotContainer {
 
         // Toggles ball management on and off
         // toggleBallManagement.whileHeld(new
-        // ToggleBallManagementCommand(m_ballHandlingSubsystem));
+        // ToggleBallManagementCommand(m_ballIndexerSubsystem));
 
         // Set the ball launcher buttons to do correct commands
         // setHighAngle.whenPressed(new SetAngleCommand(m_launcherSubsystem, true));
@@ -272,7 +282,7 @@ public class RobotContainer {
 
         // StraightShotToMoveAuto autoCommand = new
         // StraightShotToMoveAuto(m_driveSubsystem, m_launcherSubsystem,
-        // m_ballHandlingSubsystem);
+        // m_ballIndexerSubsystem);
         // return autoCommand.getCommandGroup();
 
         // TODO: Put this back in later!!
@@ -308,7 +318,7 @@ public class RobotContainer {
                 // case StraightShot:
                 // StraightShotToMoveAuto m_autoPath2 = new
                 // StraightShotToMoveAuto(m_driveSubsystem,
-                // m_launcherSubsystem,m_ballHandlingSubsystem);
+                // m_launcherSubsystem,m_ballIndexerSubsystem);
 
                 // return m_autoPath2.getCommandGroup();
                 // case StraightRecollectShot:

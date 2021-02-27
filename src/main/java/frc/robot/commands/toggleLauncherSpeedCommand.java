@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * This command will be used to set the speeds of the of the launcher motor to
  * the desired speed, out of the desired list of speeds.
  */
-public class ToggleLauncherSpeedCommand extends CommandBase {
+public class toggleLauncherSpeedCommand extends CommandBase {
     
     private final SK21Launcher m_subsystem;
     private int speedIndex = 0;
@@ -28,7 +28,7 @@ public class ToggleLauncherSpeedCommand extends CommandBase {
      *
      * @param subsystem The launcher subsystem needed by this command to control the launcher.
      */
-    public ToggleLauncherSpeedCommand(SK21Launcher subsystem) {
+    public toggleLauncherSpeedCommand(SK21Launcher subsystem) {
         // Sets up the required variables from the constructer for our use
         m_subsystem = subsystem;
 

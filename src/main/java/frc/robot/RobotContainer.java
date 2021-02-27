@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ToggleLauncherSpeedCommand;
+import frc.robot.commands.toggleLauncherSpeedCommand;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -175,7 +175,7 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        toggleLauncherSpeed.whenPressed(new ToggleLauncherSpeedCommand(m_launcherSubsystem));
+        toggleLauncherSpeed.whenPressed(new toggleLauncherSpeedCommand(m_launcherSubsystem));
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,
         // this));

@@ -40,16 +40,17 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Create the trajectory to follow in autonomous. It is best to initialize
     // trajectories here to avoid wasting time in autonomous.
-    m_controller.setFilter(Ports.OIDriverLeftDrive, m_deadbandTurn);
-    m_controller.setFilter(Ports.OIDriverRightDrive, m_deadbandThrottle);
-    try 
-    { 
+    m_controller.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
+    m_controller.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
+    //try 
+    //{ 
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      m_trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    }
-    catch(IOException ex)
-    {
-    }
+      //m_trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    //}
+    //catch(IOException ex)
+    //{
+    //  System.out.println("No trajectory file found!");
+    //}
   }
 
   @Override
@@ -86,16 +87,16 @@ public class Robot extends TimedRobot {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
     final var xSpeed =
-        m_speedLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverRightDrive)) * Drivetrain.kMaxSpeed;
+        m_speedLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverMove)) * Drivetrain.kMaxSpeed;
 
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
     final var rot =
-        m_rotLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverLeftDrive))
+        m_rotLimiter.calculate(m_controller.getFilteredAxis(Ports.OIDriverTurn))
             * Drivetrain.kMaxAngularSpeed;
-    System.out.println("Left Drive: " + m_controller.getFilteredAxis(Ports.OIDriverLeftDrive) + " Right Drive:" + m_controller.getFilteredAxis(Ports.OIDriverRightDrive));
+    System.out.println("Rotation: " + rot + " Throttle:" + xSpeed);
 
     m_drive.drive(xSpeed, rot);
   }

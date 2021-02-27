@@ -13,38 +13,41 @@ import frc.robot.subsystems.SK21BallIndexer;
 public class StopIndexerCommand extends CommandBase
 {
 
-  private final SK21BallIndexer m_subsystem;
+    /**
+     * The Ball Indexer Subsystem
+     */
+    private final SK21BallIndexer subsystem;
 
-  /**
-   * Creates a new StopIndexerCommand which takes in the
-   * required subsystem
-   *
-   * @param subsystem The indexer subsystem used by this command.
-   */
-  public StopIndexerCommand(SK21BallIndexer subsystem)
-  {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+    /**
+     * Creates a new StopIndexerCommand which takes in the required subsystem
+     *
+     * @param subsystem
+     *            The indexer subsystem used by this command.
+     */
+    public StopIndexerCommand(SK21BallIndexer subsystem)
+    {
+        this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
 
-  // Called when the command is initially scheduled.
-  /**
-   * Stops the indexer.
-   */
-  @Override
-  public void initialize()
-  {
-    m_subsystem.stopIndexerRotation();
-  }
+    // Called when the command is initially scheduled.
+    /**
+     * Stops the indexer.
+     */
+    @Override
+    public void initialize()
+    {
+        subsystem.stopIndexerRotation();
+    }
 
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished()
-  {
-    return true;
-  }
+    /*
+     * Returns true when the command should end, which should always be true as the
+     * functionality ends immediately after the intialize function.
+     */
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

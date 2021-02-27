@@ -13,11 +13,20 @@ import frc.robot.subsystems.SK21Intake;
 /**
  * This command retracts the intake.
  */
-public class RetractIntakeCommand extends CommandBase 
+public class RetractIntakeCommand extends CommandBase
 {
+    /**
+     * The Ball Intake Subsystem.
+     */
     private final SK21Intake subsystem;
 
-    public RetractIntakeCommand(SK21Intake subsystem) 
+    /**
+     * Creates a new RetractIntakeCommand which takes in the required subsystem
+     *
+     * @param subsystem
+     *            The intake subsystem used by this command.
+     */
+    public RetractIntakeCommand(SK21Intake subsystem)
     {
         this.subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -26,15 +35,15 @@ public class RetractIntakeCommand extends CommandBase
 
     // Called just before this Command runs the first time
     @Override
-    public void initialize() 
-    { 
+    public void initialize()
+    {
         subsystem.retractIntake();
         subsystem.stopIntakeRoller();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
-    public boolean isFinished() 
+    public boolean isFinished()
     {
         return true;
     }

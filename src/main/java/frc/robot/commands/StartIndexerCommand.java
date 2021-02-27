@@ -10,40 +10,44 @@ import frc.robot.subsystems.SK21BallIndexer;
 /**
  * An intake command that starts the ball indexer.
  */
-public class StartIndexerCommand extends CommandBase {
+public class StartIndexerCommand extends CommandBase
+{
 
-  private final SK21BallIndexer m_subsystem;
+    /**
+     * The Ball Indexer Subsystem
+     */
+    private final SK21BallIndexer subsystem;
 
-  /**
-   * Creates a new StartIndexerCommand which takes in the
-   * required subsystem
-   *
-   * @param subsystem The indexer subsystem used by this command.
-   */
-  public StartIndexerCommand(SK21BallIndexer subsystem)
-  {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
+    /**
+     * Creates a new StartIndexerCommand which takes in the required subsystem
+     *
+     * @param subsystem
+     *            The indexer subsystem used by this command.
+     */
+    public StartIndexerCommand(SK21BallIndexer subsystem)
+    {
+        this.subsystem = subsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(subsystem);
+    }
 
-  // Called when the command is initially scheduled.
-  /**
-   * Starts the indexer.
-   */
-  @Override
-  public void initialize()
-  {
-    m_subsystem.startIndexerRotation();
-  }
+    // Called when the command is initially scheduled.
+    /**
+     * Starts the indexer.
+     */
+    @Override
+    public void initialize()
+    {
+        subsystem.startIndexerRotation();
+    }
 
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished()
-  {
-    return true;
-  }
+    /*
+     * Returns true when the command should end, which should always be true as the
+     * functionality ends immediately after the intialize function.
+     */
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

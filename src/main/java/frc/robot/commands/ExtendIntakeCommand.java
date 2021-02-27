@@ -13,17 +13,20 @@ import frc.robot.subsystems.SK21Intake;
 /**
  * This command extends the intake.
  */
-public class ExtendIntakeCommand extends CommandBase 
+public class ExtendIntakeCommand extends CommandBase
 {
+    /**
+     * The Ball Intake Subsystem
+     */
     private final SK21Intake subsystem;
 
-   /**
-   * Creates a new ExtendIntakeCommand which takes in the
-   * required subsystem
-   *
-   * @param subsystem The intake subsystem used by this command.
-   */
-  public ExtendIntakeCommand(SK21Intake subsystem) 
+    /**
+     * Creates a new ExtendIntakeCommand which takes in the required subsystem
+     *
+     * @param subsystem
+     *            The intake subsystem used by this command.
+     */
+    public ExtendIntakeCommand(SK21Intake subsystem)
     {
         this.subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -32,7 +35,7 @@ public class ExtendIntakeCommand extends CommandBase
 
     // Called just before this Command runs the first time
     @Override
-    public void initialize() 
+    public void initialize()
     {
         subsystem.extendIntake();
         subsystem.startIntakeRoller();
@@ -40,7 +43,7 @@ public class ExtendIntakeCommand extends CommandBase
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
-    public boolean isFinished() 
+    public boolean isFinished()
     {
         return true;
     }

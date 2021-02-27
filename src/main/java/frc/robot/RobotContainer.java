@@ -26,6 +26,8 @@ import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.SetHoodHighShotCommand;
+import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
@@ -98,11 +100,16 @@ public class RobotContainer {
     // Launcher control buttons
     private final JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
     private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
+
+    private final JoystickButton setLowAngle = new JoystickButton(joystickOperator, Ports.OIOperatorLowHoodAngle);
+
     private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
             Ports.OIOperatorSetLauncherSpeed);
 
     private final TriggerButton startIndexer = new TriggerButton(joystickOperator, Ports.OIOperatorActivateIBM);
     private final TriggerButton stopIndexer = new TriggerButton(joystickOperator,Ports.OIOperatorDeactivateBMI);
+
+    
 
     
 
@@ -196,6 +203,9 @@ public class RobotContainer {
 
         launchBall.whenPressed(new TriggerShotCommand(m_ballIndexerSubsystem));
         launchBall.whenReleased(new DisableShotCommand(m_ballIndexerSubsystem));
+
+        setHighAngle.whenPressed(new SetHoodHighShotCommand(m_launcherSubsystem));
+        setLowAngle.whenPressed(new SetHoodLowShotCommand(m_launcherSubsystem));
 
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,

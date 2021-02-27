@@ -122,11 +122,12 @@ public class Ports
     public static final int OIOperatorActivateIBM       = 2;    // Left Trigger Axis
     public static final int OIOperatorDeactivateBMI     = 3;    // Right Trigger Axis
     
-    public static final int OIOperatorHighHoodAngle     = 5;;    // Left Bumper
+    public static final int OIOperatorHighHoodAngle     = 5;    // Left Bumper
+    public static final int OIOperatorLowHoodAngle      = 6;    // Right Bumper
     public static final int OIOperatorShootBall         = 2;    // Button B
 
     public static final int OIOperatorArmClimb          = 4;    // Button Y
-    public static final int OIOperatorRunWinchArm       = 6;    // Motor for Winching arm while held (RightBumper)
+    public static final int OIOperatorRunWinchArm       = 3;    // Button X
 
     public static final int OIOperatorSetLauncherSpeed  = 8;    // Goes through launcher speed list TODO: Set this correctly
 

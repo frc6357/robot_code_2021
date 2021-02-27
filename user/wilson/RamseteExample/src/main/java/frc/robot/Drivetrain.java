@@ -21,9 +21,9 @@ import com.analog.adis16448.frc.ADIS16448_IMU;
 
 /** Represents a differential drive style drivetrain. */
 public class Drivetrain {
-  public static final double  kMaxSpeed          = 5.0;         // meters per second
+  public static final double  kMaxSpeed          = 2.0;         // meters per second
   // TODO: This needs to get tuned to make sure that it we don't have it turning too fast
-  public static final double  kMaxAngularSpeed   = 0.25 * Math.PI; // one rotation per second
+  public static final double  kMaxAngularSpeed   = 0.75 * Math.PI; // one rotation per second
 
 
   private static final double kTrackWidth        = 0.381 * 2;   // meters
@@ -78,6 +78,7 @@ public class Drivetrain {
     // m_rightEncoder.reset();
 
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+    m_rightGroup.setInverted(true);
   }
 
   /**

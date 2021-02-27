@@ -116,7 +116,7 @@ public class Ports
     public static final int OIOperatorStartSetColor     = 10;   // Right Joystick press button
     public static final int OIOperatorColorWheelLift    = 7;    // Back button
     
-    public static final int OIOperatorToggleIntake      = 3;    // Button X
+    
     public static final int OIOperatorReverseIntake     = 9;    // Left Joystick Button
     
     public static final int OIOperatorActivateIBM       = 2;    // Left Trigger Axis

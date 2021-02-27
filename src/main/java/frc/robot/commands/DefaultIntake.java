@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An intake command that reverses the direction 
  * of the intake rollers when it is extended.
  */
-public class ToggleIntakeDirectionCommand extends CommandBase {
+public class DefaultIntake extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SK21Intake m_subsystem;
 
@@ -21,7 +21,7 @@ public class ToggleIntakeDirectionCommand extends CommandBase {
    *
    * @param subsystem The intake subsystem used by this command.
    */
-  public ToggleIntakeDirectionCommand(SK21Intake subsystem) {
+  public DefaultIntake(SK21Intake subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
@@ -37,14 +37,8 @@ public class ToggleIntakeDirectionCommand extends CommandBase {
 
     if(m_subsystem.isIntakeExtended())
     {
-        if(m_subsystem.getIntakeRollerSpeed() > 0)
-        {
-            m_subsystem.reverseIntakeRoller();
-        } 
-        else
-        {
+        
             m_subsystem.startIntakeRoller();
-        }
     }
   }
 

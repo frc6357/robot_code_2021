@@ -20,9 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DefaultIntake;
 import frc.robot.commands.ExtendIntake;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntake;
+import frc.robot.commands.ReverseIntake;
 import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -92,7 +94,7 @@ public class RobotContainer {
     private final JoystickButton setHighGear = new JoystickButton(joystickDriver, Ports.OIDriverSetHighGear);
 
     // Intake control button
-    private final JoystickButton toggleIntake = new JoystickButton(joystickOperator, Ports.OIOperatorToggleIntake);
+
     private final JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
 
     // Launcher control buttons
@@ -189,6 +191,9 @@ public class RobotContainer {
         toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
         dpadUp.whenPressed(new ExtendIntake(m_Intake));
         dpadDown.whenPressed(new RetractIntake(m_Intake));
+
+        reverseIntake.whenPressed(new ReverseIntake(m_Intake));
+        reverseIntake.whenReleased(new DefaultIntake(m_Intake));
 
         // Sets robot buttons for the climb command
         // operatorClimbArmDeploy.whenPressed(new ClimbReleaseCommand(m_climbSubsystem,

@@ -17,39 +17,36 @@ public class ReverseIntakeCommand extends CommandBase
     /**
      * The Ball Intake Subsystem.
      */
-    private final SK21Intake m_subsystem;
+    private final SK21Intake intakeSubsystem;
 
     /**
      * Creates a new ReverseIntakeCommand which takes in the required subsystem
      *
-     * @param subsystem
+     * @param intakeSubsystem
      *            The intake subsystem used by this command.
      */
-    public ReverseIntakeCommand(SK21Intake subsystem)
+    public ReverseIntakeCommand(SK21Intake intakeSubsystem)
     {
-        m_subsystem = subsystem;
+        this.intakeSubsystem = intakeSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(intakeSubsystem);
     }
 
-    // Called when the command is initially scheduled.
+    // Called once when the command is initially scheduled - we use as a "one shot"
     /**
-     * It will set the intake to go to the right direction and will only set it if the
-     * intake is extended out
+     * It will set the intake to go to the reverse direction and will only set it if the
+     * intake is extended.
      */
     @Override
     public void initialize()
     {
-        if (m_subsystem.isIntakeExtended())
+        if (intakeSubsystem.isIntakeExtended())
         {
-            m_subsystem.reverseIntakeRoller();
+            intakeSubsystem.reverseIntakeRoller();
         }
     }
 
-    /*
-     * Returns true when the command should end, which should always be true as the
-     * functionality ends immediately after the intialize function.
-     */
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {

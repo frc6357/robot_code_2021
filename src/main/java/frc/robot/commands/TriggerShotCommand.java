@@ -3,41 +3,46 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
 
-public class TriggerShotCommand extends CommandBase {
+/**
+ * A Command to trigger a shot, by starting the feeder motor and extending the feeder arm.
+ */
+public class TriggerShotCommand extends CommandBase
+{
 
-  private final SK21BallIndexer m_subsystem;
+    /**
+     * The Ball Indexer Subsystem.
+     */
+    private final SK21BallIndexer indexerSubsystem;
 
+    /**
+     * Creates a new ReverseIntake which takes in the required subsystem
+     *
+     * @param indexerSubsystem
+     *            The indexer subsystem used by this command.
+     */
+    public TriggerShotCommand(SK21BallIndexer indexerSubsystem)
+    {
+        this.indexerSubsystem = indexerSubsystem;
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(indexerSubsystem);
+    }
 
+    // Called once when the command is initially scheduled - we use as a "one shot"
+    /**
+     * We assume here that the motor can be started coincidentally with thet feeder arm
+     * being extended.
+     */
+    @Override
+    public void initialize()
+    {
+        indexerSubsystem.startLauncherFeederMotor();
+        indexerSubsystem.extendLauncherFeederArm();
+    }
 
-  /**
-   * Creates a new ReverseIntake which takes in the
-   * required subsystem
-   *
-   * @param subsystem The intake subsystem used by this command.
-   */
-  public TriggerShotCommand(SK21BallIndexer subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-  }
-
-  // Called when the command is initially scheduled.
-  /**
-   * It will set the intake to go to the right direction
-   * and will only set it if the intake is extended out
-   */
-  @Override
-  public void initialize() {
-    m_subsystem.startLauncherFeederMotor();
-    m_subsystem.extendLauncherFeederArm();
-  }
-
-  /*
-   * Returns true when the command should end, which should always be true
-   * as the functionality ends immediately after the intialize function.
-   */
-  @Override
-  public boolean isFinished() {
-    return true;
-  }  
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    @Override
+    public boolean isFinished()
+    {
+        return true;
+    }
 }

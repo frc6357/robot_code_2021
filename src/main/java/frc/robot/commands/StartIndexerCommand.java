@@ -14,37 +14,31 @@ public class StartIndexerCommand extends CommandBase
 {
 
     /**
-     * The Ball Indexer Subsystem
+     * The Ball Indexer Subsystem.
      */
-    private final SK21BallIndexer subsystem;
+    private final SK21BallIndexer indexerSubsystem;
 
     /**
      * Creates a new StartIndexerCommand which takes in the required subsystem
      *
-     * @param subsystem
+     * @param indexerSubsystem
      *            The indexer subsystem used by this command.
      */
-    public StartIndexerCommand(SK21BallIndexer subsystem)
+    public StartIndexerCommand(SK21BallIndexer indexerSubsystem)
     {
-        this.subsystem = subsystem;
+        this.indexerSubsystem = indexerSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(indexerSubsystem);
     }
 
-    // Called when the command is initially scheduled.
-    /**
-     * Starts the indexer.
-     */
+    // Called once when the command is initially scheduled - we use as a "one shot"
     @Override
     public void initialize()
     {
-        subsystem.startIndexerRotation();
+        indexerSubsystem.startIndexerRotation();
     }
 
-    /*
-     * Returns true when the command should end, which should always be true as the
-     * functionality ends immediately after the intialize function.
-     */
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {

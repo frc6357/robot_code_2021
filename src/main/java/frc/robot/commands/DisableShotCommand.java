@@ -10,30 +10,32 @@ import frc.robot.subsystems.SK21BallIndexer;
 public class DisableShotCommand extends CommandBase
 {
     /**
-     * The Ball Indexer Subsystem
+     * The Ball Indexer Subsystem.
      */
-    private final SK21BallIndexer subsystem;
+    private final SK21BallIndexer indexerSubsystem;
 
     /**
      * Creates a new DisableShotCommand which takes in the required subsystem
      *
-     * @param subsystem
+     * @param indexerSubsystem
      *            The indexer subsystem used by this command.
      */
-    public DisableShotCommand(SK21BallIndexer subsystem)
+    public DisableShotCommand(SK21BallIndexer indexerSubsystem)
     {
-        this.subsystem = subsystem;
+        this.indexerSubsystem = indexerSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(indexerSubsystem);
     }
 
+    // Called once when the command is initially scheduled - we use as a "one shot"
     @Override
     public void initialize()
     {
-        subsystem.retractLauncherFeederArm();
-        subsystem.stopLauncherFeederMotor();
+        indexerSubsystem.retractLauncherFeederArm();
+        indexerSubsystem.stopLauncherFeederMotor();
     }
 
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {

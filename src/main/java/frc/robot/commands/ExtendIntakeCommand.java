@@ -11,37 +11,37 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Intake;
 
 /**
- * This command extends the intake.
+ * This command extends the intake and starts the intake rollers.
  */
 public class ExtendIntakeCommand extends CommandBase
 {
     /**
-     * The Ball Intake Subsystem
+     * The Ball Intake Subsystem.
      */
-    private final SK21Intake subsystem;
+    private final SK21Intake intakeSubsystem;
 
     /**
      * Creates a new ExtendIntakeCommand which takes in the required subsystem
      *
-     * @param subsystem
+     * @param intakeSubsystem
      *            The intake subsystem used by this command.
      */
-    public ExtendIntakeCommand(SK21Intake subsystem)
+    public ExtendIntakeCommand(SK21Intake intakeSubsystem)
     {
-        this.subsystem = subsystem;
+        this.intakeSubsystem = intakeSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(intakeSubsystem);
     }
 
-    // Called just before this Command runs the first time
+    // Called once when the command is initially scheduled - we use as a "one shot"
     @Override
     public void initialize()
     {
-        subsystem.extendIntake();
-        subsystem.startIntakeRoller();
+        intakeSubsystem.extendIntake();
+        intakeSubsystem.startIntakeRoller();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {

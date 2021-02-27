@@ -13,27 +13,30 @@ import frc.robot.subsystems.SK21Launcher;
 /**
  * This command sets the Hood angle to high.
  */
-public class SetHoodHighShotCommand extends CommandBase 
+public class SetHoodHighShotCommand extends CommandBase
 {
-    private final SK21Launcher subsystem;
+    /**
+     * The Ball Launcher Subsystem.
+     */
+    private final SK21Launcher launcherSubsystem;
 
-    public SetHoodHighShotCommand(SK21Launcher subsystem) 
+    public SetHoodHighShotCommand(SK21Launcher launcherSubsystem)
     {
-        this.subsystem = subsystem;
+        this.launcherSubsystem = launcherSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(launcherSubsystem);
     }
 
-    // Called just before this Command runs the first time
+    // Called once when the command is initially scheduled - we use as a "one shot"
     @Override
-    public void initialize() 
+    public void initialize()
     {
-        subsystem.setHoodForHighAngleShot(true);        
+        launcherSubsystem.setHoodForHighAngleShot(true);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
-    public boolean isFinished() 
+    public boolean isFinished()
     {
         return true;
     }

@@ -17,7 +17,7 @@ public class DefaultIntakeCommand extends CommandBase
     /**
      * The Ball Intake Subsystem
      */
-    private final SK21Intake m_subsystem;
+    private final SK21Intake subsystem;
 
     /**
      * Creates a new DefaultIntakeCommand which takes in the required subsystem
@@ -27,29 +27,26 @@ public class DefaultIntakeCommand extends CommandBase
      */
     public DefaultIntakeCommand(SK21Intake subsystem)
     {
-        m_subsystem = subsystem;
+        this.subsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
     }
 
-    // Called when the command is initially scheduled.
+    // Called once when the command is initially scheduled - we use as a "one shot"
     /**
-     * It will set the intake to go to the right direction and will only set it if the
-     * intake is extended out
+     * It will set the intake to go to the forward direction and will only set it if the
+     * intake is extended.
      */
     @Override
     public void initialize()
     {
-        if (m_subsystem.isIntakeExtended())
+        if (subsystem.isIntakeExtended())
         {
-            m_subsystem.startIntakeRoller();
+            subsystem.startIntakeRoller();
         }
     }
 
-    /*
-     * Returns true when the command should end, which should always be true as the
-     * functionality ends immediately after the intialize function.
-     */
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {

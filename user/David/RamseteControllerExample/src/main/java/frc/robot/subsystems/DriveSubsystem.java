@@ -13,15 +13,23 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Ports;
+import frc.robot.utils.MotorEncoder;
+import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class DriveSubsystem extends SubsystemBase {
   private final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
   private final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
+  private final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
+                                                        Constants.DriveConstants.kEncoderDistancePerPulse,
+                                                        Constants.DriveConstants.kLeftEncoderReversed);
   private final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
   private final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
-  
+  private final MotorEncoder m_rightMotorEncoder = new MotorEncoder(m_rightLeader, 
+                                                        Constants.DriveConstants.kEncoderDistancePerPulse,
+                                                        Constants.DriveConstants.kRightEncoderReversed);
+
   private final SpeedControllerGroup m_leftGroup =
       new SpeedControllerGroup(m_leftLeader, m_leftFollower);
   private final SpeedControllerGroup m_rightGroup =
@@ -63,7 +71,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // Update the odometry in the periodic block
     m_odometry.update(
-        m_gyro.getRotation2d(), m_leftLeader.getSelectedSensorPosition(), m_rightLeader.getSelectedSensorPosition());
+        m_gyro.getRotation2d(), 
+        // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
+        m_leftMotorEncoder.getPositionMeters(),
+        m_rightMotorEncoder.getPositionMeters());
   }
 
   /**
@@ -81,7 +92,10 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(m_leftLeader.getSelectedSensorVelocity(), m_rightLeader.getSelectedSensorVelocity());
+    // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
+    return new DifferentialDriveWheelSpeeds(
+      m_leftMotorEncoder.getVelocityMeters(), 
+      m_rightMotorEncoder.getVelocityMeters());
   }
 
   /**
@@ -103,9 +117,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
     // TODO: Remove this line after testing
+    // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
     System.out.println("Turn: " + rot + " Throttle: " + fwd);
-    System.out.println("Left Encoder Distance: " + m_leftLeader.getSelectedSensorPosition() + " Right Encoder Distance: " + m_rightLeader.getSelectedSensorPosition());
-    System.out.println("Left Encoder Speed: " + m_leftLeader.getSelectedSensorVelocity() + " Right Encoder Speed: " + m_rightLeader.getSelectedSensorVelocity());
+    System.out.println("Left Encoder Distance: " + m_leftMotorEncoder.getPositionMeters() + " Right Encoder Distance: " + m_rightMotorEncoder.getPositionMeters());
+    System.out.println("Left Encoder Speed: " + m_leftMotorEncoder.getVelocityMeters() + " Right Encoder Speed: " + m_rightMotorEncoder.getVelocityMeters());
   }
 
   /**
@@ -131,10 +146,10 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the average of the two encoder readings
    */
-    //TODO: Check if this is looking for radians or meters, is currently receiving meters. This may not be needed
+  //TODO: Check if this is looking for meters!
   public double getAverageEncoderDistance() {
     // return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
-    return (m_leftLeader.getSelectedSensorPosition() + m_rightLeader.getSelectedSensorPosition()) / 2.0;
+    return (m_leftMotorEncoder.getPositionMeters() + m_rightMotorEncoder.getPositionMeters()) / 2.0;
 
   }
 

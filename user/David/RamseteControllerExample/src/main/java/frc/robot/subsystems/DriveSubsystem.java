@@ -24,6 +24,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
                                                         Constants.DriveConstants.kEncoderDistancePerPulse,
                                                         Constants.DriveConstants.kLeftEncoderReversed);
+
   private final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
   private final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
   private final MotorEncoder m_rightMotorEncoder = new MotorEncoder(m_rightLeader, 
@@ -75,6 +76,10 @@ public class DriveSubsystem extends SubsystemBase {
         // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
         m_leftMotorEncoder.getPositionMeters(),
         m_rightMotorEncoder.getPositionMeters());
+
+    System.out.println("Left Distance Meters:"+m_leftMotorEncoder.getPositionMeters()+" Right Distance Meters %f"+m_rightMotorEncoder.getPositionMeters());
+    System.out.println("Left Speed Meters:"+m_leftMotorEncoder.getVelocityMeters()+" Right Speed Meters %f"+m_rightMotorEncoder.getVelocityMeters());
+
   }
 
   /**
@@ -137,8 +142,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
-    // m_leftEncoder.reset();
-    // m_rightEncoder.reset();
+    m_leftMotorEncoder.resetEncoder();
+    m_rightMotorEncoder.resetEncoder();
   }
 
   /**

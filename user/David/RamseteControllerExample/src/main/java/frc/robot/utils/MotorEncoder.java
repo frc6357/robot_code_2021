@@ -55,8 +55,9 @@ public class MotorEncoder {
      * meters per pulse and the current velocity
      * @return The current velocity of the motor in meters
      */
-    public double getVelocityMeters() {
-        return getVelocityPulses() * metersPerPulse;
+    public double getVelocityMeters() { 
+        // Multiplies by ten to convert from m/100ms to m/sec
+        return getVelocityPulses() * metersPerPulse * 10;
     }
 
     /**

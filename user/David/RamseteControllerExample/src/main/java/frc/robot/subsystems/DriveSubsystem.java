@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Ports;
@@ -58,6 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private final DifferentialDriveOdometry m_odometry;
 
+  
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     // Sets the distance per pulse for the encoders
@@ -70,16 +72,28 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    double leftEncoderDistanceMeters = m_leftMotorEncoder.getPositionMeters();
+    double rightEncoderDistanceMeters = m_rightMotorEncoder.getPositionMeters();
+    double leftEncoderSpeedMeters = m_rightMotorEncoder.getVelocityMeters();
+    double rightEncoderSpeedMeters = m_rightMotorEncoder.getVelocityMeters();
     // Update the odometry in the periodic block
     m_odometry.update(
         m_gyro.getRotation2d(), 
         // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
-        m_leftMotorEncoder.getPositionMeters(),
-        m_rightMotorEncoder.getPositionMeters());
+        leftEncoderDistanceMeters,
+        rightEncoderDistanceMeters);
 
-    System.out.println("Left Distance Meters:"+m_leftMotorEncoder.getPositionMeters()+" Right Distance Meters %f"+m_rightMotorEncoder.getPositionMeters());
-    System.out.println("Left Speed Meters:"+m_leftMotorEncoder.getVelocityMeters()+" Right Speed Meters %f"+m_rightMotorEncoder.getVelocityMeters());
 
+    SmartDashboard.putNumber("Left Wheel Distance", leftEncoderDistanceMeters);
+    SmartDashboard.putNumber("Right Wheel Distance", rightEncoderDistanceMeters);
+    SmartDashboard.putNumber("Left Wheel Speed", leftEncoderSpeedMeters);
+    SmartDashboard.putNumber("Right Wheel Speed", rightEncoderSpeedMeters);
+    SmartDashboard.putNumber("Gyro Angle", m_gyro.getRotation2d().getDegrees());
+
+    // System.out.println("Left Distance Meters:"+m_leftMotorEncoder.getPositionMeters()+" Right Distance Meters %f"+m_rightMotorEncoder.getPositionMeters());
+    // System.out.println("Left Speed Meters:"+m_leftMotorEncoder.getVelocityMeters()+" Right Speed Meters %f"+m_rightMotorEncoder.getVelocityMeters());
+    // System.out.println("Gyro Angle"+m_gyro.getGyroAngleZ());
   }
 
   /**
@@ -123,9 +137,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_drive.arcadeDrive(fwd, rot);
     // TODO: Remove this line after testing
     // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
-    System.out.println("Turn: " + rot + " Throttle: " + fwd);
-    System.out.println("Left Encoder Distance: " + m_leftMotorEncoder.getPositionMeters() + " Right Encoder Distance: " + m_rightMotorEncoder.getPositionMeters());
-    System.out.println("Left Encoder Speed: " + m_leftMotorEncoder.getVelocityMeters() + " Right Encoder Speed: " + m_rightMotorEncoder.getVelocityMeters());
+    // System.out.println("Turn: " + rot + " Throttle: " + fwd);
+    // System.out.println("Left Encoder Distance: " + m_leftMotorEncoder.getPositionMeters() + " Right Encoder Distance: " + m_rightMotorEncoder.getPositionMeters());
+    // System.out.println("Left Encoder Speed: " + m_leftMotorEncoder.getVelocityMeters() + " Right Encoder Speed: " + m_rightMotorEncoder.getVelocityMeters());
   }
 
   /**

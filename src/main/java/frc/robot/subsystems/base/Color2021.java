@@ -4,7 +4,7 @@
  */
 package frc.robot.subsystems.base;
 
-public enum Color2020
+public enum Color2021
 {
     RED, GREEN, CYAN, YELLOW, UNKNOWN, NONE
 };

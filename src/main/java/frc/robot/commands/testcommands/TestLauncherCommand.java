@@ -4,16 +4,16 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SK21BallIndexer;
+import frc.robot.subsystems.SK21Launcher;
 
-public class TestIndexerCommand extends CommandBase
+public class TestLauncherCommand extends CommandBase
 {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SK21BallIndexer indexerSubsystem;
+  private final SK21Launcher launcherSubsystem;
 
-  private NetworkTableEntry indexerSpinEntry;
-  private NetworkTableEntry indexerLaunchArmEntry;
-  private NetworkTableEntry indexerMotorEntry;
+  private NetworkTableEntry launcherMotorEntry;
+  private NetworkTableEntry releaseMotorEntry;
+  private NetworkTableEntry hoodMoverEntry;
 
   /**
    * Creates a new ExampleCommand.
@@ -21,58 +21,39 @@ public class TestIndexerCommand extends CommandBase
    * @param subsystem
    *          The subsystem used by this command.
    */
-  public TestIndexerCommand(SK21BallIndexer indexerSubsystem)
+  public TestLauncherCommand(SK21Launcher launcherSubsystem)
   {
-    this.indexerSubsystem = indexerSubsystem;
+    this.launcherSubsystem = launcherSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexerSubsystem);
+    addRequirements(launcherSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize()
   {
-    indexerSpinEntry = Shuffleboard.getTab("Indexer")
-      .add("Spin", 1)
+    launcherMotorEntry = Shuffleboard.getTab("Launcher")
+      .add("launcherMotor", 1)
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withSize(2, 1)
       .withPosition(0, 0)
       .getEntry();
 
-    indexerLaunchArmEntry = Shuffleboard.getTab("Indexer")
-      .add("Arm", 3)
+    hoodMoverEntry = Shuffleboard.getTab("Launcher")
+      .add("hoodMover", 3)
       .withWidget(BuiltInWidgets.kToggleButton)
       .withSize(1, 1)
       .withPosition(0, 4)
       .getEntry();
       
-    indexerMotorEntry = Shuffleboard.getTab("Indexer")
-      .add("roller", 3)
+    releaseMotorEntry = Shuffleboard.getTab("Launcher")
+      .add("releaseMotor", 3)
       .withWidget(BuiltInWidgets.kNumberSlider)
       .withSize(1, 1)
       .withPosition(0, 6)
       .getEntry();
 
   }
-  public void startRoller()
-    {
-        indexerSubsystem.indexerRoller.setForwards();
-        
-    }
-
-    public void setForwardIndexMotor(){
-        indexerSubsystem.indexerMotor.set(indexerSpinEntry.getValue().getDouble());
-        //indexerMotor.set(ballHandlingEntry.getValue().getDouble());
-    }
-
-    /**
-     * When activated the rollers are set to run at 0 speed
-     */
-    public void stopRoller()
-    {
-      indexerSubsystem.indexerRoller.setStop();
-        
-    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

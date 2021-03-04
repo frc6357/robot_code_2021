@@ -20,8 +20,8 @@ import frc.robot.subsystems.base.BaseRoller;
  */
 public class SK21Intake extends SubsystemBase
 {
-    private final BaseRoller intakeRoller;
-    private final DoubleSolenoid intakeMover;
+    public final BaseRoller intakeRoller;
+    public final DoubleSolenoid intakeMover;
     private final CANEncoder intakeRollerEncoder;
 
     

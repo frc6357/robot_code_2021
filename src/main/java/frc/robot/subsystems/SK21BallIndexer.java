@@ -16,14 +16,14 @@ import frc.robot.subsystems.base.BaseRoller;
  * robot.
  */
 public class SK21BallIndexer extends SubsystemBase {
-    private CANSparkMax indexerMotor;
-    private BaseRoller indexerRoller; 
+    public final CANSparkMax indexerMotor;
+    public final BaseRoller indexerRoller; 
     private CANSparkMax feederMotor;
     private BaseRoller feederRoller; 
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
     private boolean feederArmIsDropped = false;
-    private DoubleSolenoid feederArmSolenoid;
+    public final DoubleSolenoid feederArmSolenoid;
     private final DefaultBallIndexerCommand ballIndexer; //change name
     
 

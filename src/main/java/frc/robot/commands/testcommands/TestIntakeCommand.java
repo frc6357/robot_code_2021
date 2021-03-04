@@ -43,13 +43,19 @@ public class TestIntakeCommand extends CommandBase
   @Override
   public void initialize()
   {
-    intakeDeployEntry = Shuffleboard.getTab("Intake").add("extension", 1)
-      .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1)
-      .withPosition(0, 0).getEntry();
+    intakeDeployEntry = Shuffleboard.getTab("Intake")
+      .add("extension", 1)
+      .withWidget(BuiltInWidgets.kToggleButton)
+      .withSize(2, 1)
+      .withPosition(0, 0)
+      .getEntry();
 
-    intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
-      .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
-      .withPosition(0, 4).getEntry();
+    intakeRollerEntry = Shuffleboard.getTab("Intake")
+      .add("roller", 3)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withSize(1, 1)
+      .withPosition(0, 4)
+      .getEntry();
   }
 
   @Override

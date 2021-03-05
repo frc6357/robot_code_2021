@@ -26,6 +26,7 @@ public final class Constants {
     public static final boolean kLeftEncoderReversed = false;
     public static final boolean kRightEncoderReversed = true;
 
+    // TODO: Ensure that this uses the trackwidth from the characterization
     public static final double kTrackwidthMeters = 0.69;
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
@@ -37,17 +38,11 @@ public final class Constants {
         // Assumes the encoders are directly mounted on the wheel shafts
         (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveGearReduction);
 
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-    // values for your robot.
+    // Data taken from characterization analysis on 03/02/2021
     public static final double ksVolts = 0.516;
     public static final double kvVoltSecondsPerMeter = 2.38;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.102;
-
-    // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 4.85e-6;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.133;
+    public static final double kPDriveVel = 1.88;
   }
 
   public static final class OIConstants {

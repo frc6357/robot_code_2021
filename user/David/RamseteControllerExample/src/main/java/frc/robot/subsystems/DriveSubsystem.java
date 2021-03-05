@@ -67,6 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
     // m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
 
     resetEncoders();
+    m_gyro.reset();
     m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
   }
 
@@ -75,25 +76,19 @@ public class DriveSubsystem extends SubsystemBase {
 
     double leftEncoderDistanceMeters = m_leftMotorEncoder.getPositionMeters();
     double rightEncoderDistanceMeters = m_rightMotorEncoder.getPositionMeters();
-    double leftEncoderSpeedMeters = m_rightMotorEncoder.getVelocityMeters();
+    double leftEncoderSpeedMeters = m_leftMotorEncoder.getVelocityMeters();
     double rightEncoderSpeedMeters = m_rightMotorEncoder.getVelocityMeters();
     // Update the odometry in the periodic block
     m_odometry.update(
         m_gyro.getRotation2d(), 
-        // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
         leftEncoderDistanceMeters,
         rightEncoderDistanceMeters);
-
 
     SmartDashboard.putNumber("Left Wheel Distance", leftEncoderDistanceMeters);
     SmartDashboard.putNumber("Right Wheel Distance", rightEncoderDistanceMeters);
     SmartDashboard.putNumber("Left Wheel Speed", leftEncoderSpeedMeters);
     SmartDashboard.putNumber("Right Wheel Speed", rightEncoderSpeedMeters);
     SmartDashboard.putNumber("Gyro Angle", m_gyro.getRotation2d().getDegrees());
-
-    // System.out.println("Left Distance Meters:"+m_leftMotorEncoder.getPositionMeters()+" Right Distance Meters %f"+m_rightMotorEncoder.getPositionMeters());
-    // System.out.println("Left Speed Meters:"+m_leftMotorEncoder.getVelocityMeters()+" Right Speed Meters %f"+m_rightMotorEncoder.getVelocityMeters());
-    // System.out.println("Gyro Angle"+m_gyro.getGyroAngleZ());
   }
 
   /**
@@ -111,7 +106,6 @@ public class DriveSubsystem extends SubsystemBase {
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
     return new DifferentialDriveWheelSpeeds(
       m_leftMotorEncoder.getVelocityMeters(), 
       m_rightMotorEncoder.getVelocityMeters());
@@ -135,12 +129,7 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public void arcadeDrive(double fwd, double rot) {
     m_drive.arcadeDrive(fwd, rot);
-    // TODO: Remove this line after testing
-    // TODO: TEST TO ENSURE IT DOESN'T BREAK ROBOT
-    // System.out.println("Turn: " + rot + " Throttle: " + fwd);
-    // System.out.println("Left Encoder Distance: " + m_leftMotorEncoder.getPositionMeters() + " Right Encoder Distance: " + m_rightMotorEncoder.getPositionMeters());
-    // System.out.println("Left Encoder Speed: " + m_leftMotorEncoder.getVelocityMeters() + " Right Encoder Speed: " + m_rightMotorEncoder.getVelocityMeters());
-  }
+    }
 
   /**
    * Controls the left and right sides of the drive directly with voltages.
@@ -165,7 +154,6 @@ public class DriveSubsystem extends SubsystemBase {
    *
    * @return the average of the two encoder readings
    */
-  //TODO: Check if this is looking for meters!
   public double getAverageEncoderDistance() {
     // return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
     return (m_leftMotorEncoder.getPositionMeters() + m_rightMotorEncoder.getPositionMeters()) / 2.0;

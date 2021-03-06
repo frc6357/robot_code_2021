@@ -17,19 +17,19 @@ public class DefaultIntakeCommand extends CommandBase
     /**
      * The Ball Intake Subsystem
      */
-    private final SK21Intake subsystem;
+    private final SK21Intake intakeSubsystem;
 
     /**
      * Creates a new DefaultIntakeCommand which takes in the required subsystem
      *
-     * @param subsystem
+     * @param intakeSubsystem
      *            The intake subsystem used by this command.
      */
-    public DefaultIntakeCommand(SK21Intake subsystem)
+    public DefaultIntakeCommand(SK21Intake intakeSubsystem)
     {
-        this.subsystem = subsystem;
+        this.intakeSubsystem = intakeSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(intakeSubsystem);
     }
 
     // Called once when the command is initially scheduled - we use as a "one shot"
@@ -40,16 +40,19 @@ public class DefaultIntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-        if (subsystem.isIntakeExtended())
+        /**
+         * TODO Is this strange to have a Default Command using initialize() and not execute()?
+         */
+        if (intakeSubsystem.isIntakeExtended())
         {
-            subsystem.startIntakeRoller();
+            intakeSubsystem.startIntakeRoller();
         }
     }
 
-    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
+    // False as default commands are intended to not end.
     @Override
     public boolean isFinished()
     {
-        return true;
+        return false;
     }
 }

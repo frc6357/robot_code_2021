@@ -19,6 +19,7 @@ public class DefaultDriveCommand extends CommandBase {
      *
      * @param subsystem The subsystem used by the command to set drivetrain motor
      *                  speeds.
+     * @param joystickDriver The Joystick used for driving
      */
     public DefaultDriveCommand(SK21Drive subsystem, FilteredJoystick joystickDriver) {
         m_subsystem = subsystem;
@@ -42,7 +43,7 @@ public class DefaultDriveCommand extends CommandBase {
         m_subsystem.setSpeeds(speedLeft, speedRight);
     }
 
-    // Returns true when the command should end.
+    // False as default commands are intended to not end.
     @Override
     public boolean isFinished() {
         return false;

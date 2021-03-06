@@ -9,7 +9,7 @@ public class BaseGroveIRProximitySensor extends BaseProximitySensor
      * Constructs a new BaseGroveIRProximitySensor using the given port.
      *
      * @param port
-     *            Port of the Grove IR sensor
+     *            DIO Port of the Grove IR sensor
      */
     public BaseGroveIRProximitySensor(int port)
     {

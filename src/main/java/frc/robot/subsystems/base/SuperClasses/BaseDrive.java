@@ -18,8 +18,6 @@ public class BaseDrive
      *            A group containing all the motors on the left side of the drivetrain
      * @param motorGroupRight
      *            A group containing all the motors on the right side of the drivetrain
-     * @param shiftPolarity
-     *            Tells us what the default gear setting is for the robot
      */
     public BaseDrive(SpeedControllerGroup motorGroupLeft,
         SpeedControllerGroup motorGroupRight)

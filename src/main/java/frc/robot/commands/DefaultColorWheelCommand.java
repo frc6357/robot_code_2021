@@ -57,7 +57,7 @@ public class DefaultColorWheelCommand extends CommandBase
         }
     }
 
-    // Returns true when the command should end which in this case is never.
+    // False as default commands are intended to not end.
     @Override
     public boolean isFinished()
     {

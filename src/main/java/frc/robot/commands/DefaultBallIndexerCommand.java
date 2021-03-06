@@ -16,7 +16,7 @@ public class DefaultBallIndexerCommand extends CommandBase
         addRequirements(subsystem);
     }
 
-    // Returns true when the command should end.
+    // False as default commands are intended to not end.
     @Override
     public boolean isFinished()
     {

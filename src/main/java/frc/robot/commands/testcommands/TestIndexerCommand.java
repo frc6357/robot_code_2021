@@ -87,7 +87,7 @@ public class TestIndexerCommand extends CommandBase
         //TODO: Attach motors/solenoid to the NetworkTableEntry objects
     }
 
-    // Returns true when the command should end.
+    // False as test commands are intended to run the entire test mode.
     @Override
     public boolean isFinished()
     {

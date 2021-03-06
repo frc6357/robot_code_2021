@@ -38,7 +38,7 @@ public class SK21BallIndexer extends SubsystemBase {
         indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
         feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederRetract, Ports.launcherFeederExtend);
-        ballIndexer = new DefaultBallIndexerCommand(this, joystickOperator, false);
+        ballIndexer = new DefaultBallIndexerCommand(this);
         setDefaultCommand(ballIndexer);
     }
 

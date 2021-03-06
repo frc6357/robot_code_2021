@@ -47,7 +47,6 @@ public class TestIndexerCommand extends CommandBase
     public void startRoller()
     {
         indexerSubsystem.indexerRoller.setForwards();
-        
     }
 
     public void setForwardIndexMotor(){
@@ -61,7 +60,6 @@ public class TestIndexerCommand extends CommandBase
     public void stopRoller()
     {
       indexerSubsystem.indexerRoller.setStop();
-        
     }
 
     // Called when the command is initially scheduled.

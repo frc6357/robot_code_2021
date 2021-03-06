@@ -20,34 +20,37 @@ import frc.robot.subsystems.SK21Launcher;
  */
 public class LauncherActivateCommand extends CommandBase 
 {
-    private final SK21Launcher m_subsystem;
+    /**
+     * The Launcher Subsystem used by this LauncherActivateCommand.
+     */
+    private final SK21Launcher launcherSubsystem;
+
     private final boolean endable;
 
     /**
-     * Creates a new ExampleCommand.
+     * Creates a new LauncherActivateCommand.
      *
-     * @param subsystem The subsystem used by this command.
+     * @param launcherSubsystem The subsystem used by this command.
      */
-    public LauncherActivateCommand(SK21Launcher subsystem, boolean endable) 
+    public LauncherActivateCommand(SK21Launcher launcherSubsystem, boolean endable) 
     {
-        m_subsystem = subsystem;
+        this.launcherSubsystem = launcherSubsystem;
         this.endable = endable;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(launcherSubsystem);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() 
     {
-        if (m_subsystem.isHoodSetToShootHigh())
+        if (launcherSubsystem.isHoodSetToShootHigh())
         {
-            m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW);
+            launcherSubsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW);
         }
-
         else
         {
-            m_subsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL);
+            launcherSubsystem.setLauncherSpeed(TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL);
         }
     }
 

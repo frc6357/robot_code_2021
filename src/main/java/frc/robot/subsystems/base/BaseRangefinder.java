@@ -1,5 +1,7 @@
 package frc.robot.subsystems.base;
 
+import frc.robot.Constants;
+
 /**
  * Base class for any rangefinder
  */
@@ -7,7 +9,6 @@ public abstract class BaseRangefinder
 {
     private static final double OUT_OF_RANGE = -99999.0;
     private static final double NO_READING = 0.0;
-    private static final double INCHES_PER_MM = 0.0393701;
 
     /**
      * This function may be used to read the most recent rangefinder reading in inches. If
@@ -28,7 +29,7 @@ public abstract class BaseRangefinder
         }
         else
         {
-            return (distance * INCHES_PER_MM);
+            return (distance * Constants.INCHES_PER_MM);
         }
     }
 
@@ -40,7 +41,7 @@ public abstract class BaseRangefinder
      */
     public double getMinDistanceInches()
     {
-        return (getMinDistanceMm() * INCHES_PER_MM);
+        return (getMinDistanceMm() * Constants.INCHES_PER_MM);
     }
 
     /**
@@ -51,7 +52,7 @@ public abstract class BaseRangefinder
      */
     public double getMaxDistanceInches()
     {
-        return (getMaxDistanceMm() * INCHES_PER_MM);
+        return (getMaxDistanceMm() * Constants.INCHES_PER_MM);
     }
 
     /**

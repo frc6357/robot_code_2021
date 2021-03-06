@@ -1,6 +1,6 @@
 /**
- * This enum is used in the getGameColor method in the ColorSensor2020 class, it's task
- * is to onlyn allow these values to return when calling the method. 
+ * This enum is used in the getGameColor method in the ColorSensor2021 class; it's task
+ * is to only allow these values to return when calling the method. 
  */
 package frc.robot.subsystems.base;
 

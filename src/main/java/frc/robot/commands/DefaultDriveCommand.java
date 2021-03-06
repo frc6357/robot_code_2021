@@ -11,21 +11,28 @@ import frc.robot.utils.FilteredJoystick;
  * robot drives in teloperated mode.
  */
 public class DefaultDriveCommand extends CommandBase {
-    private final SK21Drive m_subsystem;
+    /**
+     * The Drive subsystem for this DefaultDriveCommand.
+     */
+    private final SK21Drive driveSubsystem;
+
+    /**
+     * The Joystick for the Driver.
+     */
     private final FilteredJoystick joystickDriver;
 
     /**
      * Creates a new DefaultDriveCommand that sets up the member subsystem.
      *
-     * @param subsystem The subsystem used by the command to set drivetrain motor
+     * @param driveSubsystem The subsystem used by the command to set drivetrain motor
      *                  speeds.
      * @param joystickDriver The Joystick used for driving
      */
-    public DefaultDriveCommand(SK21Drive subsystem, FilteredJoystick joystickDriver) {
-        m_subsystem = subsystem;
+    public DefaultDriveCommand(SK21Drive driveSubsystem, FilteredJoystick joystickDriver) {
+        this.driveSubsystem = driveSubsystem;
         this.joystickDriver = joystickDriver;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(m_subsystem);
+        addRequirements(driveSubsystem);
     }
 
     /**
@@ -36,11 +43,11 @@ public class DefaultDriveCommand extends CommandBase {
     @Override
     public void execute() {
         double rightTriggerValue = joystickDriver.getRawAxis(Ports.OIDriverSlowmode);
-        m_subsystem.setSlowmode(rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD);
+        driveSubsystem.setSlowmode(rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD);
 
         double speedLeft = joystickDriver.getFilteredAxis(Ports.OIDriverLeftDrive);
         double speedRight = joystickDriver.getFilteredAxis(Ports.OIDriverRightDrive);
-        m_subsystem.setSpeeds(speedLeft, speedRight);
+        driveSubsystem.setSpeeds(speedLeft, speedRight);
     }
 
     // False as default commands are intended to not end.

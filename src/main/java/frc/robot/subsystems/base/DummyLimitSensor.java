@@ -1,31 +1,31 @@
 package frc.robot.subsystems.base;
 
 /**
- * This class is used to create a BaseLimitSensor object and controll the
- * state to always be the boolean that is passed in.
+ * This class is used to create a BaseLimitSensor object and controll the state to always
+ * be the boolean that is passed in.
  */
 public class DummyLimitSensor extends LimitSensor
 {
 
+    /**
+     * The value the DummyLimitSensor will return from the get() method.
+     */
     private final boolean constState;
 
     /**
-     * Constructor:
+     * Creates a new DummyLimitSensor that will always return a specific value.
      *
      * @param constState
-     *      - Type: boolean
-     *      - State for getIsTriggered to always return
+     *            The value the DummyLimitSensor will return from the get() method
      */
     public DummyLimitSensor(boolean constState)
     {
-        super (30, false);
+        super(30, false);
         this.constState = constState;
     }
 
     /**
-     * @return
-     *      - Type: boolean
-     *      - Returns the state set in the constructor
+     * @return Returns the state set in the constructor of the DummyLimitSensor.
      */
     @Override
     public boolean get()

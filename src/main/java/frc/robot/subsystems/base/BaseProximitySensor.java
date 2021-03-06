@@ -21,12 +21,11 @@ public class BaseProximitySensor extends LimitSensor
      *
      * @param port
      *            DIO port for proximity sensor
-     *
-     * @param triggeredState
-     *            Set when the sensor is triggered
+     * @param inverted
+     *            Indicates the value of the sensor should be inverted when returned
      */
-    public BaseProximitySensor(int port, boolean triggeredState)
+    public BaseProximitySensor(int port, boolean inverted)
     {
-        super(port, triggeredState);
+        super(port, inverted);
     }
 }

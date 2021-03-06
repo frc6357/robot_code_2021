@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21BallIndexer;
 
 /**
- * A command that runs the ball transfer motors. Motors run whenever we do not have a full
- * compliment of 5 balls in the intake/transfer mechanism.
+ * A placeholder command for the Ball Indexer. This does not change behavior; there are
+ * separate commands to start and stop the indexer.
  */
 public class DefaultBallIndexerCommand extends CommandBase
 {

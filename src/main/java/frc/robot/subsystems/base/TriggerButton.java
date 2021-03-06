@@ -16,15 +16,17 @@ public class TriggerButton extends Button
     private final Joystick joystick;
 
     /**
-     * The axis for the Trigger to be converted to a Button
+     * The axis for the Trigger to be converted to a Button.
      */
     private final int axis;
 
     /**
      * Constructs a new TriggerButton for the given Joystick and axis.
      * 
-     * @param joystick The Joystick on which the Trigger exists
-     * @param axis The axis on the given Joystick to be converted to a Button
+     * @param joystick
+     *            The Joystick on which the Trigger exists
+     * @param axis
+     *            The axis on the given Joystick to be converted to a Button
      */
     public TriggerButton(Joystick joystick, int axis)
     {

@@ -41,7 +41,8 @@ public class DefaultIntakeCommand extends CommandBase
     public void initialize()
     {
         /**
-         * TODO Is this strange to have a Default Command using initialize() and not execute()?
+         * TODO Is this strange to have a Default Command using initialize() and not
+         * execute()?
          */
         if (intakeSubsystem.isIntakeExtended())
         {

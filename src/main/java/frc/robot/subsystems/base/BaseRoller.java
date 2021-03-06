@@ -20,12 +20,12 @@ public class BaseRoller
     private Direction directionReader;
 
     /**
-     * Constructor:
-     * 
-     * Creates the base class for any rollers
+     * Consructs a new BaseRoller that uses the given SpeedController to control the
+     * motors.
      * 
      * @param motorController
-     *            - Type: Motor Controller - Used to control the speed of the motor
+     *            The motor controller used to control the speed of the motors in the
+     *            BaseRoller
      * 
      */
     public BaseRoller(SpeedController motorController)
@@ -35,9 +35,8 @@ public class BaseRoller
     }
 
     /**
-     * Constructor:
-     * 
-     * Creates the base class for any rollers
+     * Consructs a new BaseRoller that uses the given SpeedController to control the
+     * motors and the given speed as the initial speed of the motors.
      * 
      * @param motorController
      *            The SpeedController for the BaseRoller

@@ -3,7 +3,7 @@ package frc.robot.subsystems.base;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 /**
- * Wraps the Dpad to behave like a button (for the "Up" behavior)
+ * Wraps the Dpad to behave like a button (for the "Up" behavior).
  */
 public class DpadUpButton extends Button
 {
@@ -14,9 +14,11 @@ public class DpadUpButton extends Button
     private final Dpad m_Dpad;
 
     /**
-     * Constructs a new DpadUpButton to have the Dpad emulate a button when pressed upward.
+     * Constructs a new DpadUpButton to have the Dpad emulate a button when pressed
+     * upward.
      * 
-     * @param dpad The Dpad on which we are emulating an up button
+     * @param dpad
+     *            The Dpad on which we are emulating an up button
      */
     public DpadUpButton(Dpad dpad)
     {

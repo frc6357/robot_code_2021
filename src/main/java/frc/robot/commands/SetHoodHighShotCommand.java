@@ -20,6 +20,12 @@ public class SetHoodHighShotCommand extends CommandBase
      */
     private final SK21Launcher launcherSubsystem;
 
+    /**
+     * Creates a new SetHoodHighShotCommand which takes in the required subsystem
+     *
+     * @param launcherSubsystem
+     *            The launcher subsystem used by this command.
+     */
     public SetHoodHighShotCommand(SK21Launcher launcherSubsystem)
     {
         this.launcherSubsystem = launcherSubsystem;

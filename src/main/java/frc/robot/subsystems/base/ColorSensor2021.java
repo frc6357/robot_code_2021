@@ -28,7 +28,9 @@ public class ColorSensor2021
 
     /**
      * This is the constructor that needs a I2C port to be passed in when creating an
-     * instance of ColorSensor2020.
+     * instance of ColorSensor2021.
+     * 
+     * @param port The I2C Port to which the ColorSensor is attached.
      */
     public ColorSensor2021(I2C.Port port)
     {

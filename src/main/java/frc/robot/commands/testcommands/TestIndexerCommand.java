@@ -44,8 +44,7 @@ public class TestIndexerCommand extends CommandBase
         addRequirements(indexerSubsystem);
     }
 
-  
-  public void startRoller()
+    public void startRoller()
     {
         indexerSubsystem.indexerRoller.setForwards();
         
@@ -64,6 +63,7 @@ public class TestIndexerCommand extends CommandBase
       indexerSubsystem.indexerRoller.setStop();
         
     }
+
     // Called when the command is initially scheduled.
     @Override
     public void initialize()

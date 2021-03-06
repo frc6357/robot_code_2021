@@ -16,7 +16,7 @@ import frc.robot.subsystems.base.ColorSensor2021;
 
 /**
  * The SK20ColorWheel class is the subsystem that interacts with roller and color sensor
- * mechanism used to spin the 2020 game control panel. This class must be used in
+ * mechanism used to spin the 2020-2021 game control panel. This class must be used in
  * conjunction with related command classes which will be responsible for activating the
  * spinner motor, detecting color sensor reading changes, and updating the color
  * transition counter stored here.

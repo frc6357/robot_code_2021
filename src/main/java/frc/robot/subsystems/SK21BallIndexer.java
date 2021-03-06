@@ -12,32 +12,33 @@ import frc.robot.commands.DefaultBallIndexerCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
- * Sets the methods that are used to hold and control the balls inside of the
- * robot.
+ * Sets the methods that are used to hold and control the balls inside of the robot.
  */
-public class SK21BallIndexer extends SubsystemBase {
+public class SK21BallIndexer extends SubsystemBase
+{
     public final CANSparkMax indexerMotor;
-    public final BaseRoller indexerRoller; 
+    public final BaseRoller indexerRoller;
     private CANSparkMax feederMotor;
-    private BaseRoller feederRoller; 
+    private BaseRoller feederRoller;
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
     private boolean feederArmIsDropped = false;
     public final DoubleSolenoid feederArmSolenoid;
     private final DefaultBallIndexerCommand ballIndexer; //change name
-    
-
 
     /**
      * Activates the motor that rotates the ball indexer
      */
     public SK21BallIndexer(Joystick joystickOperator)
     {
-        indexerMotor = new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
-        feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless); 
-        indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
+        indexerMotor =
+                new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
+        feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless);
+        indexerRoller =
+                new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
-        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederRetract, Ports.launcherFeederExtend);
+        feederArmSolenoid = new DoubleSolenoid(Ports.pcm,
+            Ports.launcherFeederRetract, Ports.launcherFeederExtend);
         ballIndexer = new DefaultBallIndexerCommand(this);
         setDefaultCommand(ballIndexer);
     }
@@ -62,65 +63,65 @@ public class SK21BallIndexer extends SubsystemBase {
 
     /**
      * Returns the current state of the Indexer Motor
+     * 
      * @return the current state of the Indexer Motor
      */
-    public boolean isIndexerMotorStarted() 
+    public boolean isIndexerMotorStarted()
     {
         return indexerMotorIsStarted;
     }
 
     /**
-     * Activates or deactivates the launcher feeder Arm
-     * extend - the launcher feeder can pop out the ball
-     * retract - the launcher feeder does nothing
+     * Activates or deactivates the launcher feeder Arm extend - the launcher feeder can
+     * pop out the ball retract - the launcher feeder does nothing
      */
-    public void extendLauncherFeederArm() 
+    public void extendLauncherFeederArm()
     {
         feederArmSolenoid.set(DoubleSolenoid.Value.kForward);
         feederMotorIsStarted = true;
-    } 
+    }
 
     public void retractLauncherFeederArm()
     {
-       feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
-       feederMotorIsStarted = false;
-   }
+        feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
+        feederMotorIsStarted = false;
+    }
 
-   /**
-    * startLauncherFeederMotor activates the motor for the rollers to push out the balls
-    * stopLauncherFeederMotor deactivates the motor and the rollers - this should be used
-    * when the Arm lowers
-    */
-   public void startLauncherFeederMotor()
-   {
-       feederRoller.setForwards();
-       feederMotorIsStarted = true;
-   }
+    /**
+     * startLauncherFeederMotor activates the motor for the rollers to push out the balls
+     * stopLauncherFeederMotor deactivates the motor and the rollers - this should be used
+     * when the Arm lowers
+     */
+    public void startLauncherFeederMotor()
+    {
+        feederRoller.setForwards();
+        feederMotorIsStarted = true;
+    }
 
-   public void stopLauncherFeederMotor()
-   {
-       feederRoller.setStop();
-       feederMotorIsStarted = false;
-   }
+    public void stopLauncherFeederMotor()
+    {
+        feederRoller.setStop();
+        feederMotorIsStarted = false;
+    }
 
-   /**
-    * Returns current state of the Feeder Motor
-    * 
-    * @return current state of the feeder motor (true=yes/false=no)
-    */
-   public boolean isLauncherFeederMotorStarted()
-   {
-       return feederMotorIsStarted;
-   }
+    /**
+     * Returns current state of the Feeder Motor
+     * 
+     * @return current state of the feeder motor (true=yes/false=no)
+     */
+    public boolean isLauncherFeederMotorStarted()
+    {
+        return feederMotorIsStarted;
+    }
 
-   /**
-    * Returns current state of launcher feeder
-    * 
-    * @return current state of launcher feeder (true=yes/false=no)
-    */
-   public boolean isLauncherFeederArmExtended()
-   {
-       return feederMotorIsStarted;
+    /**
+     * Returns current state of launcher feeder
+     * 
+     * @return current state of launcher feeder (true=yes/false=no)
+     */
+    public boolean isLauncherFeederArmExtended()
+    {
+        return feederMotorIsStarted;
     }
 
 }

@@ -13,6 +13,11 @@ public class DpadDownButton extends Button
      */
     private final Dpad m_Dpad;
 
+    /**
+     * Constructs a new DpadUpButton to have the Dpad emulate a button when pressed downward.
+     * 
+     * @param dpad The Dpad on which we are emulating a down button
+     */
     public DpadDownButton(Dpad dpad)
     {
         m_Dpad = dpad;

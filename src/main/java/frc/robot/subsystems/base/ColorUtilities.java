@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ColorUtilities
 {
     /**
-     * It takes in a color and reports back to Smart Dashboard to see what color the
+     * Takes in a color and reports back to Smart Dashboard to see what color the
      * sensor is detecting.
      * 
-     * @param color
+     * @param color The color to be reported to the SmartDashboard
      */
     public static void reportColor(Color2021 color)
     {

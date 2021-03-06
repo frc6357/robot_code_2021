@@ -11,7 +11,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.base.SuperClasses.BaseDrive;
 import frc.robot.utils.FilteredJoystick;
 
-public class SK20Drive extends SubsystemBase {
+public class SK21Drive extends SubsystemBase {
 
     private final WPI_TalonSRX frontLeft = new WPI_TalonSRX(Ports.frontLeftDrive);
     private final WPI_TalonSRX backLeft = new WPI_TalonSRX(Ports.backLeftDrive);
@@ -33,7 +33,7 @@ public class SK20Drive extends SubsystemBase {
      * This constructor of the SK20Drive sets up the BaseDrive object and passes it
      * into the SmoothDrive object to set it up.
      */
-    public SK20Drive(FilteredJoystick joystickDriver) {
+    public SK21Drive(FilteredJoystick joystickDriver) {
         driveCommand = new DefaultDriveCommand(this, joystickDriver);
         setDefaultCommand(driveCommand);
     }

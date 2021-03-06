@@ -19,7 +19,7 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-public class DriveSubsystem extends SubsystemBase {
+public class SK21Drive extends SubsystemBase {
   private final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
   private final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
   private final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
@@ -60,8 +60,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final DifferentialDriveOdometry m_odometry;
 
   
-  /** Creates a new DriveSubsystem. */
-  public DriveSubsystem() {
+  /** Creates a new SK21Drive. */
+  public SK21Drive() {
     // Sets the distance per pulse for the encoders
     // m_leftEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);
     // m_rightEncoder.setDistancePerPulse(DriveConstants.kEncoderDistancePerPulse);

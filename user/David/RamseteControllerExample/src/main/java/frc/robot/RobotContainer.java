@@ -35,7 +35,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.DoNothing;
 import frc.robot.filters.FilterDeadband;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SK21Drive;
 import frc.robot.utils.FileBasedTrajectory;
 import frc.robot.utils.FilteredJoystick;
 
@@ -56,11 +56,9 @@ public class RobotContainer {
 
   private SendableChooser<Function<TrajectoryConfig, Trajectory>> splineCommandSelector = new SendableChooser<Function<TrajectoryConfig, Trajectory>>();
 
-  // The robot's subsystems
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
-  // The driver's controller
-  private final FilteredJoystick m_driverController = new FilteredJoystick(0);
+  // The Robot controllers
+  private final FilteredJoystick driverJoystick = new FilteredJoystick(0);
   private final FilterDeadband m_deadbandThrottle = new FilterDeadband(0.05, -1.0);
   private final FilterDeadband m_deadbandTurn = new FilterDeadband(0.05, 1.0);
 
@@ -68,7 +66,10 @@ public class RobotContainer {
   private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
 
-  // private Trajectory m_trajectory;
+  // The robot's subsystems are defined here...
+  private final SK21Drive m_driveSubsystem = new SK21Drive();
+
+    // private Trajectory m_trajectory;
   // private final String trajectoryJSON =
   // "/home/lvuser/deploy/paths/StartupPath1.wpilib.json";
 
@@ -80,31 +81,32 @@ public class RobotContainer {
     configureShuffleboard();
     // Configure the button bindings
     configureButtonBindings();
-    m_driverController.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
-    m_driverController.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
+  
+    driverJoystick.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
+    driverJoystick.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
 
     // Configure default commands
     // Set the default drive command to split-stick arcade drive
-    m_robotDrive.setDefaultCommand(
+    m_driveSubsystem.setDefaultCommand(
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
-        new RunCommand(() -> m_robotDrive.arcadeDrive(m_driverController.getFilteredAxis(Ports.OIDriverMove),
-            m_driverController.getFilteredAxis(Ports.OIDriverTurn)), m_robotDrive));
+        new RunCommand(() -> m_driveSubsystem.arcadeDrive(driverJoystick.getFilteredAxis(Ports.OIDriverMove),
+        driverJoystick.getFilteredAxis(Ports.OIDriverTurn)), m_driveSubsystem));
   }
 
   private void configureShuffleboard() {
 
-    File f = new File(Constants.SPLINE_DIRECTORY);
-
-    File[] pathNames = f.listFiles();
     // auto commands
     autoCommandSelector.setDefaultOption("DoNothing", AutoCommands.DoNothing);
     autoCommandSelector.addOption("DriveSpline", AutoCommands.DriveSpline);
 
     SmartDashboard.putData("Auto Chooser", autoCommandSelector);
-    try {
 
-      for (File pathname : pathNames) {
+    try {
+      File f = new File(Constants.SPLINE_DIRECTORY);
+
+      File[] pathNames = f.listFiles();
+        for (File pathname : pathNames) {
         // Print the names of files and directories
         System.out.println(pathname);
         splineCommandSelector.addOption(pathname.getName(), new FileBasedTrajectory(pathname));
@@ -126,12 +128,12 @@ public class RobotContainer {
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * calling passing it to a {@link JoystickButton}.
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     // Drive at half speed when the right bumper is held
-    new JoystickButton(m_driverController, Button.kBumperRight.value).whenPressed(() -> m_robotDrive.setMaxOutput(0.5))
-        .whenReleased(() -> m_robotDrive.setMaxOutput(1));
+    new JoystickButton(driverJoystick, Button.kBumperRight.value).whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
+        .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
   }
 
   /**
@@ -183,20 +185,20 @@ public class RobotContainer {
 
     Trajectory exampleTrajectory = trajectoryFunction.apply(config);
 
-    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_robotDrive::getPose,
+    RamseteCommand ramseteCommand = new RamseteCommand(exampleTrajectory, m_driveSubsystem::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
             DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics, m_robotDrive::getWheelSpeeds,
+        DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
         new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_robotDrive::tankDriveVolts, m_robotDrive);
+        m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    m_driveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
   }
 
   private Trajectory getTrajectory(TrajectoryConfig config) {

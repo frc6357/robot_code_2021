@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.subsystems.SK20Drive;
+import frc.robot.subsystems.SK21Drive;
 import frc.robot.utils.FilteredJoystick;
 
 /**
@@ -11,7 +11,7 @@ import frc.robot.utils.FilteredJoystick;
  * robot drives in teloperated mode.
  */
 public class DefaultDriveCommand extends CommandBase {
-    private final SK20Drive m_subsystem;
+    private final SK21Drive m_subsystem;
     private final FilteredJoystick joystickDriver;
 
     /**
@@ -20,7 +20,7 @@ public class DefaultDriveCommand extends CommandBase {
      * @param subsystem The subsystem used by the command to set drivetrain motor
      *                  speeds.
      */
-    public DefaultDriveCommand(SK20Drive subsystem, FilteredJoystick joystickDriver) {
+    public DefaultDriveCommand(SK21Drive subsystem, FilteredJoystick joystickDriver) {
         m_subsystem = subsystem;
         this.joystickDriver = joystickDriver;
         // Use addRequirements() here to declare subsystem dependencies.

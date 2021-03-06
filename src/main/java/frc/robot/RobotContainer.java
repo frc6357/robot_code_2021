@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DisableShotCommand;
+import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
@@ -30,8 +31,8 @@ import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
-import frc.robot.subsystems.SK20Drive;
 import frc.robot.subsystems.SK21BallIndexer;
+import frc.robot.subsystems.SK21Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
 import frc.robot.subsystems.base.Dpad;
@@ -52,81 +53,54 @@ public class RobotContainer {
 
     public static UsbCamera camera;
 
-    private enum TestModeChoice {
-        DRIVE, LAUNCHER, CLIMB, INTAKE, COLOR_WHEEL, OTHER
-    };
-
     private enum AutoCommands {
-        DriveForward, DriveBackward, DriveForwardShoot, ShootDriveForward, OffAngleShot, OffAngleRecollectShot,
-        StraightShot, StraightRecollectShot, DriveSpline
+        DoNothing, DriveSpline
     };
 
-    
-    SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
+    private SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
 
-    SendableChooser<File> splineSelector = new SendableChooser<File>();
+    private SendableChooser<File> splineCommandSelector = new SendableChooser<File>();
 
-    SendableChooser<TestModeChoice> testModeSelector = new SendableChooser<TestModeChoice>();
+    // The Robot controllers
+    private final FilteredJoystick driverJoystick = new FilteredJoystick(Ports.OIDriverJoystick);
+    private final Joystick operatorJoystick = new Joystick(Ports.OIOperatorJoystick);
 
-    File f = new File("C:/Users/Owner/Documents/WeaverOutput/output");
-
-    File[] pathNames = f.listFiles();
-
-    private final FilteredJoystick joystickDriver = new FilteredJoystick(Ports.OIDriverJoystick);
-    private final Joystick joystickOperator = new Joystick(Ports.OIOperatorJoystick);
-
-    // The robot's subsystems and commands are defined here...
-    private final SK20Drive m_driveSubsystem = new SK20Drive(joystickDriver);
+    // The robot's subsystems are defined here...
+    private final SK21Drive m_driveSubsystem = new SK21Drive(driverJoystick);
     private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
-    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer(joystickOperator);
+    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer(operatorJoystick);
     private final SK21Intake m_Intake = new SK21Intake();
 
     // Intake control buttons
-    private final Dpad dpad = new Dpad(joystickOperator);
+    private final Dpad dpad = new Dpad(operatorJoystick);
     private final DpadUpButton extendIntakeButton = new DpadUpButton(dpad);
     private final DpadDownButton retractIntakeButton = new DpadDownButton(dpad);
-    private final JoystickButton reverseIntake = new JoystickButton(joystickOperator, Ports.OIOperatorReverseIntake);
+    private final JoystickButton reverseIntake = new JoystickButton(operatorJoystick, Ports.OIOperatorReverseIntake);
 
     // Launcher control buttons
-    private final JoystickButton launchBall = new JoystickButton(joystickOperator, Ports.OIOperatorShootBall);
-    private final JoystickButton setHighAngle = new JoystickButton(joystickOperator, Ports.OIOperatorHighHoodAngle);
-    private final JoystickButton setLowAngle = new JoystickButton(joystickOperator, Ports.OIOperatorLowHoodAngle);
-    private final JoystickButton toggleLauncherSpeed = new JoystickButton(joystickOperator,
+    private final JoystickButton launchBall = new JoystickButton(operatorJoystick, Ports.OIOperatorShootBall);
+    private final JoystickButton setHighAngle = new JoystickButton(operatorJoystick, Ports.OIOperatorHighHoodAngle);
+    private final JoystickButton setLowAngle = new JoystickButton(operatorJoystick, Ports.OIOperatorLowHoodAngle);
+    private final JoystickButton toggleLauncherSpeed = new JoystickButton(operatorJoystick,
             Ports.OIOperatorSetLauncherSpeed);
 
     //Indexer control buttons
-    private final TriggerButton startIndexer = new TriggerButton(joystickOperator, Ports.OIOperatorActivateIBM);
-    private final TriggerButton stopIndexer = new TriggerButton(joystickOperator,Ports.OIOperatorDeactivateBMI);
+    private final TriggerButton startIndexer = new TriggerButton(operatorJoystick, Ports.OIOperatorActivateIBM);
+    private final TriggerButton stopIndexer = new TriggerButton(operatorJoystick,Ports.OIOperatorDeactivateBMI);
 
-    // Climb Buttons
-    // public static JoystickButton operatorClimbArmDeploy = new
-    // JoystickButton(joystickOperator,
-    // Ports.OIOperatorDeployArm);
-    // private final JoystickButton runWinchRobot = new JoystickButton(joystickOperator, Ports.OIOperatorRunWinchArm);
-    // private final JoystickButton armClimbSystem = new JoystickButton(joystickOperator, Ports.OIOperatorArmClimb);
-
-    // TODO: Reinstate color wheel later
-    // Color wheel buttons
-    // public static JoystickButton startThreeRotate = new
-    // JoystickButton(joystickOperator,
-    // Ports.OIOperatorStartThreeRotate);
-    // public static JoystickButton startSetColor = new
-    // JoystickButton(joystickOperator, Ports.OIOperatorStartSetColor);
-    // public static JoystickButton stopColorWheel = new
-    // JoystickButton(joystickOperator, Ports.OIOperatorStopColorWheel);
-    // public static InternalButton spinColorWheel = new InternalButton();
-    // public static JoystickButton toggleColorWheelLift = new
-    // JoystickButton(joystickOperator, Ports.OIOperatorColorWheelLift);
+    // TODO Climb Buttons
+    // TODO Color wheel buttons
 
     public RobotContainer() {
 
         configureShuffleboard();
 
-        joystickDriver.setFilter(Ports.OIDriverLeftDrive, new CubicDeadbandFilter(0.60, 0.06, true));
-        joystickDriver.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(0.60, 0.06, true));
-
         // Configure the button bindings
         configureButtonBindings();
+    
+        driverJoystick.setFilter(Ports.OIDriverLeftDrive, new CubicDeadbandFilter(0.60, 0.06, true));
+        driverJoystick.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(0.60, 0.06, true));
+
 
         // Driver camera configuration.
         if (RobotBase.isReal()) {
@@ -138,30 +112,21 @@ public class RobotContainer {
 
     private void configureShuffleboard(){
         // auto commands
-        autoCommandSelector.setDefaultOption("Drive forwards", AutoCommands.DriveForward);
-        autoCommandSelector.addOption("Drive backwards", AutoCommands.DriveBackward);
-        autoCommandSelector.addOption("Drive forward then shoot", AutoCommands.DriveForwardShoot);
-        autoCommandSelector.addOption("Shoot then drive forwards", AutoCommands.ShootDriveForward);
-        autoCommandSelector.addOption("Drive Spline", AutoCommands.DriveSpline);
-
+        autoCommandSelector.setDefaultOption("DoNothing", AutoCommands.DoNothing);
+        autoCommandSelector.addOption("DriveSpline", AutoCommands.DriveSpline);
+    
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
+        File f = new File(TuningParams.SPLINE_DIRECTORY);
+
+        File[] pathNames = f.listFiles();
         for (File pathname : pathNames) {
             // Print the names of files and directories
             System.out.println(pathname);
-            splineSelector.addOption(pathname.getName(),pathname );
+            splineCommandSelector.addOption(pathname.getName(),pathname );
         }
     
-        SmartDashboard.putData(splineSelector);
-
-        // TODO: add extra auto commands once tested
-        // autoCommandSelector.addOption("OffAngleShooting", AutoCommands.OffAngleShot);
-        // autoCommandSelector.addOption("OffAngleShooting/Recollection",
-        // AutoCommands.OffAngleRecollectShot);
-        // autoCommandSelector.addOption("StraightShooting", AutoCommands.StraightShot);
-        // autoCommandSelector.addOption("StraightShooting/Recollection",
-        // AutoCommands.StraightRecollectShot);
-
+        SmartDashboard.putData(splineCommandSelector);
     }
 
     /**
@@ -189,31 +154,6 @@ public class RobotContainer {
         toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
     }
 
-    public void testSelector() {
-        switch (testModeSelector.getSelected()) {
-            case OTHER:
-                // add later:
-                // CommandScheduler.getInstance().schedule(Command);
-                System.out.println("Doing OTHER");
-                break;
-            case DRIVE:
-                System.out.println("Doing Driver");
-                break;
-            case LAUNCHER:
-                System.out.println("Doing LAUNCHER");
-                break;
-            case INTAKE:
-                System.out.println("Doing INTAKE");
-                break;
-            case CLIMB:
-                System.out.println("Doing CLIMB");
-                break;
-            case COLOR_WHEEL:
-                System.out.println("Doing COLOR_WHEEL");
-                break;
-        }
-    }
-
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -221,73 +161,9 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
 
-        AutoCommands myAuto = autoCommandSelector.getSelected();
+        var autoSelector = autoCommandSelector.getSelected();
 
-        // StraightShotToMoveAuto autoCommand = new
-        // StraightShotToMoveAuto(m_driveSubsystem, m_launcherSubsystem,
-        // m_ballIndexerSubsystem);
-        // return autoCommand.getCommandGroup();
-
-        // TODO: Put this back in later!!
-
-        switch (myAuto) {
-            case DriveForward:
-                //return new DriveStraightCommand(m_driveSubsystem, TuningParams.AUTO_DRIVE_DISTANCE);
-                
-            case DriveBackward:
-                //return new DriveStraightCommand(m_driveSubsystem, -(TuningParams.AUTO_DRIVE_DISTANCE));
-                
-            case DriveForwardShoot:
-                // DriveForwardShootAuto m_DriveShoot = new
-                // DriveForwardShootAuto(m_driveSubsystem, m_launcherSubsystem);
-                // return m_DriveShoot.getCommandGroup();
-
-            case ShootDriveForward:
-                // ShootDriveForwardAuto m_ShootDrive = new
-                // ShootDriveForwardAuto(m_driveSubsystem, m_launcherSubsystem);
-                // return m_ShootDrive.getCommandGroup();
-
-                // case OffAngleShot:
-                // OffAngleShotToMoveAuto m_autoPath = new
-                // OffAngleShotToMoveAuto(m_driveSubsystem, m_launcherSubsystem);
-                // return m_autoPath.getCommandGroup();
-
-                // case OffAngleRecollectShot:
-                // OffAngleShotToTrenchAuto m_autoPath1 = new
-                // OffAngleShotToTrenchAuto(m_driveSubsystem, m_intakeSubsystem,
-                // m_launcherSubsystem);
-                // return m_autoPath1.getCommandGroup();
-
-                // case StraightShot:
-                // StraightShotToMoveAuto m_autoPath2 = new
-                // StraightShotToMoveAuto(m_driveSubsystem,
-                // m_launcherSubsystem,m_ballIndexerSubsystem);
-
-                // return m_autoPath2.getCommandGroup();
-                // case StraightRecollectShot:
-                // StraightShotToTrenchAuto m_autoPath3 = new
-                // StraightShotToTrenchAuto(m_driveSubsystem, m_launcherSubsystem,
-                // m_intakeSubsystem);
-
-                // return m_autoPath3.getCommandGroup();
-            default:
-                return (Command) null;
-
-        }
-        // return new DriveStraightCommand(m_driveSubsystem, 50);
-
+        //This is a dummy
+        return new DoNothingCommand();
     }
-
-
-
-    // public boolean isClimbArmed() {
-    //     String debugger = DriverStation.getInstance().getGameSpecificMessage();
-    //     double time = DriverStation.getInstance().getMatchTime();
-
-    //     if ((time <= 30 || debugger == "D") && armClimbSystem.get()) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 }

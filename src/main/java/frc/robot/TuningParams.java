@@ -126,4 +126,5 @@ public final class TuningParams
     public static final double TEST_TURN_4                  = 90;    //Amount of degrees
     public static final double TEST_TURN_5                  = 180;    //Amount of degrees
 
+    public static final String SPLINE_DIRECTORY = "C:/Users/Owner/Documents/WeaverOutput/output";
 }

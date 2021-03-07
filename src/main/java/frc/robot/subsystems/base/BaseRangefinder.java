@@ -29,7 +29,7 @@ public abstract class BaseRangefinder
         }
         else
         {
-            return (distance * Constants.INCHES_PER_MM);
+            return (distance * Constants.kInchesPerMilimetre);
         }
     }
 
@@ -41,7 +41,7 @@ public abstract class BaseRangefinder
      */
     public double getMinDistanceInches()
     {
-        return (getMinDistanceMm() * Constants.INCHES_PER_MM);
+        return (getMinDistanceMm() * Constants.kInchesPerMilimetre);
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class BaseRangefinder
      */
     public double getMaxDistanceInches()
     {
-        return (getMaxDistanceMm() * Constants.INCHES_PER_MM);
+        return (getMaxDistanceMm() * Constants.kInchesPerMilimetre);
     }
 
     /**

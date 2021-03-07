@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Ports;
-import frc.robot.TuningParams;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.utils.FilteredJoystick;
 
@@ -39,15 +38,15 @@ public class DefaultDriveCommand extends CommandBase {
      * This method, which is usually run every 20ms, takes in the filtered joystick
      * values and sets the speeds that the drivetrain motors need to achieve.
      */
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double rightTriggerValue = joystickDriver.getRawAxis(Ports.OIDriverSlowmode);
-        driveSubsystem.setSlowmode(rightTriggerValue >= TuningParams.SLOWMODE_TRIGGER_THRESHOLD);
+        // TODO: This used to call the slowMode() method on the driveSubsystem dependent
+        // upon the value of the joystick bumper. This is now handled by creating a joystick
+        // button command which calls setMaxOutput(). Check to make sure this still works!
+        double throttle  = joystickDriver.getFilteredAxis(Ports.OIDriverMove);
+        double turn_rate = joystickDriver.getFilteredAxis(Ports.OIDriverTurn);
 
-        double speedLeft = joystickDriver.getFilteredAxis(Ports.OIDriverLeftDrive);
-        double speedRight = joystickDriver.getFilteredAxis(Ports.OIDriverRightDrive);
-        driveSubsystem.setSpeeds(speedLeft, speedRight);
+        driveSubsystem.arcadeDrive(throttle, turn_rate);
     }
 
     // False as default commands are intended to not end.

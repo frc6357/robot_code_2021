@@ -8,17 +8,38 @@
 package frc.robot;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DisableShotCommand;
 import frc.robot.commands.DoNothingCommand;
@@ -40,7 +61,7 @@ import frc.robot.subsystems.base.DpadDownButton;
 import frc.robot.subsystems.base.DpadUpButton;
 import frc.robot.subsystems.base.TriggerButton;
 import frc.robot.utils.FilteredJoystick;
-import frc.robot.utils.filters.CubicDeadbandFilter;
+import frc.robot.utils.filters.FilterDeadband;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -54,7 +75,7 @@ public class RobotContainer {
     public static UsbCamera camera;
 
     private enum AutoCommands {
-        DoNothing, DriveSpline
+        DoNothing, DriveSplineFromJSON, DriveSplineCanned
     };
 
     private SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
@@ -62,11 +83,13 @@ public class RobotContainer {
     private SendableChooser<File> splineCommandSelector = new SendableChooser<File>();
 
     // The Robot controllers
-    private final FilteredJoystick driverJoystick = new FilteredJoystick(Ports.OIDriverJoystick);
+    private final FilteredJoystick driverJoystick = new FilteredJoystick(0);
+    private final FilterDeadband m_deadbandThrottle = new FilterDeadband(0.05, -1.0);
+    private final FilterDeadband m_deadbandTurn = new FilterDeadband(0.05, 1.0);
     private final Joystick operatorJoystick = new Joystick(Ports.OIOperatorJoystick);
-
+  
     // The robot's subsystems are defined here...
-    private final SK21Drive m_driveSubsystem = new SK21Drive(driverJoystick);
+    private final SK21Drive m_driveSubsystem = new SK21Drive();
     private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
     private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer(operatorJoystick);
     private final SK21Intake m_Intake = new SK21Intake();
@@ -90,7 +113,10 @@ public class RobotContainer {
 
     // TODO Climb Buttons
     // TODO Color wheel buttons
-
+  
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
     public RobotContainer() {
 
         configureShuffleboard();
@@ -98,9 +124,12 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
     
-        driverJoystick.setFilter(Ports.OIDriverLeftDrive, new CubicDeadbandFilter(0.60, 0.06, true));
-        driverJoystick.setFilter(Ports.OIDriverRightDrive, new CubicDeadbandFilter(0.60, 0.06, true));
+        driverJoystick.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
+        driverJoystick.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
 
+        // Configure default commands
+        // Set the default drive command to split-stick arcade drive
+        m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
 
         // Driver camera configuration.
         if (RobotBase.isReal()) {
@@ -110,22 +139,23 @@ public class RobotContainer {
         }
     }
 
-    private void configureShuffleboard(){
+    private void configureShuffleboard() {
         // auto commands
-        autoCommandSelector.setDefaultOption("DoNothing", AutoCommands.DoNothing);
-        autoCommandSelector.addOption("DriveSpline", AutoCommands.DriveSpline);
+        autoCommandSelector.setDefaultOption("Do Nothing", AutoCommands.DoNothing);
+        autoCommandSelector.addOption("Drive path from JSON", AutoCommands.DriveSplineFromJSON);
+        autoCommandSelector.addOption("Drive canned path", AutoCommands.DriveSplineCanned);
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
-        File f = new File(TuningParams.SPLINE_DIRECTORY);
+        File f = new File(Constants.kSplineDirectory);
 
         File[] pathNames = f.listFiles();
-        for (File pathname : pathNames) {
+            for (File pathname : pathNames) {
             // Print the names of files and directories
             System.out.println(pathname);
-            splineCommandSelector.addOption(pathname.getName(),pathname );
+            splineCommandSelector.addOption(pathname.getName(), pathname);
         }
-    
+
         SmartDashboard.putData(splineCommandSelector);
     }
 
@@ -136,7 +166,13 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        //Inake
+        // TODO: Is the following control in the robot driver user interface specification?
+        // TODO: Test this implementation to make sure that it works as expected since it's 
+        // different from the way we've done this in the past.
+        new JoystickButton(driverJoystick, Button.kBumperRight.value).whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
+            .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
+
+        //Intake
         extendIntakeButton.whenPressed(new ExtendIntakeCommand(m_Intake));
         retractIntakeButton.whenPressed(new RetractIntakeCommand(m_Intake));
         reverseIntake.whenPressed(new ReverseIntakeCommand(m_Intake));
@@ -163,7 +199,60 @@ public class RobotContainer {
 
         var autoSelector = autoCommandSelector.getSelected();
 
-        //This is a dummy
-        return new DoNothingCommand();
+        switch (autoSelector) {
+            case DoNothing:
+                return new DoNothingCommand();
+
+            case DriveSplineFromJSON:
+                // TODO: This path (loading the path from a JSON) does not seem to allow us to specify
+                // constraints via a TrajectoryConfig. Are these baked into the JSON files already?
+                File splineFile = splineCommandSelector.getSelected();
+                Trajectory trajectory = new Trajectory();
+                try {
+                    Path trajectoryPath = splineFile.toPath();
+                    trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+                    } catch (IOException ex) {
+                        DriverStation.reportError("Unable to open trajectory: " + splineFile, ex.getStackTrace());
+                    }
+                return makeTrajectoryCommand(trajectory);
+            
+            case DriveSplineCanned:
+                // Create a voltage constraint to ensure we don't accelerate too fast
+                var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                    new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+                        DriveConstants.kaVoltSecondsSquaredPerMeter),
+                    DriveConstants.kDriveKinematics, 10);
+                TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
+                    AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+                        // Add kinematics to ensure max speed is actually obeyed
+                        .setKinematics(DriveConstants.kDriveKinematics)
+                        // Apply the voltage constraint
+                        .addConstraint(autoVoltageConstraint);
+                Trajectory cannedTrajectory = TrajectoryGenerator.generateTrajectory(
+                                new Pose2d(0, 0, new Rotation2d(0)),
+                                List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
+                                new Pose2d(5, 0, new Rotation2d(0)), config);
+                return makeTrajectoryCommand(cannedTrajectory);
     }
+
+    return new DoNothingCommand();
+
+    }
+
+  private Command makeTrajectoryCommand(Trajectory trajectory) {
+    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
+        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+            DriveConstants.kaVoltSecondsSquaredPerMeter),
+        DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
+        new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
+
+    // Reset odometry to the starting pose of the trajectory.
+    m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+
+    // Run path following command, then stop at the end.
+    return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+  }
 }

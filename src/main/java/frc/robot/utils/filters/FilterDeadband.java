@@ -1,20 +1,38 @@
 package frc.robot.utils.filters;
 
 /**
- * This class is a filter that has a deadband for it's return If a value is filtered and in the deadband, it returns zero Otherwise, the
- * scale is readjusted to have a slope from y=0 to y=1 starting at x=deadband
+ * This class is a filter that has a deadband for it's return. If a value is filtered and
+ * in the deadband, it returns zero.
+ * 
+ * By default, scale is readjusted to have a slope from y=0 to y=1 starting at x=deadband
+ * and ending at x=1.
+ * 
+ * The gain value can be modified to alter the slope (The gain is a multiplier on the
+ * scope after the scope calculation is performed).
  */
 public class FilterDeadband extends Filter
 {
-    private double deadband; // The deadbanding for the input, equal to distance from zero
-    private double slope; // The slope m of the y=mx line to get careful control
-    private double gain; // The gain is the maximum value for a graph, and is by default 1
+    /**
+     * The deadbanding for the input, equal to distance from zero.
+     */
+    private double deadband;
 
     /**
-     * The consructor for a filter with a deadband
+     * The slope m of the y=mx line to get careful control.
+     */
+    private double slope;
+
+    /**
+     * The gain is the multiplier on the slope that would otherwise provide a line from
+     * x=deadband,y=0 to x=1,y=1.
+     */
+    private double gain;
+
+    /**
+     * Constructs a new FilterDeadband with a deadband of the given width.
      * 
      * @param deadband
-     *            the deadbanding zone, equivalent to the distance from zero
+     *            The width of the deadbanding zone, equivalent to the distance from zero
      */
     public FilterDeadband(double deadband)
     {
@@ -23,12 +41,14 @@ public class FilterDeadband extends Filter
     }
 
     /**
-     * The constructor which allows a user to specify gain
+     * Constructs a new FilterDeadband with a deadband of the given width and the provided
+     * gain.
      * 
      * @param deadband
-     *            deadband the deadbanding zone, equivalent to the distance from zero
+     *            The width of the deadbanding zone, equivalent to the distance from zero
      * @param gain
-     *            the gain for which to set the max value
+     *            The gain value used to amplify the slope of values calculated above the
+     *            deadband
      */
     public FilterDeadband(double deadband, double gain)
     {
@@ -37,11 +57,13 @@ public class FilterDeadband extends Filter
     }
 
     /**
-     * Filters the raw input for a deadbanding zone If the given value is inside the deadband, zero is returned Otherwise, a scale is
-     * implemented and slope is readjusted for careful control
+     * Filters the raw input for a deadbanding zone. If the given value is inside the
+     * deadband, zero is returned. Otherwise, a scale is implemented and slope is
+     * readjusted for careful control.
      * 
      * @param rawAxis
-     *            the data to be passed in, from -1 to 1
+     *            The data to be passed in, from -1 to 1
+     * @return The value after the FilterDeadband has been applied
      */
     @Override
     public double filter(double rawAxis)
@@ -57,11 +79,11 @@ public class FilterDeadband extends Filter
     }
 
     /**
-     * Sets the deadband of the filter to a new deadband, with length equal to distance to zero Also adjust the slope of the y=mx line for
-     * better functionality
+     * Sets the deadband of the filter to the given value, with length equal to distance
+     * to zero.
      * 
      * @param deadband
-     *            the new deadband to set the value to
+     *            The new deadband value for this FilterDeadband
      */
     public void setDeadband(double deadband)
     {
@@ -70,10 +92,11 @@ public class FilterDeadband extends Filter
     }
 
     /**
-     * Sets the maximum out put of the filter
+     * Sets the gain value used to amplify the slope of values calculated above the
+     * deadband.
      * 
      * @param gain
-     *            the new gain to adjust output
+     *            The new gain to adjust the filtered value in this FilterDeadband
      */
     public void setGain(double gain)
     {

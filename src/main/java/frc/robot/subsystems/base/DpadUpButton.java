@@ -11,7 +11,7 @@ public class DpadUpButton extends Button
     /**
      * The underlying Dpad for this DpadUpButton.
      */
-    private final Dpad m_Dpad;
+    private final Dpad dpad;
 
     /**
      * Constructs a new DpadUpButton to have the Dpad emulate a button when pressed
@@ -22,12 +22,12 @@ public class DpadUpButton extends Button
      */
     public DpadUpButton(Dpad dpad)
     {
-        m_Dpad = dpad;
+        this.dpad = dpad;
     }
 
     @Override
     public boolean get()
     {
-        return m_Dpad.isUpPressed();
+        return dpad.isUpPressed();
     }
 }

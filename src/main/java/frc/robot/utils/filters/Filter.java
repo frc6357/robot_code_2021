@@ -1,16 +1,18 @@
 package frc.robot.utils.filters;
 
 /**
- * This class is an abstract generic for individual filters It lays out the groundwork for any filtering to be done by subclasses.
+ * This class is an abstract template for individual Filters. It lays out the groundwork
+ * for any filtering to be done by subclasses.
  */
 public abstract class Filter
 {
     /**
-     * This is an abstraction for the filter method, and all Filters will use this implementation
+     * Filters the given input value per the rules of this Filter, and returns the
+     * filtered value.
      * 
      * @param rawAxis
-     *            the actual value being returned by the raw data
-     * @return the filtered data to be passed to the motor
+     *            The actual value being returned by the raw data
+     * @return The filtered data to be passed to the motor
      */
     public abstract double filter(double rawAxis);
 }

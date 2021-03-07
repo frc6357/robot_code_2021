@@ -1,8 +1,8 @@
 package frc.robot.utils.filters;
 
 /**
- * This class creates a filter which has active dampening The function essentially works by creating a moving average and adjusting the
- * returned value based on this average.
+ * This class creates a filter which has active dampening. The function essentially works
+ * by creating a moving average and adjusting the returned value based on this average.
  */
 public class MovingAverageFilter extends Filter
 {
@@ -37,8 +37,8 @@ public class MovingAverageFilter extends Filter
     }
 
     /**
-     * Filter which uses a moving average to calculate the rate of acceleration Primarily exists for gentler acceleration and reduced
-     * slippage
+     * Filter which uses a moving average to calculate the rate of acceleration Primarily
+     * exists for gentler acceleration and reduced slippage
      * 
      * @param rawAxis
      *            the data to be passed in, from -1 to 1

@@ -1,6 +1,6 @@
 package frc.robot.utils.filters;
 
-/*
+/**
  * Creates a cubic curve on the filter
  * 0.0 correlates to 0.0, and 1.0 correlates to "coeff" and
  * -1.0 correlates to "-coeff". The transfer function is
@@ -9,14 +9,18 @@ package frc.robot.utils.filters;
  */
 public class ExponentialFilter extends Filter
 {
-    private double coefficient; // Coefficient or gain to multiply by
+    /**
+     * Coefficient of gain to multiply by.
+     */
+    private double coefficient;
 
     /**
-     * Default constructor, gives a coefficient of coef
+     * Constructs a new ExponentialFilter with the given gain coefficient.
      * 
      * @param coef
-     *            The coefficient of the cubic function. This can be positive or negative, allowing
-     *            the joystick value to be inverted at the same time as the filter is applied.
+     *            The coefficient of the cubic function for this ExponentialFilter. This
+     *            can be positive or negative, allowing the joystick value to be inverted
+     *            at the same time as the filter is applied.
      */
     public ExponentialFilter(double coef)
     {
@@ -27,8 +31,8 @@ public class ExponentialFilter extends Filter
      * Filters the input using a scaled cubic transfer function.
      * 
      * @param rawAxis
-     *            the data to be read in, from -1 to 1
-     * @return the cubic relation of that data
+     *            The data to be filtered, from -1 to 1
+     * @return The cubic relation of that data
      */
     @Override
     public double filter(double rawAxis)
@@ -37,10 +41,11 @@ public class ExponentialFilter extends Filter
     }
 
     /**
-     * Sets the coefficient of the cubic function
+     * Sets the coefficient of the cubic function of this ExponentialFilter.
      * 
      * @param c
-     *            the coefficient, which must be greater than zero
+     *            The new coefficient for this ExponentialFilter, which must be greater
+     *            than zero
      */
     public void setCoef(double c)
     {

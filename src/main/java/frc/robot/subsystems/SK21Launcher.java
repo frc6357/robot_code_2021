@@ -16,30 +16,37 @@ import frc.robot.commands.LauncherActivateCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
- * This is the launcher subsystem that controls everything that has to do with 
- * the launcher including the transfer from the handling system to the launcher
- * as well the speed of the launcher and the position of the hood to change the set angle.
- * 
- * launcherMotor is the motor used to spin the high energy flywheel launch roller.
- * releaseMotor is the motor driving the roller which feeds balls into the launch roller.
+ * This is the launcher subsystem that controls everything that has to do with the
+ * launcher including releasing a ball into the launcher, the speed of the launcher and
+ * the position of the hood.
  */
 public class SK21Launcher extends SubsystemBase
 {
-    private final CANSparkMax launcherMotor = new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
-    private final CANPIDController PIDControl = launcherMotor.getPIDController();
+    /**
+     * The motor used to spin the high energy flywheel launch roller.
+     */
+    private final CANSparkMax launcherMotor =
+            new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
+    private final CANPIDController pidControl =
+            launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
 
-    private final CANSparkMax releaseMotor = new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
-    private final BaseRoller releaseRoller = new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
+    /**
+     * The motor driving the roller which feeds balls into the launch roller.
+     */
+    private final CANSparkMax releaseMotor =
+            new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
+    private final BaseRoller releaseRoller =
+            new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
 
-    private final DoubleSolenoid hoodMover = new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
+    private final DoubleSolenoid hoodMover = new DoubleSolenoid(Ports.pcm,
+        Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
     private double launcherSetpoint = 0.0;
     private double lastSetSpeed = 0.0;
 
     /**
-     * This does nothing as everything is intialized inside of the class before the constructor is even called so that 
-     * we can guarantee everything is set up the way that we need it to be set up at.
+     * Constructs a new SK21Launcher.
      */
     public SK21Launcher()
     {
@@ -53,7 +60,7 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * This returns the current encoder speed of the launcher
+     * Returns the current encoder speed of the launcher.
      * 
      * @return The current speed of the launcher motor in RPM.
      */
@@ -63,41 +70,47 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * Sets the PID values for the controller
+     * Sets the PID values for the controller.
      */
     private void setPIDValues()
     {
-        PIDControl.setP(TuningParams.LAUNCHER_P_VALUE);
-        PIDControl.setI(TuningParams.LAUNCHER_I_VALUE);
-        PIDControl.setD(TuningParams.LAUNCHER_D_VALUE);
-        PIDControl.setOutputRange(-1, 0);
-        PIDControl.setIZone(TuningParams.LAUNCHER_IZONE_VALUE);
-        PIDControl.setFF(0.0);
+        pidControl.setP(TuningParams.LAUNCHER_P_VALUE);
+        pidControl.setI(TuningParams.LAUNCHER_I_VALUE);
+        pidControl.setD(TuningParams.LAUNCHER_D_VALUE);
+        pidControl.setOutputRange(-1, 0);
+        pidControl.setIZone(TuningParams.LAUNCHER_IZONE_VALUE);
+        pidControl.setFF(0.0);
     }
 
     /**
-     * Sets the setpoint of the PID controller
-     * @param value The set double value
+     * Sets the setpoint of the PID controller.
+     * 
+     * @param value
+     *            The set double value
      */
     private void setSetpoint(double value)
     {
         launcherSetpoint = value * TuningParams.LAUNCHER_MAX_RPM;
-        PIDControl.setReference(launcherSetpoint, ControlType.kVelocity);
+        pidControl.setReference(launcherSetpoint, ControlType.kVelocity);
         SmartDashboard.putNumber("Launcher Setpoint", launcherSetpoint);
     }
 
     /**
-     * It sets the hood according to whatever position it is passed
+     * Sets the hood according to the given value (true = set hood high).
+     * 
+     * @param value
+     *            The value used to determine how the Hood should be set
      */
     public void setHoodForHighAngleShot(boolean value)
     {
-        DoubleSolenoid.Value sendVal = value ? Value.kForward: Value.kReverse;
+        DoubleSolenoid.Value sendVal = value ? Value.kForward : Value.kReverse;
         hoodMover.set(sendVal);
     }
 
     /**
-     * Checks to see what position the hood is in
-     * @return The value of the double solenoid
+     * Returns true if the hood is currently set to shoot high.
+     * 
+     * @return true if the hood is currently set to shoot high; false otherwise
      */
     public boolean isHoodSetToShootHigh()
     {
@@ -106,8 +119,10 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * This sets the speed of the motor using the PID control loop
-     * @param speed The speed that we want the motor to be runinng at
+     * This sets the speed of the motor using the PID control loop.
+     * 
+     * @param speed
+     *            The speed that we want the motor to be runinng at
      */
     public void setLauncherSpeed(double speed)
     {
@@ -116,15 +131,17 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * This returns the last set speed for the launcher
+     * Returns the last set speed for the launcher.
+     * 
      * @return The speed that was last set to the launcher
      */
-    public double getLastSetSpeed() {
+    public double getLastSetSpeed()
+    {
         return lastSetSpeed;
     }
 
     /**
-     * This starts the launcher's release roller motor. Turning it on causes the shooter to
+     * Starts the launcher's release roller motor. Turning it on causes the shooter to
      * fire balls.
      */
     public void startLaunchReleaseMotor()
@@ -133,7 +150,7 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * This stops the launcher's release roller motor.
+     * Stops the launcher's release roller motor.
      */
     public void stopLaunchReleaseMotor()
     {
@@ -143,6 +160,7 @@ public class SK21Launcher extends SubsystemBase
     @Override
     public void periodic()
     {
-        SmartDashboard.putNumber("Launcher Encoder Value", launcherMotorEncoder.getVelocity());
+        SmartDashboard.putNumber("Launcher Encoder Value",
+            launcherMotorEncoder.getVelocity());
     }
 }

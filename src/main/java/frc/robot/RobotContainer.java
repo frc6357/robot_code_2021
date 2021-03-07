@@ -74,7 +74,8 @@ public class RobotContainer {
 
     public static UsbCamera camera;
 
-    private enum AutoCommands {
+    private enum AutoCommands
+    {
         DoNothing, DriveSplineFromJSON, DriveSplineCanned
     };
 
@@ -117,7 +118,8 @@ public class RobotContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-    public RobotContainer() {
+    public RobotContainer()
+    {
 
         configureShuffleboard();
 
@@ -139,7 +141,8 @@ public class RobotContainer {
         }
     }
 
-    private void configureShuffleboard() {
+    private void configureShuffleboard()
+    {
         // auto commands
         autoCommandSelector.setDefaultOption("Do Nothing", AutoCommands.DoNothing);
         autoCommandSelector.addOption("Drive path from JSON", AutoCommands.DriveSplineFromJSON);
@@ -165,11 +168,13 @@ public class RobotContainer {
      * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureButtonBindings()
+    {
         // TODO: Is the following control in the robot driver user interface specification?
         // TODO: Test this implementation to make sure that it works as expected since it's 
         // different from the way we've done this in the past.
-        new JoystickButton(driverJoystick, Button.kBumperRight.value).whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
+        new JoystickButton(driverJoystick, Button.kBumperRight.value)
+            .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
             .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
 
         //Intake
@@ -195,11 +200,13 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
+    public Command getAutonomousCommand()
+    {
 
         var autoSelector = autoCommandSelector.getSelected();
 
-        switch (autoSelector) {
+        switch (autoSelector)
+        {
             case DoNothing:
                 return new DoNothingCommand();
 
@@ -239,7 +246,8 @@ public class RobotContainer {
 
     }
 
-  private Command makeTrajectoryCommand(Trajectory trajectory) {
+  private Command makeTrajectoryCommand(Trajectory trajectory) 
+  {
     RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,

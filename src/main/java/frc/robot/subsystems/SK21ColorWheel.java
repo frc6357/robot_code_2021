@@ -50,7 +50,7 @@ public class SK21ColorWheel extends SubsystemBase
             TuningParams.COLOR_WHEEL_SPEED);
         spinnerLifter = new DoubleSolenoid(Ports.pcm, Ports.colorSpinnerExtend,
             Ports.colorSpinnerRetract);
-        spinnerRollerEncoder = new CANEncoder(spinnerRollerMotor);
+        spinnerRollerEncoder = spinnerRollerMotor.getEncoder();
 
         colorWheelDefaultCommand = new DefaultColorWheelCommand(this);
         setDefaultCommand(colorWheelDefaultCommand);

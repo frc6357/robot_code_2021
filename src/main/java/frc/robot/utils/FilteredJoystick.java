@@ -1,23 +1,13 @@
 package frc.robot.utils;
 
 import frc.robot.utils.filters.Filter;
-
-/**
- * This class is a general class whose function is to filter joystick inputs. The
- * caller can provide a filter object to associate with a particular joystick axis
- * and values read from that axis using getFilteredAxis() will be the result of the
- * filter being applied to the raw axis value.
- *
- * It operates with a generic array that uses Filter class methods to get
- * a filtered double based on which axis is being filtered.
- */
-
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * This class is an extension of Joystick which allows the user
- * to assign inputs filters. These filters will affect the output
- * that each axis returns. 
+ * This class filters Joystick inputs based on a series of provided Filter objects.
+ * 
+ * Values read from an axis using getFilteredAxis() will be the result of the Filter being
+ * applied to the raw axis value if a Filter for that axis has been provided.
  */
 public class FilteredJoystick extends Joystick
 {
@@ -26,43 +16,44 @@ public class FilteredJoystick extends Joystick
     private Filter[] filters;
 
     /**
-     * Default constructor, calls superclass constructor from Joystick
+     * Constructs a new FilteredJoystick for the given Joystick port.
      * 
-     * @param joystick_num
-     *            the port of the joystick being passed
+     * @param joystickNumber
+     *            The port of the Joystick this FilteredJoystick
      */
-    public FilteredJoystick(int joystick_num)
+    public FilteredJoystick(int joystickNumber)
     {
-        super(joystick_num);
+        super(joystickNumber);
         filters = new Filter[MAX_AXES];
     }
 
     /**
-     * This method returns a filtered number from the requested axis The Filter used
-     * is determined from the static mapping
+     * This method returns a filtered number from the requested axis. The Filter used is
+     * determined from the static mapping provided via setFilter.
      * 
      * @param axis
-     *            the axis to get the data from
-     * @return the filtered data from the joystick axis
+     *            The Joystick axis to get the data from
+     * @return The filtered value from the Joystick axis
      */
     public double getFilteredAxis(int axis)
     {
         if (filters[axis] != null)
         {
             return filters[axis].filter(getRawAxis(axis));
-        } else
+        }
+        else
         {
             return getRawAxis(axis);
         }
     }
 
     /**
-     * Sets a pair between a axis and a filter for user's general control
+     * Sets a pair between a axis and a Filter for user's general control.
      * 
      * @param axis
-     *            - the joystick axis to pair with a filter
+     *            The Joystick axis to pair with a Filter
      * @param f
-     *            - the filter to pair with a axis
+     *            The Filter to pair with a axis
      */
     public void setFilter(int axis, Filter f)
     {
@@ -70,12 +61,12 @@ public class FilteredJoystick extends Joystick
     }
 
     /**
-     * Returns the filter object currently associated with a given joystick axis or
-     * null if no filter is currently in use.
+     * Returns the Filter object currently associated with a given joystick axis or null
+     * if no Filter is currently in use.
      *
      * @param axis
-     *            - The joystick axis whose filter is being queried.
-     * @return The axis current filter.
+     *            The joystick axis for which the current paired Filter should be returned
+     * @return The current filter for the given Joystick axis
      */
     public Filter getFilter(int axis)
     {

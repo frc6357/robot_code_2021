@@ -12,6 +12,9 @@ public class BaseRoller
     private double speed = 1.0;
     private double currentSpeed = 0.0;
 
+    /**
+     * Enumerates the possible directions of motion for a BaseRoller.
+     */
     public static enum Direction
     {
         BACKWARD, STOPPED, FORWARD

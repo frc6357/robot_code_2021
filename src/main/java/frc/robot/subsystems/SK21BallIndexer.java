@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -27,9 +26,9 @@ public class SK21BallIndexer extends SubsystemBase
     private final DefaultBallIndexerCommand ballIndexer; //change name
 
     /**
-     * Activates the motor that rotates the ball indexer
+     * Constructs a new SK21BallIndexer.
      */
-    public SK21BallIndexer(Joystick joystickOperator)
+    public SK21BallIndexer()
     {
         indexerMotor =
                 new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
@@ -72,8 +71,8 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * Activates or deactivates the launcher feeder Arm extend - the launcher feeder can
-     * pop out the ball retract - the launcher feeder does nothing
+     * Activates the launcher feeder Arm to extend. The launcher feeder will then nudge
+     * balls into the launcher feeder motor.
      */
     public void extendLauncherFeederArm()
     {
@@ -81,6 +80,10 @@ public class SK21BallIndexer extends SubsystemBase
         feederMotorIsStarted = true;
     }
 
+    /**
+     * Deactivates (retracts) the launcher feeder Arm to extend. The launcher feeder
+     * should no longer nudge balls into the launcher feeder motor.
+     */
     public void retractLauncherFeederArm()
     {
         feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -88,9 +91,7 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * startLauncherFeederMotor activates the motor for the rollers to push out the balls
-     * stopLauncherFeederMotor deactivates the motor and the rollers - this should be used
-     * when the Arm lowers
+     * Activates the motor for the rollers to move balls up to the launcher.
      */
     public void startLauncherFeederMotor()
     {
@@ -98,6 +99,9 @@ public class SK21BallIndexer extends SubsystemBase
         feederMotorIsStarted = true;
     }
 
+    /**
+     * Deactivates the motor for the rollers that move balls up to the launcher.
+     */
     public void stopLauncherFeederMotor()
     {
         feederRoller.setStop();

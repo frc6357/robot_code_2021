@@ -91,7 +91,7 @@ public class RobotContainer {
     // The robot's subsystems are defined here...
     private final SK21Drive m_driveSubsystem = new SK21Drive();
     private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
-    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer(operatorJoystick);
+    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer();
     private final SK21Intake m_Intake = new SK21Intake();
 
     // Intake control buttons

@@ -66,9 +66,10 @@ public class RetailCurveFilter extends Filter
      */
     public void setCoef(double c)
     {
-        if (Math.abs(c) > 10)
-            return;
-        coefficient = c;
+        if (Math.abs(c) <= 10)
+        {
+            coefficient = c;
+        }
     }
 
     /**

@@ -58,7 +58,7 @@ public class SmoothDrive {
         boolean leftIsLarger = Math.abs(delta[LEFT]) > Math.abs(delta[RIGHT]);
         double[] speedNew = leftIsLarger ? calculateNewSpeeds(delta, LEFT, RIGHT)
                 : calculateNewSpeeds(delta, RIGHT, LEFT);
-        drive.SetSpeed(speedNew[LEFT], speedNew[RIGHT]);
+        drive.setSpeed(speedNew[LEFT], speedNew[RIGHT]);
         speedCurrentTarget = speedNew;
     }
 

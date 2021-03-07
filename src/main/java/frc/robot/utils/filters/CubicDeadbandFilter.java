@@ -1,7 +1,5 @@
 package frc.robot.utils.filters;
 
-import java.lang.Math;
-
 /**
  * CubicDeadbandFilter can filter a value through a cubic relation, but also applies a
  * deadband to the incoming value.

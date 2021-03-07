@@ -38,7 +38,7 @@ public class BaseDrive
      *            drivetrain - The speed that the motor controller is going to be set to,
      *            1 for full forwards and -1 for full back
      */
-    public void SetSpeed(double speedLeft, double speedRight)
+    public void setSpeed(double speedLeft, double speedRight)
     {
         driveDiff.tankDrive(speedLeft, speedRight);
     }

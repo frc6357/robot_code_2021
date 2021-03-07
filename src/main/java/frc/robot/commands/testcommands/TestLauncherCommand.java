@@ -6,10 +6,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Launcher;
 
+/**
+ * TestLauncherCommand is a Command that can be used to test the SK21Launcher subsystem.
+ */
 public class TestLauncherCommand extends CommandBase
 {
     /*
-     * The launch subsystem under test
+     * The launch subsystem under test.
      */
     private final SK21Launcher launcherSubsystem;
 
@@ -29,9 +32,10 @@ public class TestLauncherCommand extends CommandBase
     private NetworkTableEntry hoodMoverEntry;
 
     /**
-     * Creates a new ExampleCommand.
+     * Creates a new TestLauncherCommand that will operate on the given Launcher
+     * Subsystem.
      *
-     * @param subsystem
+     * @param launcherSubsystem
      *            The subsystem used by this command.
      */
     public TestLauncherCommand(SK21Launcher launcherSubsystem)

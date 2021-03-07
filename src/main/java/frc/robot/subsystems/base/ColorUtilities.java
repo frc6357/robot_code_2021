@@ -5,13 +5,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Static methods related to Color.
  */
-public class ColorUtilities
+public final class ColorUtilities
 {
+
+    private ColorUtilities()
+    {
+        //Do not construct utility class
+    }
+
     /**
-     * Takes in a color and reports back to Smart Dashboard to see what color the
-     * sensor is detecting.
+     * Takes in a color and reports back to Smart Dashboard to see what color the sensor
+     * is detecting.
      * 
-     * @param color The color to be reported to the SmartDashboard
+     * @param color
+     *            The color to be reported to the SmartDashboard
      */
     public static void reportColor(Color2021 color)
     {

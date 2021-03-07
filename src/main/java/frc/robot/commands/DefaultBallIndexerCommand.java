@@ -10,6 +10,13 @@ import frc.robot.subsystems.SK21BallIndexer;
 public class DefaultBallIndexerCommand extends CommandBase
 {
 
+    /**
+     * Constructs a new DefaultBallIndexerCommand for the given Ball Indexer Subsystem.
+     * 
+     * @param subsystem
+     *            The Ball Indexer Subsystem on which this DefaultBallIndexerCommand will
+     *            operate
+     */
     public DefaultBallIndexerCommand(SK21BallIndexer subsystem)
     {
         // Use addRequirements() here to declare subsystem dependencies.

@@ -30,7 +30,8 @@ public class ColorSensor2021
      * This is the constructor that needs a I2C port to be passed in when creating an
      * instance of ColorSensor2021.
      * 
-     * @param port The I2C Port to which the ColorSensor is attached.
+     * @param port
+     *            The I2C Port to which the ColorSensor is attached
      */
     public ColorSensor2021(I2C.Port port)
     {
@@ -44,6 +45,8 @@ public class ColorSensor2021
 
     /**
      * This method will return the color that the ColorSensorV3 is reading.
+     * 
+     * @return The color that the ColorSensorV3 is reading
      */
     public Color2021 getGameColor()
     {
@@ -75,6 +78,9 @@ public class ColorSensor2021
     /**
      * This method returns a normalized integer value that tells how far the ColorSensorV3
      * needs to go before it can accuratly read the colors.
+     * 
+     * @return The normalized integer value that tells how far the ColorSensorV3 needs to
+     *         go before it can accuratly read the colors
      */
     public int getProximity()
     {

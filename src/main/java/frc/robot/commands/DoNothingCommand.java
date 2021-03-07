@@ -6,8 +6,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-// A completely generic command with no subsystem depdendency, which merely does absolutely nothing
-// other than to tell the scheduler that it is immediately finished.
+/**
+ * A generic command with no subsystem depdendency, which merely does absolutely nothing
+ * other than to tell the scheduler that it is immediately finished.
+ */
 public class DoNothingCommand extends CommandBase
 {
     // Returns true when the command should end.

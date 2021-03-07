@@ -12,9 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * This command will be used to set the speeds of the of the launcher motor to
  * the desired speed, out of the desired list of speeds.
  */
-public class LauncherSpeedCommand extends CommandBase {
+public class LauncherSpeedCommand extends CommandBase
+{
     
-    private final SK21Launcher m_subsystem;
+    private final SK21Launcher launcherSubsystem;
     private int speedIndex = 0;
 
     private final double[] possibleSpeeds = {TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW,
@@ -28,9 +29,10 @@ public class LauncherSpeedCommand extends CommandBase {
      *
      * @param subsystem The launcher subsystem needed by this command to control the launcher.
      */
-    public LauncherSpeedCommand(SK21Launcher subsystem) {
+    public LauncherSpeedCommand(SK21Launcher subsystem)
+    {
         // Sets up the required variables from the constructer for our use
-        m_subsystem = subsystem;
+        launcherSubsystem = subsystem;
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
@@ -38,17 +40,19 @@ public class LauncherSpeedCommand extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
+    public void initialize()
+    {
         // Sets the speed for the launcher by going through the 
         // possibleSpeed arrays and sets up the index for the
         // next time it is called.
-        m_subsystem.setLauncherSpeed(possibleSpeeds[speedIndex]);
+        launcherSubsystem.setLauncherSpeed(possibleSpeeds[speedIndex]);
         speedIndex = (speedIndex + 1) % 4;
     }
 
     // Returns true when the command should end.
     @Override
-    public boolean isFinished() {
+    public boolean isFinished()
+    {
         // The command only sets the speeds and does nothing else, so the command ends immediately
         return true;
     }

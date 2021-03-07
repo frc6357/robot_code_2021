@@ -31,6 +31,7 @@ public class LauncherActivateCommand extends CommandBase
      * Creates a new LauncherActivateCommand.
      *
      * @param launcherSubsystem The subsystem used by this command.
+     * @param endable ??
      */
     public LauncherActivateCommand(SK21Launcher launcherSubsystem, boolean endable) 
     {

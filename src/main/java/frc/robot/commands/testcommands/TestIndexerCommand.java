@@ -49,9 +49,14 @@ public class TestIndexerCommand extends CommandBase
         indexerSubsystem.indexerRoller.setForwards();
     }
 
-    public void setForwardIndexMotor(){
-        indexerSubsystem.indexerMotor.set(indexerSpinEntry.getValue().getDouble());
-        //indexerMotor.set(ballHandlingEntry.getValue().getDouble());
+    /**
+     * Sets the value of the indexerMotor in the Indexer Subsystem to be the value
+     * provided for that motor from SmartDashboard.
+     */
+    public void setForwardIndexMotor()
+    {
+        indexerSubsystem.indexerMotor
+            .set(indexerSpinEntry.getValue().getDouble());
     }
 
     /**
@@ -59,7 +64,7 @@ public class TestIndexerCommand extends CommandBase
      */
     public void stopRoller()
     {
-      indexerSubsystem.indexerRoller.setStop();
+        indexerSubsystem.indexerRoller.setStop();
     }
 
     // Called when the command is initially scheduled.

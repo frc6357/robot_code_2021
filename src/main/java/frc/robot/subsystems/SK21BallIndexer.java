@@ -21,9 +21,9 @@ public class SK21BallIndexer extends SubsystemBase
     private BaseRoller feederRoller;
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
-    private boolean feederArmIsDropped = false;
+    private boolean feederArmIsExtended = false; 
     public final DoubleSolenoid feederArmSolenoid;
-    private final DefaultBallIndexerCommand ballIndexer; //change name
+    private final DefaultBallIndexerCommand ballIndexer; 
 
     /**
      * Constructs a new SK21BallIndexer.
@@ -71,27 +71,29 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * Activates the launcher feeder Arm to extend. The launcher feeder will then nudge
-     * balls into the launcher feeder motor.
+     * Activates the launcher feeder Arm to extend. The launcher feeder will then pop
+     * balls into the launcher. The rollers that are run by the motor do this
+     * action not the arm itself. 
      */
     public void extendLauncherFeederArm()
     {
         feederArmSolenoid.set(DoubleSolenoid.Value.kForward);
-        feederMotorIsStarted = true;
+        feederArmIsExtended = true;
     }
 
     /**
-     * Deactivates (retracts) the launcher feeder Arm to extend. The launcher feeder
-     * should no longer nudge balls into the launcher feeder motor.
+     * Deactivates (retracts) the launcher feeder Arm to extend. When the arm is
+     * retracted the launcher feeder should no longer pop balls into the 
+     * launcher. 
      */
     public void retractLauncherFeederArm()
     {
         feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
-        feederMotorIsStarted = false;
+        feederArmIsExtended = false;
     }
 
     /**
-     * Activates the motor for the rollers to move balls up to the launcher.
+     * Activates the motor for the rollers to move/pop balls up to the launcher.
      */
     public void startLauncherFeederMotor()
     {
@@ -100,7 +102,7 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * Deactivates the motor for the rollers that move balls up to the launcher.
+     * Deactivates the motor for the rollers that move/pop balls up to the launcher.
      */
     public void stopLauncherFeederMotor()
     {
@@ -125,7 +127,7 @@ public class SK21BallIndexer extends SubsystemBase
      */
     public boolean isLauncherFeederArmExtended()
     {
-        return feederMotorIsStarted;
+        return feederArmIsExtended;
     }
 
 }

@@ -25,21 +25,21 @@ public class SK21Launcher extends SubsystemBase
     /**
      * The motor used to spin the high energy flywheel launch roller.
      */
-    private final CANSparkMax launcherMotor =
+    public final CANSparkMax launcherMotor =
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
-    private final CANPIDController pidControl =
+    public final CANPIDController pidControl =
             launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
 
     /**
      * The motor driving the roller which feeds balls into the launch roller.
      */
-    private final CANSparkMax releaseMotor =
+    public final CANSparkMax releaseMotor =
             new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
-    private final BaseRoller releaseRoller =
+    public final BaseRoller releaseRoller =
             new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
 
-    private final DoubleSolenoid hoodMover = new DoubleSolenoid(Ports.pcm,
+    public final DoubleSolenoid hoodMover = new DoubleSolenoid(Ports.pcm,
         Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
     private double launcherSetpoint = 0.0;

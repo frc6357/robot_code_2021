@@ -1,6 +1,7 @@
 package frc.robot.commands.testcommands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -44,28 +45,28 @@ public class TestIndexerCommand extends CommandBase
         addRequirements(indexerSubsystem);
     }
 
-    public void startRoller()
-    {
-        indexerSubsystem.indexerRoller.setForwards();
-    }
+    // public void startRoller()
+    // {
+    //     indexerSubsystem.indexerRoller.setForwards();
+    // }
 
-    /**
-     * Sets the value of the indexerMotor in the Indexer Subsystem to be the value
-     * provided for that motor from SmartDashboard.
-     */
-    public void setForwardIndexMotor()
-    {
-        indexerSubsystem.indexerMotor
-            .set(indexerSpinEntry.getValue().getDouble());
-    }
+    // /**
+    //  * Sets the value of the indexerMotor in the Indexer Subsystem to be the value
+    //  * provided for that motor from SmartDashboard.
+    //  */
+    // public void setForwardIndexMotor()
+    // {
+    //     indexerSubsystem.indexerMotor
+    //         .set(indexerSpinEntry.getValue().getDouble());
+    // }
 
     /**
      * When activated the rollers are set to run at 0 speed
      */
-    public void stopRoller()
-    {
-        indexerSubsystem.indexerRoller.setStop();
-    }
+    // public void stopRoller()
+    // {
+    //     indexerSubsystem.indexerRoller.setStop();
+    // }
 
     // Called when the command is initially scheduled.
     @Override
@@ -87,7 +88,12 @@ public class TestIndexerCommand extends CommandBase
     @Override
     public void execute()
     {
-        //TODO: Attach motors/solenoid to the NetworkTableEntry objects
+        indexerSubsystem.indexerMotor.set(indexerMotorEntry.getValue().getDouble());
+        indexerSubsystem.indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
+
+        DoubleSolenoid.Value value = indexerLaunchArmEntry.getValue().getBoolean() ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+        
+        indexerSubsystem.feederArmSolenoid.set(value);
     }
 
     // False as test commands are intended to run the entire test mode.

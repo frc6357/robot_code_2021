@@ -1,6 +1,7 @@
 package frc.robot.commands.testcommands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -56,7 +57,14 @@ public class TestIntakeCommand extends CommandBase
     @Override
     public void execute()
     {
-        //TODO: Attach motors/solenoid to the NetworkTableEntry objects
+
+        intakeSubsystem.intakeRoller
+            .setSpeed(intakeRollerEntry.getValue().getDouble());
+
+        DoubleSolenoid.Value value = intakeDeployEntry.getValue().getBoolean()
+            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+
+        intakeSubsystem.intakeMover.set(value);
     }
 
     // False as test commands are intended to run the entire test mode.

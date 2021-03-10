@@ -212,7 +212,7 @@ public class RobotContainer {
 
             case DriveSplineFromJSON:
                 // TODO: This path (loading the path from a JSON) does not seem to allow us to specify
-                // constraints via a TrajectoryConfig. Are these baked into the JSON files already?
+                // constraints via a TrajectoryConfig. Are these baked into the JSON files already? - Yes
                 File splineFile = splineCommandSelector.getSelected();
                 Trajectory trajectory = new Trajectory();
                 try {

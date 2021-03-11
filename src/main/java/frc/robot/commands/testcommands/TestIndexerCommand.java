@@ -1,7 +1,6 @@
 package frc.robot.commands.testcommands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,11 +20,6 @@ public class TestIndexerCommand extends CommandBase
      * The NetworkTableEntry for the Indexer spin motor.
      */
     private NetworkTableEntry indexerSpinEntry;
-
-    /**
-     * The NetworkTableEntry for the Indexer Launch Arm Solenoid.
-     */
-    private NetworkTableEntry indexerLaunchArmEntry;
 
     /**
      * The NetworkTableEntry for the Indexer launch motor.
@@ -76,10 +70,6 @@ public class TestIndexerCommand extends CommandBase
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1)
             .withPosition(0, 0).getEntry();
 
-        indexerLaunchArmEntry = Shuffleboard.getTab("Indexer").add("Arm", 3)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1)
-            .withPosition(0, 4).getEntry();
-
         indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3)
             .withSize(1, 1).withPosition(0, 6).getEntry();
     }
@@ -90,10 +80,7 @@ public class TestIndexerCommand extends CommandBase
     {
         indexerSubsystem.indexerMotor.set(indexerMotorEntry.getValue().getDouble());
         indexerSubsystem.indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
-
-        DoubleSolenoid.Value value = indexerLaunchArmEntry.getValue().getBoolean() ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
         
-        indexerSubsystem.feederArmSolenoid.set(value);
     }
 
     // False as test commands are intended to run the entire test mode.

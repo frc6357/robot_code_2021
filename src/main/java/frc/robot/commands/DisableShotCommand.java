@@ -31,7 +31,6 @@ public class DisableShotCommand extends CommandBase
     @Override
     public void initialize()
     {
-        indexerSubsystem.retractLauncherFeederArm();
         indexerSubsystem.stopLauncherFeederMotor();
     }
 

@@ -36,7 +36,6 @@ public class TriggerShotCommand extends CommandBase
     public void initialize()
     {
         indexerSubsystem.startLauncherFeederMotor();
-        indexerSubsystem.extendLauncherFeederArm();
     }
 
     // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).

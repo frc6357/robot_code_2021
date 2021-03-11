@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -21,8 +20,6 @@ public class SK21BallIndexer extends SubsystemBase
     private BaseRoller feederRoller;
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
-    private boolean feederArmIsExtended = false; 
-    public final DoubleSolenoid feederArmSolenoid;
     private final DefaultBallIndexerCommand ballIndexer; 
 
     /**
@@ -36,8 +33,6 @@ public class SK21BallIndexer extends SubsystemBase
         indexerRoller =
                 new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
-        feederArmSolenoid = new DoubleSolenoid(Ports.pcm,
-            Ports.launcherFeederRetract, Ports.launcherFeederExtend);
         ballIndexer = new DefaultBallIndexerCommand(this);
         resetDefaultCommand();
     }
@@ -76,28 +71,6 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * Activates the launcher feeder Arm to extend. The launcher feeder will then pop
-     * balls into the launcher. The rollers that are run by the motor do this
-     * action not the arm itself. 
-     */
-    public void extendLauncherFeederArm()
-    {
-        feederArmSolenoid.set(DoubleSolenoid.Value.kForward);
-        feederArmIsExtended = true;
-    }
-
-    /**
-     * Deactivates (retracts) the launcher feeder Arm to extend. When the arm is
-     * retracted the launcher feeder should no longer pop balls into the 
-     * launcher. 
-     */
-    public void retractLauncherFeederArm()
-    {
-        feederArmSolenoid.set(DoubleSolenoid.Value.kReverse);
-        feederArmIsExtended = false;
-    }
-
-    /**
      * Activates the motor for the rollers to move/pop balls up to the launcher.
      */
     public void startLauncherFeederMotor()
@@ -125,14 +98,5 @@ public class SK21BallIndexer extends SubsystemBase
         return feederMotorIsStarted;
     }
 
-    /**
-     * Returns current state of launcher feeder
-     * 
-     * @return current state of launcher feeder (true=yes/false=no)
-     */
-    public boolean isLauncherFeederArmExtended()
-    {
-        return feederArmIsExtended;
-    }
 
 }

@@ -36,6 +36,16 @@ public class SK21Intake extends SubsystemBase
     private final DoNothingCommand intake;
 
     /**
+     * Will let us know the state of the intake motor.
+     */
+    private boolean intakeMotorIsStarted = false;
+
+    /**
+     * Will let us know if the intake rollers are reversed or forward. 
+     */
+    private boolean intakeIsReversed = false;
+
+    /**
      * Sets up the intake control such that it takes the values that are declared for it
      * in Ports and assigns them to a BaseRoller and a double solenoid.
      */
@@ -82,6 +92,7 @@ public class SK21Intake extends SubsystemBase
     public void startIntakeRoller()
     {
         intakeRoller.setForwards();
+        intakeMotorIsStarted = true;
     }
 
     /**
@@ -90,6 +101,7 @@ public class SK21Intake extends SubsystemBase
     public void reverseIntakeRoller()
     {
         intakeRoller.setBackwards();
+        intakeIsReversed = true; 
     }
 
     /**
@@ -98,7 +110,9 @@ public class SK21Intake extends SubsystemBase
     public void stopIntakeRoller()
     {
         intakeRoller.setStop();
+        intakeMotorIsStarted = false;
     }
+
 
     /**
      * Checks whether the intake is extended or retracted based on the current solenoid
@@ -120,6 +134,26 @@ public class SK21Intake extends SubsystemBase
     public double getIntakeRollerSpeed()
     {
         return intakeRollerEncoder.getVelocity();
+    }
+
+     /**
+     * Returns current state of the Intake Motor
+     * 
+     * @return current state of the intake motor (true=yes/false=no)
+     */
+    public boolean isIntakeMotorStarted()
+    {
+        return intakeMotorIsStarted;
+    }
+
+     /**
+     * Returns current state of the Intake Direction
+     * 
+     * @return current direction of intake rollers (true=yes/false=no)
+     */
+    public boolean isIntakeReversed()
+    {
+        return intakeIsReversed;
     }
 
 }

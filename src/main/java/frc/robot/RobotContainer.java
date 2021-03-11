@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -36,7 +37,6 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.DefaultDriveCommand;
@@ -94,9 +94,9 @@ public class RobotContainer {
   
     // The robot's subsystems are defined here...
     private final SK21Drive m_driveSubsystem = new SK21Drive();
-    private final SK21Launcher m_launcherSubsystem = new SK21Launcher();
-    private final SK21BallIndexer m_ballIndexerSubsystem = new SK21BallIndexer();
-    private final SK21Intake m_Intake = new SK21Intake();
+    private Optional<SK21Launcher> m_launcherSubsystem = Optional.empty();
+    private Optional<SK21BallIndexer> m_ballIndexerSubsystem = Optional.empty();
+    private Optional<SK21Intake> m_Intake = Optional.empty();
 
     // Intake control buttons
     private final Dpad dpad = new Dpad(operatorJoystick);
@@ -126,6 +126,10 @@ public class RobotContainer {
 
         configureShuffleboard();
 
+        m_launcherSubsystem  = Optional.of(new SK21Launcher());
+        m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
+        m_Intake  = Optional.of(new SK21Intake());
+
         // Configure the button bindings
         configureButtonBindings();
     
@@ -153,9 +157,14 @@ public class RobotContainer {
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
-        File f = new File(Constants.kSplineDirectory);
 
-        File[] pathNames = f.listFiles();
+        File splineDirectory = new File(Constants.kSplineDirectory);
+
+        if(!splineDirectory.exists()){
+            splineDirectory = new File(Constants.kSplineDirectoryWindows);
+        }
+        
+        File[] pathNames = splineDirectory.listFiles();
             for (File pathname : pathNames) {
             // Print the names of files and directories
             System.out.println(pathname);
@@ -181,21 +190,31 @@ public class RobotContainer {
             .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
 
         //Intake
-        extendIntakeButton.whenPressed(new ExtendIntakeCommand(m_Intake));
-        retractIntakeButton.whenPressed(new RetractIntakeCommand(m_Intake));
-        reverseIntake.whenPressed(new ReverseIntakeCommand(m_Intake));
-        reverseIntake.whenReleased(new DefaultIntakeCommand(m_Intake));
+
+        if(m_Intake.isPresent()){
+            var intake = m_Intake.get();
+            extendIntakeButton.whenPressed(new ExtendIntakeCommand(intake));
+            retractIntakeButton.whenPressed(new RetractIntakeCommand(intake));
+            reverseIntake.whenPressed(new ReverseIntakeCommand(intake));
+            reverseIntake.whenReleased(new DefaultIntakeCommand(intake));
+        }
 
         //Indexer
-        startIndexer.whenPressed(new StartIndexerCommand(m_ballIndexerSubsystem));
-        stopIndexer.whenPressed(new StopIndexerCommand(m_ballIndexerSubsystem));
-        launchBall.whenPressed(new TriggerShotCommand(m_ballIndexerSubsystem));
-        launchBall.whenReleased(new DisableShotCommand(m_ballIndexerSubsystem));
+        if(m_ballIndexerSubsystem.isPresent()){
+            var indexer = m_ballIndexerSubsystem.get();
+            startIndexer.whenPressed(new StartIndexerCommand(indexer));
+            stopIndexer.whenPressed(new StopIndexerCommand(indexer));
+            launchBall.whenPressed(new TriggerShotCommand(indexer));
+            launchBall.whenReleased(new DisableShotCommand(indexer));
+        }
 
         //Launcher
-        setHighAngle.whenPressed(new SetHoodHighShotCommand(m_launcherSubsystem));
-        setLowAngle.whenPressed(new SetHoodLowShotCommand(m_launcherSubsystem));
-        toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(m_launcherSubsystem));
+        if(m_launcherSubsystem.isPresent()){
+            var launcher = m_launcherSubsystem.get();
+            setHighAngle.whenPressed(new SetHoodHighShotCommand(launcher));
+            setLowAngle.whenPressed(new SetHoodLowShotCommand(launcher));
+            toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(launcher));
+        }
     }
 
     /**
@@ -268,14 +287,33 @@ public class RobotContainer {
   }
 
   public void enterTestMode(){
-    m_Intake.setDefaultCommand(new TestIntakeCommand(m_Intake));
-    m_ballIndexerSubsystem.setDefaultCommand(new TestIndexerCommand(m_ballIndexerSubsystem));
-    m_launcherSubsystem.setDefaultCommand(new TestLauncherCommand(m_launcherSubsystem));
+
+    if(m_Intake.isPresent()){
+        var intake = m_Intake.get();
+        intake.setDefaultCommand(new TestIntakeCommand(intake)); 
+    }
+    if(m_ballIndexerSubsystem.isPresent()){
+        var indexer = m_ballIndexerSubsystem.get();
+        indexer.setDefaultCommand(new TestIndexerCommand(indexer));
+    }
+    if(m_launcherSubsystem.isPresent()){
+        var launcher = m_launcherSubsystem.get();
+        launcher.setDefaultCommand(new TestLauncherCommand(launcher));
+    }
   }
 
   public void exitTestMode(){
-      m_ballIndexerSubsystem.resetDefaultCommand();
-      m_launcherSubsystem.resetDefaultCommand();
-      m_Intake.resetDefaultCommand();
-  }
+    if(m_Intake.isPresent()){
+        var intake = m_Intake.get();
+        intake.resetDefaultCommand();
+    }
+    if(m_ballIndexerSubsystem.isPresent()){
+        var indexer = m_ballIndexerSubsystem.get();
+        indexer.resetDefaultCommand();
+    }
+    if(m_launcherSubsystem.isPresent()){
+        var launcher = m_launcherSubsystem.get();
+        launcher.resetDefaultCommand();
+    }
+    }
 }

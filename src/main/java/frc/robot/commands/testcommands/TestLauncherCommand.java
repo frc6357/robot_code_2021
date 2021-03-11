@@ -1,6 +1,7 @@
 package frc.robot.commands.testcommands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -31,6 +32,8 @@ public class TestLauncherCommand extends CommandBase
      */
     private NetworkTableEntry hoodMoverEntry;
 
+    private NetworkTableEntry releaseRollerEntry;
+
     /**
      * Creates a new TestLauncherCommand that will operate on the given Launcher
      * Subsystem.
@@ -60,6 +63,11 @@ public class TestLauncherCommand extends CommandBase
         releaseMotorEntry = Shuffleboard.getTab("Launcher")
             .add("releaseMotor", 3).withWidget(BuiltInWidgets.kNumberSlider)
             .withSize(1, 1).withPosition(0, 6).getEntry();
+        releaseRollerEntry = Shuffleboard.getTab("Launcher")
+            .add("releaseRoller", 3).withWidget(BuiltInWidgets.kNumberSlider)
+            .withSize(1, 1).withPosition(3, 6).getEntry();
+
+        
 
     }
 
@@ -67,7 +75,16 @@ public class TestLauncherCommand extends CommandBase
     @Override
     public void execute()
     {
-        //TODO: Attach motors/solenoid to the NetworkTableEntry objects
+        
+
+        launcherSubsystem.launcherMotor.set(launcherMotorEntry.getValue().getDouble());
+        launcherSubsystem.releaseMotor.set(releaseMotorEntry.getValue().getDouble());
+        launcherSubsystem.releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
+
+        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean() ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+        
+        launcherSubsystem.hoodMover.set(value);
+
     }
 
     // Called once the command ends or is interrupted.

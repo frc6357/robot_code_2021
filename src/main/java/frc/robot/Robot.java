@@ -138,6 +138,7 @@ public class Robot extends TimedRobot
         {
             m_autonomousCommand.cancel();
         }
+
     }
 
     /**
@@ -153,6 +154,7 @@ public class Robot extends TimedRobot
     public void testInit() 
     {
         // Cancels all running commands at the start of test mode.
+        m_robotContainer.enterTestMode();
         CommandScheduler.getInstance().cancelAll();
         
     }

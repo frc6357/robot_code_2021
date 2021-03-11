@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
+import frc.robot.commands.DoNothingCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
@@ -32,6 +33,8 @@ public class SK21Intake extends SubsystemBase
      */
     private final CANEncoder intakeRollerEncoder;
 
+    private final DoNothingCommand intake;
+
     /**
      * Sets up the intake control such that it takes the values that are declared for it
      * in Ports and assigns them to a BaseRoller and a double solenoid.
@@ -45,7 +48,15 @@ public class SK21Intake extends SubsystemBase
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop,
             Ports.intakeMoverRaise);
-    }
+            intake = new DoNothingCommand();
+            resetDefaultCommand();
+        }
+    
+        public void resetDefaultCommand()
+        {
+            setDefaultCommand(intake);
+        }
+    
 
     /**
      * When extend intake is called the solenoid will activate and it will push the intake

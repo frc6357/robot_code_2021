@@ -52,6 +52,9 @@ import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
+import frc.robot.commands.testcommands.TestIndexerCommand;
+import frc.robot.commands.testcommands.TestIntakeCommand;
+import frc.robot.commands.testcommands.TestLauncherCommand;
 import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.subsystems.SK21Intake;
@@ -262,5 +265,17 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+  }
+
+  public void enterTestMode(){
+    m_Intake.setDefaultCommand(new TestIntakeCommand(m_Intake));
+    m_ballIndexerSubsystem.setDefaultCommand(new TestIndexerCommand(m_ballIndexerSubsystem));
+    m_launcherSubsystem.setDefaultCommand(new TestLauncherCommand(m_launcherSubsystem));
+  }
+
+  public void exitTestMode(){
+      m_ballIndexerSubsystem.resetDefaultCommand();
+      m_launcherSubsystem.resetDefaultCommand();
+      m_Intake.resetDefaultCommand();
   }
 }

@@ -44,6 +44,7 @@ public class SK21Launcher extends SubsystemBase
 
     private double launcherSetpoint = 0.0;
     private double lastSetSpeed = 0.0;
+    private LauncherActivateCommand defaultCommand; 
 
     /**
      * Constructs a new SK21Launcher.
@@ -56,7 +57,14 @@ public class SK21Launcher extends SubsystemBase
         launcherMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
         setPIDValues();
         setHoodForHighAngleShot(false);
-        setDefaultCommand(new LauncherActivateCommand(this, false));
+
+        defaultCommand = new LauncherActivateCommand(this, false);
+        resetDefaultCommand();
+    }
+
+    public void resetDefaultCommand()
+    {
+        setDefaultCommand(defaultCommand);
     }
 
     /**

@@ -39,6 +39,11 @@ public class SK21BallIndexer extends SubsystemBase
         feederArmSolenoid = new DoubleSolenoid(Ports.pcm,
             Ports.launcherFeederRetract, Ports.launcherFeederExtend);
         ballIndexer = new DefaultBallIndexerCommand(this);
+        resetDefaultCommand();
+    }
+
+    public void resetDefaultCommand()
+    {
         setDefaultCommand(ballIndexer);
     }
 

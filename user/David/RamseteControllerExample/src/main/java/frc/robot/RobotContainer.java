@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
+// import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -27,14 +27,14 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.List;
-import edu.wpi.first.wpilibj.SlewRateLimiter;
+// import edu.wpi.first.wpilibj.SlewRateLimiter;
 import frc.robot.filters.FilterDeadband;
 import frc.robot.utils.FilteredJoystick;
-import java.io.IOException;
-import java.nio.file.*;
-import java.io.File;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+// import java.io.IOException;
+// import java.nio.file.*;
+// import java.io.File;
+// import edu.wpi.first.wpilibj.Filesystem;
+// import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 
 
 /**
@@ -53,8 +53,8 @@ public class RobotContainer {
   private final FilterDeadband m_deadbandTurn     = new FilterDeadband(0.05, 1.0);
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
+  // private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+  // private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
 
 //   private Trajectory m_trajectory;
 //   private final String trajectoryJSON = "/home/lvuser/deploy/paths/StartupPath1.wpilib.json";
@@ -132,14 +132,26 @@ public class RobotContainer {
     {
      System.out.println("No trajectory file found!" + ex);
     }*/
-
+    // One meter forwards
     Trajectory exampleTrajectory = 
+            TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), 
+            List.of(new Translation2d(0,1)),
+            new Pose2d(0, 1, new Rotation2d(0)), config);
+
+    // One meter forwards and one meter back
+    /*Trajectory exampleTrajectory = 
+            TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
+            List.of(new Translation2d(0,1), new Translation2d(0,0)),
+            new Pose2d(0, 0, new Rotation2d(0)), config);*/
+
+    // S-Curve
+    /*Trajectory exampleTrajectory = 
             TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
             // List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
             List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
             // new Pose2d(3, 0, new Rotation2d(0)),
             new Pose2d(5, 0, new Rotation2d(0)),
-            config);
+            config);*/
     RamseteCommand ramseteCommand =
         new RamseteCommand(
             exampleTrajectory,

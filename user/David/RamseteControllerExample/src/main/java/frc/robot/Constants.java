@@ -39,8 +39,8 @@ public final class Constants {
         (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveGearReduction);
 
     // Data taken from characterization analysis on 03/02/2021
-    public static final double ksVolts = 0.516;
-    public static final double kvVoltSecondsPerMeter = 2.38;
+    public static final double ksVolts = 0.517;
+    public static final double kvVoltSecondsPerMeter = 2.37;
     public static final double kaVoltSecondsSquaredPerMeter = 0.133;
     public static final double kPDriveVel = 1.88;
   }

@@ -79,7 +79,7 @@ public class RobotContainer {
 
     private enum AutoCommands
     {
-        DoNothing, DriveSplineFromJSON, DriveSplineCanned
+        DoNothing, DriveSplineFromJSON, DriveSplineCanned, Drive1mForwardBackward, DriveBounce
     };
 
     private SendableChooser<AutoCommands> autoCommandSelector = new SendableChooser<AutoCommands>();
@@ -154,6 +154,8 @@ public class RobotContainer {
         autoCommandSelector.setDefaultOption("Do Nothing", AutoCommands.DoNothing);
         autoCommandSelector.addOption("Drive path from JSON", AutoCommands.DriveSplineFromJSON);
         autoCommandSelector.addOption("Drive canned path", AutoCommands.DriveSplineCanned);
+        autoCommandSelector.addOption("Drive forwards then backwards 1m", AutoCommands.Drive1mForwardBackward);
+        autoCommandSelector.addOption("Drive bounce path", AutoCommands.DriveBounce);
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
@@ -165,7 +167,7 @@ public class RobotContainer {
         }
         
         File[] pathNames = splineDirectory.listFiles();
-            for (File pathname : pathNames) {
+        for (File pathname : pathNames) {
             // Print the names of files and directories
             System.out.println(pathname);
             splineCommandSelector.addOption(pathname.getName(), pathname);
@@ -224,7 +226,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand()
     {
-
         var autoSelector = autoCommandSelector.getSelected();
 
         switch (autoSelector)
@@ -233,16 +234,10 @@ public class RobotContainer {
                 return new DoNothingCommand();
 
             case DriveSplineFromJSON:
-                // TODO: This path (loading the path from a JSON) does not seem to allow us to specify
-                // constraints via a TrajectoryConfig. Are these baked into the JSON files already? - Yes
+                // Note that the drive constraints are baked into the PathWeaver output so they are not
+                // mentioned here.
                 File splineFile = splineCommandSelector.getSelected();
-                Trajectory trajectory = new Trajectory();
-                try {
-                    Path trajectoryPath = splineFile.toPath();
-                    trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-                    } catch (IOException ex) {
-                        DriverStation.reportError("Unable to open trajectory: " + splineFile, ex.getStackTrace());
-                    }
+                Trajectory trajectory = makeTrajectoryFromJSON(splineFile);
                 return makeTrajectoryCommand(trajectory);
             
             case DriveSplineCanned:
@@ -262,11 +257,39 @@ public class RobotContainer {
                                 List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
                                 new Pose2d(5, 0, new Rotation2d(0)), config);
                 return makeTrajectoryCommand(cannedTrajectory);
+
+            case Drive1mForwardBackward:
+                // TODO: Create 2 trajectory commands, one from the drive forward JSON, one from the drive
+                // backwards JSON, then create a compound/sequential command to drive these one after the
+                // other, returning that command.
+                return new DoNothingCommand();
+                
+            case DriveBounce:
+                // TODO: Create 4 trajectory commands, one from each of the bounce segment paths,
+                // then create a compound/sequential command to drive these one after the
+                // other, returning that command.
+                return new DoNothingCommand();
+
+            default:
+                DriverStation.reportError("Uncoded selection from autoSelector chooser!", false);
+                return new DoNothingCommand();
+
+        }
     }
 
-    return new DoNothingCommand();
-
+    private Trajectory makeTrajectoryFromJSON(File trajectoryJSON) {
+    Trajectory trajectory = new Trajectory();
+    try {
+         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
     }
+    catch (IOException ex) {
+        // TODO: If we hit this exception, will the software exit immediately or will we end up
+        // returning a bogus trajectory object? If the latter, this is dangerous and will need 
+        // fixed!
+        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
+    }
+    return trajectory;
+  }
 
   private Command makeTrajectoryCommand(Trajectory trajectory) 
   {

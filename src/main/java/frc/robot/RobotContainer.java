@@ -112,8 +112,8 @@ public class RobotContainer {
             Ports.OIOperatorSetLauncherSpeed);
 
     //Indexer control buttons
-    private final TriggerButton startIndexer = new TriggerButton(operatorJoystick, Ports.OIOperatorActivateIBM);
-    private final TriggerButton stopIndexer = new TriggerButton(operatorJoystick,Ports.OIOperatorDeactivateBMI);
+    private final TriggerButton startIndexer = new TriggerButton(operatorJoystick, Ports.OIOperatorActivateIndexer);
+    private final TriggerButton stopIndexer = new TriggerButton(operatorJoystick,Ports.OIOperatorDeactivateIndexer);
 
     // TODO Climb Buttons
     // TODO Color wheel buttons

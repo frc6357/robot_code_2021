@@ -120,8 +120,8 @@ public class Ports
     public static final int OIOperatorToggleIntake      = 3;    // Button X
     public static final int OIOperatorReverseIntake     = 9;    // Left Joystick Button
     
-    public static final int OIOperatorActivateIBM       = 2;    // Left Trigger Axis
-    public static final int OIOperatorDeactivateBMI     = 3;    // Right Trigger Axis
+    public static final int OIOperatorActivateIndexer       = 2;    // Left Trigger Axis
+    public static final int OIOperatorDeactivateIndexer     = 3;    // Right Trigger Axis
     
     public static final int OIOperatorHighHoodAngle     = 5;;    // Left Bumper
     public static final int OIOperatorShootBall         = 2;    // Button B

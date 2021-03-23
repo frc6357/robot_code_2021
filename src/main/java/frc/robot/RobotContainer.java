@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -226,6 +227,12 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand()
     {
+        File splineDirectory = new File(Constants.kSplineDirectory);
+
+        if(!splineDirectory.exists()){
+            splineDirectory = new File(Constants.kSplineDirectoryWindows);
+        }
+
         var autoSelector = autoCommandSelector.getSelected();
 
         switch (autoSelector)
@@ -238,6 +245,9 @@ public class RobotContainer {
                 // mentioned here.
                 File splineFile = splineCommandSelector.getSelected();
                 Trajectory trajectory = makeTrajectoryFromJSON(splineFile);
+                if(trajectory == null){
+                    return new DoNothingCommand();
+                }
                 return makeTrajectoryCommand(trajectory);
             
             case DriveSplineCanned:
@@ -257,18 +267,66 @@ public class RobotContainer {
                                 List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
                                 new Pose2d(5, 0, new Rotation2d(0)), config);
                 return makeTrajectoryCommand(cannedTrajectory);
-
+            
+            // This sequentially runs thorugh the 2 sub-paths of the Drive1mForwardBackward path defined in PathWeaver 
             case Drive1mForwardBackward:
-                // TODO: Create 2 trajectory commands, one from the drive forward JSON, one from the drive
-                // backwards JSON, then create a compound/sequential command to drive these one after the
-                // other, returning that command.
-                return new DoNothingCommand();
                 
+                // Generate a command for driving 1m forward from trajectory created from PathWeaver JSON file
+                File drive1mf = new File(splineDirectory + "/1m Forwards.wpilib.json");
+                Trajectory drive1mfTrajectory = makeTrajectoryFromJSON(drive1mf);
+                if(drive1mfTrajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory);
+
+                // Generate a command for driving 1m backward from trajectory created from PathWeaver JSON file
+                File drive1mb = new File(splineDirectory + "/1m Backwards.wpilib.json");
+                Trajectory drive1mbTrajectory = makeTrajectoryFromJSON(drive1mb);
+                if(drive1mbTrajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory);
+
+                // Execute each of the single commands in chronological order
+                return new SequentialCommandGroup(drive1mfCommand, drive1mbCommand);
+            
+            // This sequentially runs thorugh the 4 sub-paths of the Bounce Path defined in PathWeaver  
             case DriveBounce:
-                // TODO: Create 4 trajectory commands, one from each of the bounce segment paths,
-                // then create a compound/sequential command to drive these one after the
-                // other, returning that command.
-                return new DoNothingCommand();
+                
+                // Generate a command for driving the first segment Bounce Path trajectory defined by PathWeaver JSON file 
+                File bounceSeg1 = new File(splineDirectory + "/Bounce Segment 1.wpilib.json");
+                Trajectory bounceSeg1Trajectory = makeTrajectoryFromJSON(bounceSeg1);
+                if(bounceSeg1Trajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory);
+
+                // Generate a command for driving the second segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");
+                Trajectory bounceSeg2Trajectory = makeTrajectoryFromJSON(bounceSeg2);
+                if(bounceSeg2Trajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory);
+
+                // Generate a command for driving the third segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg3 = new File(splineDirectory + "/Bounce Segment 3.wpilib.json");
+                Trajectory bounceSeg3Trajectory = makeTrajectoryFromJSON(bounceSeg3);
+                if(bounceSeg3Trajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory);
+                
+                // Generate a command for driving the fourth segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg4 = new File(splineDirectory + "/Bounce Segment 4.wpilib.json");
+                Trajectory bounceSeg4Trajectory = makeTrajectoryFromJSON(bounceSeg4);
+                if(bounceSeg4Trajectory == null){
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory);
+
+                // Execute each of the single commands in chronological order
+                return new SequentialCommandGroup(driveBounceSeg1, driveBounceSeg2, driveBounceSeg3, driveBounceSeg4);
 
             default:
                 DriverStation.reportError("Uncoded selection from autoSelector chooser!", false);
@@ -283,10 +341,9 @@ public class RobotContainer {
          trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
     }
     catch (IOException ex) {
-        // TODO: If we hit this exception, will the software exit immediately or will we end up
-        // returning a bogus trajectory object? If the latter, this is dangerous and will need 
-        // fixed!
+        // If we are unable to open the file the method returns a null object
         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
+        return null;
     }
     return trajectory;
   }

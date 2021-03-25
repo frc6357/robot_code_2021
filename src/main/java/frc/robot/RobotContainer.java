@@ -127,9 +127,9 @@ public class RobotContainer
 
         configureShuffleboard();
 
-        m_launcherSubsystem  = Optional.of(new SK21Launcher());
-        m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
-        m_Intake  = Optional.of(new SK21Intake());
+        m_launcherSubsystem  = Optional.empty(); //Optional.of(new SK21Launcher());
+        m_ballIndexerSubsystem  = Optional.empty(); //Optional.of(new SK21BallIndexer());
+        m_Intake  = Optional.empty(); // Optional.of(new SK21Intake());
 
         // Configure the button bindings
         configureButtonBindings();
@@ -270,10 +270,15 @@ public class RobotContainer
                         .setKinematics(DriveConstants.kDriveKinematics)
                         // Apply the voltage constraint
                         .addConstraint(autoVoltageConstraint);
-                Trajectory cannedTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
-                                new Pose2d(5, 0, new Rotation2d(0)), config);
+                // Trajectory cannedTrajectory = TrajectoryGenerator.generateTrajectory(
+                //                 new Pose2d(0, 0, new Rotation2d(0)),
+                //                 List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
+                //                 new Pose2d(5, 0, new Rotation2d(0)), config);
+                Trajectory cannedTrajectory = 
+                TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), 
+                    List.of(new Translation2d(0.5, 0)),
+                    new Pose2d(1, 0, new Rotation2d(0)), config);
+
                 return makeTrajectoryCommand(cannedTrajectory);
             
             // This sequentially runs thorugh the 2 sub-paths of the Drive1mForwardBackward path defined in PathWeaver 

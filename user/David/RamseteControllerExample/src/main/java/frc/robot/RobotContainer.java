@@ -133,25 +133,26 @@ public class RobotContainer {
      System.out.println("No trajectory file found!" + ex);
     }*/
     // One meter forwards
-    Trajectory exampleTrajectory = 
-            TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), 
-            List.of(new Translation2d(0.5, 0)),
-            new Pose2d(1, 0, new Rotation2d(0)), config);
+    // Trajectory exampleTrajectory = 
+    //         TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), 
+    //         List.of(new Translation2d(0.5, 0)),
+    //         new Pose2d(1, 0, new Rotation2d(0)), config);
 
-    // One meter forwards and one meter back
-    /*Trajectory exampleTrajectory = 
-            TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
-            List.of(new Translation2d(0,1), new Translation2d(0,0)),
-            new Pose2d(0, 0, new Rotation2d(0)), config);*/
+    // One meter forwards, 90 degree turn left
+    // Trajectory exampleTrajectory = 
+    //         TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
+    //         List.of(new Translation2d(1,0)),
+    //         new Pose2d(2, 1, new Rotation2d(90)), config);
 
     // S-Curve
-    /*Trajectory exampleTrajectory = 
+    Trajectory exampleTrajectory = 
             TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)),
             // List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
             List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
             // new Pose2d(3, 0, new Rotation2d(0)),
             new Pose2d(5, 0, new Rotation2d(0)),
-            config);*/
+            config);
+            
     RamseteCommand ramseteCommand =
         new RamseteCommand(
             exampleTrajectory,

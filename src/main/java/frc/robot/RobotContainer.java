@@ -82,7 +82,10 @@ import frc.robot.utils.filters.FilterDeadband;
 public class RobotContainer
 {
 
-    public static UsbCamera camera;
+    /**
+     * The USB Camera for the Robot.
+     */
+    private UsbCamera camera;
 
     private enum AutoCommands
     {

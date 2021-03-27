@@ -256,7 +256,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                return makeTrajectoryCommand(trajectory);
+                return makeTrajectoryCommand(trajectory, true);
             
             case DriveSplineCanned:
                 // Create a voltage constraint to ensure we don't accelerate too fast
@@ -279,7 +279,7 @@ public class RobotContainer
                     List.of(new Translation2d(0.5, 0)),
                     new Pose2d(1, 0, new Rotation2d(0)), config);
 
-                return makeTrajectoryCommand(cannedTrajectory);
+                return makeTrajectoryCommand(cannedTrajectory, true);
             
             // This sequentially runs thorugh the 2 sub-paths of the Drive1mForwardBackward path defined in PathWeaver 
             case Drive1mForwardBackward:
@@ -291,7 +291,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory);
+                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory, true);
 
                 // Generate a command for driving 1m backward from trajectory created from PathWeaver JSON file
                 File drive1mb = new File(splineDirectory + "/1m Backwards.wpilib.json");
@@ -300,7 +300,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory);
+                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory, false);
 
                 // Execute each of the single commands in chronological order
                 return new SequentialCommandGroup(drive1mfCommand, drive1mbCommand);
@@ -315,7 +315,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory);
+                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory, false);
 
                 // Generate a command for driving the second segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");
@@ -324,7 +324,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory);
+                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory, false);
 
                 // Generate a command for driving the third segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg3 = new File(splineDirectory + "/Bounce Segment 3.wpilib.json");
@@ -333,7 +333,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory);
+                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory, false);
                 
                 // Generate a command for driving the fourth segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg4 = new File(splineDirectory + "/Bounce Segment 4.wpilib.json");
@@ -342,7 +342,7 @@ public class RobotContainer
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory);
+                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory, false);
 
                 // Execute each of the single commands in chronological order
                 return new SequentialCommandGroup(driveBounceSeg1, driveBounceSeg2, driveBounceSeg3, driveBounceSeg4);
@@ -370,7 +370,7 @@ public class RobotContainer
     return trajectory;
   }
 
-  private Command makeTrajectoryCommand(Trajectory trajectory) 
+  private Command makeTrajectoryCommand(Trajectory trajectory, boolean bFirst) 
   {
     RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
@@ -380,9 +380,13 @@ public class RobotContainer
         new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
         m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
+    
+    // Tell the robot where it is starting from if this is the first trajectory of a path.
+    if(bFirst)
+    {
+        m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+    }
 
-    // Reset odometry to the starting pose of the trajectory.
-    m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
@@ -425,5 +429,14 @@ public class RobotContainer
         var launcher = m_launcherSubsystem.get();
         launcher.resetDefaultCommand();
     }
+    }
+
+    /**
+     * Reset the encoders and gyro in the drive subsystem. This should be called
+     * on boot and when initializing auto and reset modes.
+     */
+    public void resetDriveSubsystem() {
+        m_driveSubsystem.resetEncoders();
+        m_driveSubsystem.resetGyro();
     }
 }

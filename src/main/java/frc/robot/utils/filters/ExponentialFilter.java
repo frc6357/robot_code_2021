@@ -1,9 +1,8 @@
 package frc.robot.utils.filters;
 
 /**
- * Creates a cubic curve on the filter
- * 0.0 correlates to 0.0, and 1.0 correlates to "coeff" and
- * -1.0 correlates to "-coeff". The transfer function is
+ * Creates a cubic curve on the filter 0.0 correlates to 0.0, and 1.0 correlates to
+ * "coeff" and -1.0 correlates to "-coeff". The transfer function is
  * 
  * output = coefficient * (input^3)
  */

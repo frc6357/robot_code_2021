@@ -45,12 +45,10 @@ public class TestIntakeCommand extends CommandBase
     public void initialize()
     {
         intakeDeployEntry = Shuffleboard.getTab("Intake").add("extension", 1)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1)
-            .withPosition(0, 0).getEntry();
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1).withPosition(0, 0).getEntry();
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1)
-            .withPosition(0, 4).getEntry();
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 4).getEntry();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -58,8 +56,7 @@ public class TestIntakeCommand extends CommandBase
     public void execute()
     {
 
-        intakeSubsystem.intakeRoller
-            .setSpeed(intakeRollerEntry.getValue().getDouble());
+        intakeSubsystem.intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
 
         DoubleSolenoid.Value value = intakeDeployEntry.getValue().getBoolean()
             ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;

@@ -371,7 +371,7 @@ org.eclipse.jdt.core.formatter.insert_space_after_relational_operator=insert
 org.eclipse.jdt.core.formatter.insert_space_before_comma_in_multiple_field_declarations=do not insert
 org.eclipse.jdt.core.formatter.wrap_before_string_concatenation=true
 org.eclipse.jdt.core.formatter.blank_lines_between_import_groups=1
-org.eclipse.jdt.core.formatter.lineSplit=80
+org.eclipse.jdt.core.formatter.lineSplit=100
 org.eclipse.jdt.core.formatter.insert_space_after_opening_paren_in_annotation=do not insert
 org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_switch=insert
 

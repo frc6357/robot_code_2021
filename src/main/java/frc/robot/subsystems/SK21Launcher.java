@@ -27,8 +27,7 @@ public class SK21Launcher extends SubsystemBase
      */
     public final CANSparkMax launcherMotor =
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
-    public final CANPIDController pidControl =
-            launcherMotor.getPIDController();
+    public final CANPIDController pidControl = launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
 
     /**
@@ -39,12 +38,12 @@ public class SK21Launcher extends SubsystemBase
     public final BaseRoller releaseRoller =
             new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
 
-    public final DoubleSolenoid hoodMover = new DoubleSolenoid(Ports.pcm,
-        Ports.launcherHoodExtend, Ports.launcherHoodRetract);
+    public final DoubleSolenoid hoodMover =
+            new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
     private double launcherSetpoint = 0.0;
     private double lastSetSpeed = 0.0;
-    private LauncherActivateCommand defaultCommand; 
+    private LauncherActivateCommand defaultCommand;
 
     /**
      * Constructs a new SK21Launcher.
@@ -63,7 +62,8 @@ public class SK21Launcher extends SubsystemBase
     }
 
     /**
-     * Resets the default command for this subsystem to the command used during auto/teleop.
+     * Resets the default command for this subsystem to the command used during
+     * auto/teleop.
      */
     public void resetDefaultCommand()
     {
@@ -171,7 +171,6 @@ public class SK21Launcher extends SubsystemBase
     @Override
     public void periodic()
     {
-        SmartDashboard.putNumber("Launcher Encoder Value",
-            launcherMotorEncoder.getVelocity());
+        SmartDashboard.putNumber("Launcher Encoder Value", launcherMotorEncoder.getVelocity());
     }
 }

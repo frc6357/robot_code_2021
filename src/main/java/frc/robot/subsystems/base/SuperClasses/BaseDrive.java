@@ -19,8 +19,7 @@ public class BaseDrive
      * @param motorGroupRight
      *            A group containing all the motors on the right side of the drivetrain
      */
-    public BaseDrive(SpeedControllerGroup motorGroupLeft,
-        SpeedControllerGroup motorGroupRight)
+    public BaseDrive(SpeedControllerGroup motorGroupLeft, SpeedControllerGroup motorGroupRight)
     {
         this.motorGroupLeft = motorGroupLeft;
         this.motorGroupRight = motorGroupRight;

@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj.RobotBase;
  */
 public final class Main
 {
-  private Main() {}
+    private Main() {}
 
-  /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * @param ignored The ignored arguments to this program
-   */
-  public static void main(String... ignored)
-  {
-    RobotBase.startRobot(Robot::new);
-  }
+    /**
+     * Main initialization function. Do not perform any initialization here.
+     *
+     * @param ignored The ignored arguments to this program
+     */
+    public static void main(String... ignored)
+    {
+        RobotBase.startRobot(Robot::new);
+    }
 }

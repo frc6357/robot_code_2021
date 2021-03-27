@@ -32,7 +32,7 @@ public class TestLauncherCommand extends CommandBase
      */
     private NetworkTableEntry hoodMoverEntry;
 
-     /**
+    /**
      * NetworkTableEntry for the release roller.
      */
     private NetworkTableEntry releaseRollerEntry;
@@ -55,20 +55,16 @@ public class TestLauncherCommand extends CommandBase
     @Override
     public void initialize()
     {
-        launcherMotorEntry = Shuffleboard.getTab("Launcher")
-            .add("launcherMotor", 1).withWidget(BuiltInWidgets.kNumberSlider)
-            .withSize(2, 1).withPosition(0, 0).getEntry();
+        launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
 
         hoodMoverEntry = Shuffleboard.getTab("Launcher").add("hoodMover", 3)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1)
-            .withPosition(0, 4).getEntry();
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(0, 4).getEntry();
 
-        releaseMotorEntry = Shuffleboard.getTab("Launcher")
-            .add("releaseMotor", 3).withWidget(BuiltInWidgets.kNumberSlider)
-            .withSize(1, 1).withPosition(0, 6).getEntry();
-        releaseRollerEntry = Shuffleboard.getTab("Launcher")
-            .add("releaseRoller", 3).withWidget(BuiltInWidgets.kNumberSlider)
-            .withSize(1, 1).withPosition(3, 6).getEntry();
+        releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 6).getEntry();
+        releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 6).getEntry();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -79,9 +75,9 @@ public class TestLauncherCommand extends CommandBase
         launcherSubsystem.releaseMotor.set(releaseMotorEntry.getValue().getDouble());
         launcherSubsystem.releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
 
-        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean() 
+        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean()
             ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
-        
+
         launcherSubsystem.hoodMover.set(value);
     }
 

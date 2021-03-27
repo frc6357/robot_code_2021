@@ -44,11 +44,10 @@ public class TestIndexerCommand extends CommandBase
     public void initialize()
     {
         indexerSpinEntry = Shuffleboard.getTab("Indexer").add("Spin", 1)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1)
-            .withPosition(0, 0).getEntry();
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
 
-        indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3)
-            .withSize(1, 1).withPosition(0, 6).getEntry();
+        indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3).withSize(1, 1)
+            .withPosition(0, 6).getEntry();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

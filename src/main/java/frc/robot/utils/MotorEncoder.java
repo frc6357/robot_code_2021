@@ -42,8 +42,7 @@ public class MotorEncoder
      *            Indicates whether or not the motor is inverted (and if so will invert
      *            the pulse count as needed for the calculations)
      */
-    public MotorEncoder(WPI_TalonFX selectedMotorEncoder, double metersPerPulse,
-        boolean isInverted)
+    public MotorEncoder(WPI_TalonFX selectedMotorEncoder, double metersPerPulse, boolean isInverted)
     {
         underlyingMotor = selectedMotorEncoder;
         this.metersPerPulse = metersPerPulse;
@@ -58,8 +57,8 @@ public class MotorEncoder
      */
     public double getPositionPulses()
     {
-        return (underlyingMotor.getSelectedSensorPosition()
-            - lastPositionResetValue) * inversionFactor;
+        return (underlyingMotor.getSelectedSensorPosition() - lastPositionResetValue)
+            * inversionFactor;
     }
 
     /**

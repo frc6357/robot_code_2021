@@ -36,8 +36,7 @@ public class CubicDeadbandFilter extends Filter
      * @param reverseInput
      *            Used to flip the joystick inputs to the opposite sign if required.
      */
-    public CubicDeadbandFilter(double coefficient, double deadband,
-        boolean reverseInput)
+    public CubicDeadbandFilter(double coefficient, double deadband, boolean reverseInput)
     {
         this.coefficient = coefficient;
         this.deadband = deadband;
@@ -55,11 +54,9 @@ public class CubicDeadbandFilter extends Filter
     public double filter(double rawAxis)
     {
         // Used to set up the calculations for the inputs outside the deadband
-        double filteredInput =
-                (Math.abs(rawAxis) - deadband) * Math.signum(rawAxis);
+        double filteredInput = (Math.abs(rawAxis) - deadband) * Math.signum(rawAxis);
         filteredInput *= reverseFilter;
-        double c = (1
-            - (coefficient * Math.pow((1 - deadband), 3)) / (1 - deadband));
+        double c = (1 - (coefficient * Math.pow((1 - deadband), 3)) / (1 - deadband));
 
         // If it's within the deadband, it sets the input to zero
         if (Math.abs(rawAxis) < deadband)

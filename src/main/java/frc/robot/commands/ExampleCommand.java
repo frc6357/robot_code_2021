@@ -16,7 +16,8 @@ public class ExampleCommand extends CommandBase
     /**
      * Creates a new ExampleCommand.
      *
-     * @param subsystem The subsystem used by this command.
+     * @param subsystem
+     *            The subsystem used by this command.
      */
     public ExampleCommand(ExampleSubsystem subsystem)
     {

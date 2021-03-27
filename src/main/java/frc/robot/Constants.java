@@ -18,47 +18,47 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants
 {
-  public static final class DriveConstants
-  {
-    public static final boolean kLeftEncoderReversed = false;
-    public static final boolean kRightEncoderReversed = true;
+    public static final class DriveConstants
+    {
+        public static final boolean kLeftEncoderReversed = false;
+        public static final boolean kRightEncoderReversed = true;
 
-    // TODO: The value here is what we measured from the robot. Check to make sure this works
-    // correctly because the drive characterization tool determines the track width automatically
-    // and comes up with a rather different value closer to 1.0m.
-    public static final double kTrackwidthMeters = 0.69;
-    public static final DifferentialDriveKinematics kDriveKinematics =
-        new DifferentialDriveKinematics(kTrackwidthMeters);
+        // TODO: The value here is what we measured from the robot. Check to make sure this works
+        // correctly because the drive characterization tool determines the track width automatically
+        // and comes up with a rather different value closer to 1.0m.
+        public static final double kTrackwidthMeters = 0.69;
+        public static final DifferentialDriveKinematics kDriveKinematics =
+            new DifferentialDriveKinematics(kTrackwidthMeters);
 
-    public static final double kDriveGearReduction = 12.412;
-    public static final int    kEncoderCPR = 2048;
-    public static final double kWheelDiameterMeters = 0.18375;
-    public static final double kEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveGearReduction);
+        public static final double kDriveGearReduction = 12.412;
+        public static final int    kEncoderCPR = 2048;
+        public static final double kWheelDiameterMeters = 0.18375;
+        public static final double kEncoderDistancePerPulse =
+            // Assumes the encoders are directly mounted on the wheel shafts
+            (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveGearReduction);
 
-    // Data taken from characterization analysis on 03/02/2021
-    public static final double ksVolts = 0.516;
-    public static final double kvVoltSecondsPerMeter = 2.38;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.133;
-    public static final double kPDriveVel = 1.88;
-  }
+        // Data taken from characterization analysis on 03/02/2021
+        public static final double ksVolts = 0.516;
+        public static final double kvVoltSecondsPerMeter = 2.38;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.133;
+        public static final double kPDriveVel = 1.88;
+    }
 
-  public static final class AutoConstants
-  {
-    public static final double kMaxSpeedMetersPerSecond = 2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = .50;
+    public static final class AutoConstants
+    {
+        public static final double kMaxSpeedMetersPerSecond = 2;
+        public static final double kMaxAccelerationMetersPerSecondSquared = .50;
 
-    // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
-    public static final double kRamseteB = 2;
-    public static final double kRamseteZeta = 0.7;
-  }
+        // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+        public static final double kRamseteB = 2;
+        public static final double kRamseteZeta = 0.7;
+    }
 
-  public static final double kInchesPerMilimetre = 0.0393701;
+    public static final double kInchesPerMilimetre = 0.0393701;
   
-  public static final String kSplineDirectory = "/home/lvuser/deploy/paths";
-  public static final String kSplineDirectoryWindows = "C:/Users/Owner/Documents/WeaverOutput/output";
+    public static final String kSplineDirectory = "/home/lvuser/deploy/paths";
+    public static final String kSplineDirectoryWindows = "C:/Users/Owner/Documents/WeaverOutput/output";
 
-  public static final String kSubsystem = "/home/lvuser/deploy/Subsystems.json";
-  public static final String kSubsystemWindows = "C:/Users/Owner/Documents/Subsystems.json";
+    public static final String kSubsystem = "/home/lvuser/deploy/Subsystems.json";
+    public static final String kSubsystemWindows = "C:/Users/Owner/Documents/Subsystems.json";
 }

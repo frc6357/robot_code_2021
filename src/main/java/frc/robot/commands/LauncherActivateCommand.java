@@ -14,12 +14,12 @@ import frc.robot.subsystems.SK21Launcher;
 /**
  * This command works by setting the launcher speed based on the hood position.
  * 
- * TODO: Update the command to be able to use multiple different speeds
- *  - Because of the change in the game this year it has become more and more important to make sure that
- *    the PID gets tuned properly and the code is built to be able to take multiple different speeds
- *    based off of a SmartDashboard Chooser
+ * TODO: Update the command to be able to use multiple different speeds - Because of the
+ * change in the game this year it has become more and more important to make sure that
+ * the PID gets tuned properly and the code is built to be able to take multiple different
+ * speeds based off of a SmartDashboard Chooser
  */
-public class LauncherActivateCommand extends CommandBase 
+public class LauncherActivateCommand extends CommandBase
 {
     /**
      * The Launcher Subsystem used by this LauncherActivateCommand.
@@ -29,9 +29,10 @@ public class LauncherActivateCommand extends CommandBase
     /**
      * Creates a new LauncherActivateCommand.
      *
-     * @param launcherSubsystem The subsystem used by this command.
+     * @param launcherSubsystem
+     *            The subsystem used by this command.
      */
-    public LauncherActivateCommand(SK21Launcher launcherSubsystem) 
+    public LauncherActivateCommand(SK21Launcher launcherSubsystem)
     {
         this.launcherSubsystem = launcherSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
@@ -40,7 +41,7 @@ public class LauncherActivateCommand extends CommandBase
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() 
+    public void execute()
     {
         if (launcherSubsystem.isHoodSetToShootHigh())
         {
@@ -53,7 +54,7 @@ public class LauncherActivateCommand extends CommandBase
     }
 
     @Override
-    public boolean isFinished() 
+    public boolean isFinished()
     {
         return false;
     }

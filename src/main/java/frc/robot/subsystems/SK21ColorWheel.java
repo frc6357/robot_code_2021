@@ -31,8 +31,7 @@ public class SK21ColorWheel extends SubsystemBase
     private CANEncoder spinnerRollerEncoder;
     private static Color2021[] fieldColors =
             {Color2021.RED, Color2021.GREEN, Color2021.CYAN, Color2021.YELLOW};
-    private Color2021[] colorArray =
-            new Color2021[TuningParams.COLOR_WHEEL_ARRAY_SIZE];
+    private Color2021[] colorArray = new Color2021[TuningParams.COLOR_WHEEL_ARRAY_SIZE];
     private int indexOfColorArray = 0;
     private boolean colorArrayIsFull = false;
     private Color2021 colorDebounced = Color2021.NONE;
@@ -44,12 +43,10 @@ public class SK21ColorWheel extends SubsystemBase
     public SK21ColorWheel()
     {
         colorSensor = new ColorSensor2021(I2C.Port.kOnboard);
-        spinnerRollerMotor =
-                new CANSparkMax(Ports.colorWheelSpinner, MotorType.kBrushless);
-        spinnerRoller = new BaseRoller(spinnerRollerMotor,
-            TuningParams.COLOR_WHEEL_SPEED);
-        spinnerLifter = new DoubleSolenoid(Ports.pcm, Ports.colorSpinnerExtend,
-            Ports.colorSpinnerRetract);
+        spinnerRollerMotor = new CANSparkMax(Ports.colorWheelSpinner, MotorType.kBrushless);
+        spinnerRoller = new BaseRoller(spinnerRollerMotor, TuningParams.COLOR_WHEEL_SPEED);
+        spinnerLifter =
+                new DoubleSolenoid(Ports.pcm, Ports.colorSpinnerExtend, Ports.colorSpinnerRetract);
         spinnerRollerEncoder = spinnerRollerMotor.getEncoder();
 
         colorWheelDefaultCommand = new DefaultColorWheelCommand(this);
@@ -154,8 +151,7 @@ public class SK21ColorWheel extends SubsystemBase
      */
     public Color2021 getDetectedColor()
     {
-        if (colorSensor
-            .getProximity() >= TuningParams.COLOR_WHEEL_PROXIMITY_THRESHOLD)
+        if (colorSensor.getProximity() >= TuningParams.COLOR_WHEEL_PROXIMITY_THRESHOLD)
         {
             return colorSensor.getGameColor();
         }
@@ -177,8 +173,7 @@ public class SK21ColorWheel extends SubsystemBase
         colorArray[indexOfColorArray] = getDetectedColor();
 
         // This line is used to make sure that the index values don't go out of bounds.
-        indexOfColorArray =
-                (indexOfColorArray + 1) % TuningParams.COLOR_WHEEL_ARRAY_SIZE;
+        indexOfColorArray = (indexOfColorArray + 1) % TuningParams.COLOR_WHEEL_ARRAY_SIZE;
 
         // This checks that the color array has been filled
         if (indexOfColorArray == 0)

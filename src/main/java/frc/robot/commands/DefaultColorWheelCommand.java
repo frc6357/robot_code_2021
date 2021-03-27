@@ -48,8 +48,7 @@ public class DefaultColorWheelCommand extends CommandBase
     @Override
     public void execute()
     {
-        Color2021 readColor =
-                colorWheelSubsystem.getDebouncedFieldDetectedColor();
+        Color2021 readColor = colorWheelSubsystem.getDebouncedFieldDetectedColor();
         if (prevColor != readColor)
         {
             prevColor = readColor;

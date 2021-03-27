@@ -41,7 +41,7 @@ public class SK21Intake extends SubsystemBase
     private boolean intakeMotorIsStarted = false;
 
     /**
-     * Will let us know if the intake rollers are reversed or forward. 
+     * Will let us know if the intake rollers are reversed or forward.
      */
     private boolean intakeIsReversed = false;
 
@@ -51,19 +51,17 @@ public class SK21Intake extends SubsystemBase
      */
     public SK21Intake()
     {
-        CANSparkMax intakeRollerMotor =
-                new CANSparkMax(Ports.intakeMotor, MotorType.kBrushless);
-        intakeRoller = new BaseRoller(intakeRollerMotor,
-            TuningParams.INTAKE_MAX_SPEED);
+        CANSparkMax intakeRollerMotor = new CANSparkMax(Ports.intakeMotor, MotorType.kBrushless);
+        intakeRoller = new BaseRoller(intakeRollerMotor, TuningParams.INTAKE_MAX_SPEED);
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
-        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop,
-            Ports.intakeMoverRaise);
+        intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
         intake = new IntakeIdleCommand(this);
         resetDefaultCommand();
     }
-    
+
     /**
-     * Resets the default command for this subsystem to the command used during auto/teleop.
+     * Resets the default command for this subsystem to the command used during
+     * auto/teleop.
      */
     public void resetDefaultCommand()
     {
@@ -103,7 +101,7 @@ public class SK21Intake extends SubsystemBase
     public void reverseIntakeRoller()
     {
         intakeRoller.setBackwards();
-        intakeIsReversed = true; 
+        intakeIsReversed = true;
     }
 
     /**
@@ -114,7 +112,6 @@ public class SK21Intake extends SubsystemBase
         intakeRoller.setStop();
         intakeMotorIsStarted = false;
     }
-
 
     /**
      * Checks whether the intake is extended or retracted based on the current solenoid
@@ -138,7 +135,7 @@ public class SK21Intake extends SubsystemBase
         return intakeRollerEncoder.getVelocity();
     }
 
-     /**
+    /**
      * Returns current state of the Intake Motor
      * 
      * @return current state of the intake motor (true=yes/false=no)
@@ -148,7 +145,7 @@ public class SK21Intake extends SubsystemBase
         return intakeMotorIsStarted;
     }
 
-     /**
+    /**
      * Returns current state of the Intake Direction
      * 
      * @return current direction of intake rollers (true=yes/false=no)
@@ -157,5 +154,4 @@ public class SK21Intake extends SubsystemBase
     {
         return intakeIsReversed;
     }
-
 }

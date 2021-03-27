@@ -29,8 +29,7 @@ public class DefaultDriveCommand extends CommandBase
      * @param joystickDriver
      *            The Joystick used for driving
      */
-    public DefaultDriveCommand(SK21Drive driveSubsystem,
-        FilteredJoystick joystickDriver)
+    public DefaultDriveCommand(SK21Drive driveSubsystem, FilteredJoystick joystickDriver)
     {
         this.driveSubsystem = driveSubsystem;
         this.joystickDriver = joystickDriver;

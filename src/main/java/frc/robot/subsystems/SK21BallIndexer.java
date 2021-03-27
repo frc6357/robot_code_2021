@@ -20,25 +20,24 @@ public class SK21BallIndexer extends SubsystemBase
     private BaseRoller feederRoller;
     private boolean indexerMotorIsStarted = false;
     private boolean feederMotorIsStarted = false;
-    private final DefaultBallIndexerCommand ballIndexer; 
+    private final DefaultBallIndexerCommand ballIndexer;
 
     /**
      * Constructs a new SK21BallIndexer.
      */
     public SK21BallIndexer()
     {
-        indexerMotor =
-                new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
+        indexerMotor = new CANSparkMax(Ports.indexerMotor, MotorType.kBrushless);
         feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless);
-        indexerRoller =
-                new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
+        indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
         ballIndexer = new DefaultBallIndexerCommand(this);
         resetDefaultCommand();
     }
 
     /**
-     * Resets the default command for this subsystem to the command used during auto/teleop.
+     * Resets the default command for this subsystem to the command used during
+     * auto/teleop.
      */
     public void resetDefaultCommand()
     {
@@ -100,6 +99,4 @@ public class SK21BallIndexer extends SubsystemBase
     {
         return feederMotorIsStarted;
     }
-
-
 }

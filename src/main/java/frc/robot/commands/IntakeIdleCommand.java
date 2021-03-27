@@ -15,18 +15,18 @@ public class IntakeIdleCommand extends CommandBase
     /**
      * Construct a new IntakeIdleCommand.
      * 
-     * @param intakeSubsystem The Intake Subsystem this Command depends upon
+     * @param intakeSubsystem
+     *            The Intake Subsystem this Command depends upon
      */
     public IntakeIdleCommand(SK21Intake intakeSubsystem)
     {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intakeSubsystem);
     }
-    
+
     @Override
     public boolean isFinished()
     {
         return false;
     }
-    
 }

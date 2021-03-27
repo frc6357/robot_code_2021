@@ -9,8 +9,8 @@ import frc.robot.subsystems.SK21Launcher;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
- * This command will be used to set the speeds of the of the launcher motor to
- * the desired speed, out of the desired list of speeds.
+ * This command will be used to set the speeds of the of the launcher motor to the desired
+ * speed, out of the desired list of speeds.
  */
 public class LauncherSpeedCommand extends CommandBase
 {
@@ -23,11 +23,11 @@ public class LauncherSpeedCommand extends CommandBase
                                              TuningParams.LAUNCHER_SET_PERCENTAGE_HIGH,
                                              TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL};
 
-
     /**
      * Creates a new LauncherSpeedCommand and sets up the variables.
      *
-     * @param subsystem The launcher subsystem needed by this command to control the launcher.
+     * @param subsystem
+     *            The launcher subsystem needed by this command to control the launcher.
      */
     public LauncherSpeedCommand(SK21Launcher subsystem)
     {

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress checks="JavadocVariableCheck" files="Color2021\.java" />
+    <suppress checks="JavadocVariableCheck" files="Gear\.java" />
+    <suppress checks="JavadocVariableCheck" files="RollerDirection\.java" />
+    <suppress checks="JavadocVariableCheck" files="ShiftPolarity\.java" />
+    <suppress checks="JavadocVariableCheck" files="Ports\.java" />
+    <suppress checks="JavadocVariableCheck" files="Constants\.java" />
+    <suppress checks="JavadocVariableCheck" files="TuningParams\.java" />
+    <suppress checks="ConstantNameCheck" files="Ports\.java" />
+    <suppress checks="ConstantNameCheck" files="Constants\.java" />
+    <suppress checks="ConstantNameCheck" files="TuningParams\.java" />
+    <suppress checks="HideUtilityClassConstructorCheck" files="Ports\.java" />
+    <suppress checks="HideUtilityClassConstructorCheck" files="Constants\.java" />
+    <suppress checks="HideUtilityClassConstructorCheck" files="TuningParams\.java" />
+    <suppress checks="VisibilityModifierCheck" files="SK21.*\.java" />
+</suppressions>
+
+        

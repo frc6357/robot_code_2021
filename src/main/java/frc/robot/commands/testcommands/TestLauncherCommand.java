@@ -32,6 +32,9 @@ public class TestLauncherCommand extends CommandBase
      */
     private NetworkTableEntry hoodMoverEntry;
 
+     /**
+     * NetworkTableEntry for the release roller.
+     */
     private NetworkTableEntry releaseRollerEntry;
 
     /**
@@ -66,31 +69,20 @@ public class TestLauncherCommand extends CommandBase
         releaseRollerEntry = Shuffleboard.getTab("Launcher")
             .add("releaseRoller", 3).withWidget(BuiltInWidgets.kNumberSlider)
             .withSize(1, 1).withPosition(3, 6).getEntry();
-
-        
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute()
     {
-        
-
         launcherSubsystem.launcherMotor.set(launcherMotorEntry.getValue().getDouble());
         launcherSubsystem.releaseMotor.set(releaseMotorEntry.getValue().getDouble());
         launcherSubsystem.releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
 
-        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean() ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean() 
+            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
         
         launcherSubsystem.hoodMover.set(value);
-
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted)
-    {
     }
 
     // False as test commands are intended to run the entire test mode.
@@ -99,5 +91,4 @@ public class TestLauncherCommand extends CommandBase
     {
         return false;
     }
-
 }

@@ -129,6 +129,11 @@ public class SK21Drive extends SubsystemBase {
     m_rightMotorEncoder.resetEncoder();
   }
 
+  /** Reset the ADS gyro */
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
   /**
    * Gets the average distance of the two encoders.
    *

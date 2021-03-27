@@ -58,10 +58,13 @@ public class SK21Launcher extends SubsystemBase
         setPIDValues();
         setHoodForHighAngleShot(false);
 
-        defaultCommand = new LauncherActivateCommand(this, false);
+        defaultCommand = new LauncherActivateCommand(this);
         resetDefaultCommand();
     }
 
+    /**
+     * Resets the default command for this subsystem to the command used during auto/teleop.
+     */
     public void resetDefaultCommand()
     {
         setDefaultCommand(defaultCommand);

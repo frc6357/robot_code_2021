@@ -1,10 +1,4 @@
-/** 
- * Definitions of all hardware connections and hardware-related
- * IDs on the robot. This class should be included in any other
- * class which needs to interact with the robot hardware. The
- * values here form part of the robot's control system configuration
- * specification.
- */
+package frc.robot;
 
 // Resource Allocations:
 //
@@ -17,8 +11,13 @@
 //     6 - launcherHoodRetract      
 //     7 - colorSpinnerRetract
 
-package frc.robot;
-
+/** 
+ * Definitions of all hardware connections and hardware-related
+ * IDs on the robot. This class should be included in any other
+ * class which needs to interact with the robot hardware. The
+ * values here form part of the robot's control system configuration
+ * specification.
+ */
 public class Ports 
 {
 

@@ -11,14 +11,15 @@ import frc.robot.subsystems.base.SuperClasses.BaseDrive;
  * proportionately to prevent skidding and jerking on the robot. It sets the
  * motors by using the BaseDrive class.
  */
-public class SmoothDrive {
+public class SmoothDrive
+{
     private final BaseDrive drive;
 
-    private final int LEFT = 0;
-    private final int RIGHT = 1;
+    private static final int LEFT = 0;
+    private static final int RIGHT = 1;
 
-    private double speedTarget[] = { 0.0, 0.0 };
-    private double speedCurrentTarget[] = { 0.0, 0.0 };
+    private double[] speedTarget = { 0.0, 0.0 };
+    private double[] speedCurrentTarget = { 0.0, 0.0 };
 
     /**
      * This constructor accepts the BaseDrive object that allows it to interface the
@@ -26,7 +27,8 @@ public class SmoothDrive {
      * 
      * @param drive A basicDrive type used to set up the baseDrive in SmoothDrive
      */
-    public SmoothDrive(BaseDrive drive) {
+    public SmoothDrive(BaseDrive drive)
+    {
         this.drive = drive;
     }
 
@@ -39,7 +41,8 @@ public class SmoothDrive {
      * @param speedRight Speed target we want to reach on the right side of the
      *                   drivetrain
      */
-    public void setSpeeds(double speedLeft, double speedRight) {
+    public void setSpeeds(double speedLeft, double speedRight)
+    {
         speedTarget[LEFT] = speedLeft;
         speedTarget[RIGHT] = speedRight;
     }
@@ -52,7 +55,8 @@ public class SmoothDrive {
      * decellerate/accelerate towards the given value without exceeding the
      * acceleration limits.
      */
-    public void SmoothDrivePeriodic() {
+    public void smoothDrivePeriodic()
+    {
         double[] delta = { speedTarget[LEFT] - speedCurrentTarget[LEFT],
                 speedTarget[RIGHT] - speedCurrentTarget[RIGHT] };
         boolean leftIsLarger = Math.abs(delta[LEFT]) > Math.abs(delta[RIGHT]);
@@ -76,8 +80,10 @@ public class SmoothDrive {
      * @return double[] - It returns the speeds we need to set the new speeds of
      *         motors.
      */
-    private double[] calculateNewSpeeds(double[] delta, int unscaled, int scaled) {
-        if (delta[unscaled] == 0.0) {
+    private double[] calculateNewSpeeds(double[] delta, int unscaled, int scaled)
+    {
+        if (delta[unscaled] == 0.0)
+        {
             return speedCurrentTarget;
         }
         double[] speedNew = new double[2];
@@ -96,13 +102,15 @@ public class SmoothDrive {
      * @return double - Will return the exact unscaled speed that the motors should
      *         be set to.
      */
-    private double calculateSendSpeed(int side, double scalingFactor) {
+    private double calculateSendSpeed(int side, double scalingFactor)
+    {
         double acceleration = getAccel(speedTarget[side], speedCurrentTarget[side]);
         double driveSpeed = speedCurrentTarget[side] + acceleration * scalingFactor;
         // If the speed to be set has just crossed the set speed in the correct
         // direction
         // then set the speed to the setpoint.
-        if (Math.signum(acceleration) == Math.signum(driveSpeed - speedTarget[side])) {
+        if (Math.signum(acceleration) == Math.signum(driveSpeed - speedTarget[side]))
+        {
             driveSpeed = speedTarget[side];
         }
         return driveSpeed;
@@ -120,19 +128,31 @@ public class SmoothDrive {
      *         target we last sent to the motors and the final target we are
      *         attempting to reach.
      */
-    public double getAccel(double target, double currentTarget) {
-        if (target == currentTarget) {
+    public double getAccel(double target, double currentTarget) 
+    {
+        if (target == currentTarget)
+        {
             return 0.0;
-        } else if (target > currentTarget) {
-            if (target >= 0) {
+        }
+        else if (target > currentTarget)
+        {
+            if (target >= 0)
+            {
                 return TuningParams.ACCEL_MAX_TOWARDS_FORWARD;
-            } else {
+            }
+            else
+            {
                 return TuningParams.DECEL_MAX_TOWARDS_FORWARD;
             }
-        } else {
-            if (target <= 0) {
+        }
+        else
+        {
+            if (target <= 0)
+            {
                 return TuningParams.ACCEL_MAX_TOWARDS_BACKWARD;
-            } else {
+            }
+            else
+            {
                 return TuningParams.DECEL_MAX_TOWARDS_BACKWARD;
             }
         }

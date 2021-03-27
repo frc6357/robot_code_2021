@@ -58,15 +58,17 @@ public class SK21Intake extends SubsystemBase
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop,
             Ports.intakeMoverRaise);
-            intake = new IntakeIdleCommand(this);
-            resetDefaultCommand();
-        }
+        intake = new IntakeIdleCommand(this);
+        resetDefaultCommand();
+    }
     
-        public void resetDefaultCommand()
-        {
-            setDefaultCommand(intake);
-        }
-    
+    /**
+     * Resets the default command for this subsystem to the command used during auto/teleop.
+     */
+    public void resetDefaultCommand()
+    {
+        setDefaultCommand(intake);
+    }
 
     /**
      * When extend intake is called the solenoid will activate and it will push the intake

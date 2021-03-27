@@ -1,7 +1,6 @@
 package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Ports;
 
 /**
  * Creates a class that converts Dpad behaviors to binary up/down behaviors. Note we
@@ -17,10 +16,12 @@ public class Dpad
     private final int dpadNumber;
 
     /**
-     * Constructs a new Dpad for the given operatorJoystick
+     * Constructs a new Dpad for the given operatorJoystick.
      * 
      * @param joystick
      *            The Joystick the Dpad is on
+     * @param dpadNumber
+     *            The dpad number on the given Joystick to be used
      */
     public Dpad(Joystick joystick, int dpadNumber)
     {

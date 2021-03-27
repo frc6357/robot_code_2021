@@ -1,6 +1,7 @@
 package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.SpeedController;
+import frc.robot.subsystems.base.SuperClasses.RollerDirection;
 
 /**
  * Base class to be extended by any class requiring rollers
@@ -12,15 +13,7 @@ public class BaseRoller
     private double speed = 1.0;
     private double currentSpeed = 0.0;
 
-    /**
-     * Enumerates the possible directions of motion for a BaseRoller.
-     */
-    public static enum Direction
-    {
-        BACKWARD, STOPPED, FORWARD
-    };
-
-    private Direction directionReader;
+    private RollerDirection directionReader;
 
     /**
      * Consructs a new BaseRoller that uses the given SpeedController to control the
@@ -62,7 +55,7 @@ public class BaseRoller
             currentSpeed = speed;
             motorController.set(currentSpeed);
         }
-        directionReader = Direction.FORWARD;
+        directionReader = RollerDirection.FORWARD;
     }
 
     /**
@@ -75,7 +68,7 @@ public class BaseRoller
             currentSpeed = -speed;
             motorController.set(currentSpeed);
         }
-        directionReader = Direction.BACKWARD;
+        directionReader = RollerDirection.BACKWARD;
     }
 
     /**
@@ -88,7 +81,7 @@ public class BaseRoller
             currentSpeed = 0.0;
             motorController.set(0.0);
         }
-        directionReader = Direction.STOPPED;
+        directionReader = RollerDirection.STOPPED;
     }
 
     /**
@@ -97,7 +90,7 @@ public class BaseRoller
      * @return - Type int - Values of -1, 0, 1 - Used to check whether motor is stopped,
      *         moving forwards or backwards
      */
-    public BaseRoller.Direction getDirection()
+    public RollerDirection getDirection()
     {
         return directionReader;
     }
@@ -134,8 +127,8 @@ public class BaseRoller
     {
         currentSpeed = speed;
         motorController.set(speed);
-        directionReader = (speed > 0.0) ? Direction.FORWARD
-            : ((speed == 0.0) ? Direction.STOPPED : Direction.BACKWARD);
+        directionReader = (speed > 0.0) ? RollerDirection.FORWARD
+            : ((speed == 0.0) ? RollerDirection.STOPPED : RollerDirection.BACKWARD);
     }
 
     /**

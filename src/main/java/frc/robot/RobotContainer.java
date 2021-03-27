@@ -135,7 +135,8 @@ public class RobotContainer
 
         File subsystemFile = new File(Constants.kSubsystem);
 
-        if(!subsystemFile.exists()){
+        if (!subsystemFile.exists())
+        {
             subsystemFile = new File(Constants.kSubsystemWindows);
         }
 
@@ -154,13 +155,16 @@ public class RobotContainer
             
             SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
             
-            if(subsystems.isLauncherPresent()){
+            if (subsystems.isLauncherPresent())
+            {
                 m_launcherSubsystem  = Optional.of(new SK21Launcher());
             }
-            if(subsystems.isIndexerPresent()){
+            if (subsystems.isIndexerPresent())
+            {
                 m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
             }
-            if(subsystems.isIntakePresent()){
+            if (subsystems.isIntakePresent())
+            {
                 m_Intake  = Optional.of(new SK21Intake());
             }
         }
@@ -303,7 +307,7 @@ private void resetDriveDefaultCommand()
                 {
                     return new DoNothingCommand();
                 }
-                return makeTrajectoryCommand(trajectory);
+                return makeTrajectoryCommand(trajectory, true);
             
             case DriveSplineCanned:
                 // Create a voltage constraint to ensure we don't accelerate too fast
@@ -326,7 +330,7 @@ private void resetDriveDefaultCommand()
                     List.of(new Translation2d(0.5, 0)),
                     new Pose2d(1, 0, new Rotation2d(0)), config);
 
-                return makeTrajectoryCommand(cannedTrajectory);
+                return makeTrajectoryCommand(cannedTrajectory, true);
             
             // This sequentially runs thorugh the 2 sub-paths of the Drive1mForwardBackward path defined in PathWeaver 
             case Drive1mForwardBackward:
@@ -338,7 +342,7 @@ private void resetDriveDefaultCommand()
                 {
                     return new DoNothingCommand();
                 }
-                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory);
+                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory, true);
 
                 // Generate a command for driving 1m backward from trajectory created from PathWeaver JSON file
                 File drive1mb = new File(splineDirectory + "/1m Backwards.wpilib.json");
@@ -347,7 +351,7 @@ private void resetDriveDefaultCommand()
                 {
                     return new DoNothingCommand();
                 }
-                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory);
+                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory, false);
 
                 // Execute each of the single commands in chronological order
                 return new SequentialCommandGroup(drive1mfCommand, drive1mbCommand);
@@ -355,41 +359,41 @@ private void resetDriveDefaultCommand()
             // This sequentially runs thorugh the 4 sub-paths of the Bounce Path defined in PathWeaver  
             case DriveBounce:
                 
-                // Generate a command for driving the first segment Bounce Path trajectory defined by PathWeaver JSON file 
+                // Generate a command for driving the 1st segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg1 = new File(splineDirectory + "/Bounce Segment 1.wpilib.json");
                 Trajectory bounceSeg1Trajectory = makeTrajectoryFromJSON(bounceSeg1);
                 if (bounceSeg1Trajectory == null)
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory);
+                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory, false);
 
-                // Generate a command for driving the second segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 2nd segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");
                 Trajectory bounceSeg2Trajectory = makeTrajectoryFromJSON(bounceSeg2);
                 if (bounceSeg2Trajectory == null) 
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory);
+                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory, false);
 
-                // Generate a command for driving the third segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 3rd segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg3 = new File(splineDirectory + "/Bounce Segment 3.wpilib.json");
                 Trajectory bounceSeg3Trajectory = makeTrajectoryFromJSON(bounceSeg3);
                 if (bounceSeg3Trajectory == null)
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory);
+                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory, false);
                 
-                // Generate a command for driving the fourth segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 4th segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg4 = new File(splineDirectory + "/Bounce Segment 4.wpilib.json");
                 Trajectory bounceSeg4Trajectory = makeTrajectoryFromJSON(bounceSeg4);
                 if (bounceSeg4Trajectory == null)
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory);
+                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory, false);
 
                 // Execute each of the single commands in chronological order
                 return new SequentialCommandGroup(driveBounceSeg1, driveBounceSeg2, driveBounceSeg3, driveBounceSeg4);
@@ -403,77 +407,91 @@ private void resetDriveDefaultCommand()
 
     private Trajectory makeTrajectoryFromJSON(File trajectoryJSON)
     {
-    Trajectory trajectory = new Trajectory();
-    try
-    {
-         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
+        Trajectory trajectory = new Trajectory();
+        try
+        {
+            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
+        }
+        catch (IOException ex)
+        {
+            // If we are unable to open the file the method returns a null object
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
+            return null;
+        }
+        return trajectory;
     }
-    catch (IOException ex)
+
+    private Command makeTrajectoryCommand(Trajectory trajectory, boolean bFirst) 
     {
-        // If we are unable to open the file the method returns a null object
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
-        return null;
-    }
-    return trajectory;
-  }
-
-  private Command makeTrajectoryCommand(Trajectory trajectory) 
-  {
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
-            DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
-
-    // Reset odometry to the starting pose of the trajectory.
-    m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
-
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
-  }
-
-  public void enterTestMode()
-  {
-
-    if (m_Intake.isPresent())
-    {
-        var intake = m_Intake.get();
-        intake.setDefaultCommand(new TestIntakeCommand(intake)); 
-    }
-    if (m_ballIndexerSubsystem.isPresent())
-    {
-        var indexer = m_ballIndexerSubsystem.get();
-        indexer.setDefaultCommand(new TestIndexerCommand(indexer));
-    }
-    if (m_launcherSubsystem.isPresent())
-    {
-        var launcher = m_launcherSubsystem.get();
-        launcher.setDefaultCommand(new TestLauncherCommand(launcher));
-    }
-    m_driveSubsystem.setDefaultCommand(new TestDriveCommand(m_driveSubsystem)); 
+        RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
+            new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+            new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+                DriveConstants.kaVoltSecondsSquaredPerMeter),
+            DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
+            new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+            // RamseteCommand passes volts to the callback
+            m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
     
-  }
+        // Tell the robot where it is starting from if this is the first trajectory of a path.
+        if (bFirst)
+        {
+            m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+        }
 
-  public void exitTestMode()
-  {
-    if (m_Intake.isPresent())
-    {
-        var intake = m_Intake.get();
-        intake.resetDefaultCommand();
+        // Run path following command, then stop at the end.
+        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
     }
-    if (m_ballIndexerSubsystem.isPresent())
+   
+
+    public void enterTestMode()
     {
-        var indexer = m_ballIndexerSubsystem.get();
-        indexer.resetDefaultCommand();
+
+        if (m_Intake.isPresent())
+        {
+            var intake = m_Intake.get();
+            intake.setDefaultCommand(new TestIntakeCommand(intake)); 
+        }
+        if (m_ballIndexerSubsystem.isPresent())
+        {
+            var indexer = m_ballIndexerSubsystem.get();
+            indexer.setDefaultCommand(new TestIndexerCommand(indexer));
+        }
+        if (m_launcherSubsystem.isPresent())
+        {
+            var launcher = m_launcherSubsystem.get();
+            launcher.setDefaultCommand(new TestLauncherCommand(launcher));
+        }
+        m_driveSubsystem.setDefaultCommand(new TestDriveCommand(m_driveSubsystem)); 
+    
     }
-    if (m_launcherSubsystem.isPresent())
+
+    public void exitTestMode()
     {
-        var launcher = m_launcherSubsystem.get();
-        launcher.resetDefaultCommand();
+        if (m_Intake.isPresent())
+        {
+            var intake = m_Intake.get();
+            intake.resetDefaultCommand();
+        }
+        if (m_ballIndexerSubsystem.isPresent())
+        {
+            var indexer = m_ballIndexerSubsystem.get();
+            indexer.resetDefaultCommand();
+        }
+        if (m_launcherSubsystem.isPresent())
+        {
+            var launcher = m_launcherSubsystem.get();
+            launcher.resetDefaultCommand();
+        }
+        resetDriveDefaultCommand();
     }
-    resetDriveDefaultCommand();
+
+    /**
+     * Reset the encoders and gyro in the drive subsystem. This should be called
+     * on boot and when initializing auto and reset modes.
+     */
+    public void resetDriveSubsystem()
+    {
+        m_driveSubsystem.resetEncoders();
+        m_driveSubsystem.resetGyro();
     }
 }

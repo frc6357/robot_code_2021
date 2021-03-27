@@ -95,10 +95,9 @@ public class Robot extends TimedRobot
         CommandScheduler.getInstance().run();
         // boolean IBMToggle = SmartDashboard.getBoolean("Ball Mangement Toggle", true);
         // RobotContainer.toggleBallManagement.setPressed(IBMToggle);
-        boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
 
-        
         // TODO: Reinstate this later
+        // boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
         // RobotContainer.spinColorWheel.setPressed(colorWheelActivate);
     }
 
@@ -109,6 +108,7 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit() 
     {
+        m_robotContainer.resetDriveSubsystem();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // Schedule the autonomous command (example)
@@ -130,6 +130,8 @@ public class Robot extends TimedRobot
     @Override
     public void teleopInit() 
     {
+        m_robotContainer.resetDriveSubsystem();
+
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -153,6 +155,8 @@ public class Robot extends TimedRobot
     @Override
     public void testInit() 
     {
+        m_robotContainer.resetDriveSubsystem();
+        
         // Cancels all running commands at the start of test mode.
         m_robotContainer.enterTestMode();
         CommandScheduler.getInstance().cancelAll();

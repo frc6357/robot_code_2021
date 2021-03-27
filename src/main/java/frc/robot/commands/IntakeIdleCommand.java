@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Intake;
 
 /**
@@ -13,6 +12,11 @@ import frc.robot.subsystems.SK21Intake;
  */
 public class IntakeIdleCommand extends CommandBase
 {
+    /**
+     * Construct a new IntakeIdleCommand.
+     * 
+     * @param intakeSubsystem The Intake Subsystem this Command depends upon
+     */
     public IntakeIdleCommand(SK21Intake intakeSubsystem)
     {
         // Use addRequirements() here to declare subsystem dependencies.

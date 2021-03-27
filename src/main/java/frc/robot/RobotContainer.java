@@ -366,7 +366,7 @@ private void resetDriveDefaultCommand()
                 {
                     return new DoNothingCommand();
                 }
-                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory, false);
+                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory, true);
 
                 // Generate a command for driving the 2nd segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");

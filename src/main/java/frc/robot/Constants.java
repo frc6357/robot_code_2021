@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * It is advised to statically import this class (or one of its inner classes) wherever
  * the constants are needed, to reduce verbosity.
  */
-public final class Constants {
-public static final class DriveConstants {
+public final class Constants
+{
+  public static final class DriveConstants
+  {
     public static final boolean kLeftEncoderReversed = false;
     public static final boolean kRightEncoderReversed = true;
 
@@ -42,7 +44,8 @@ public static final class DriveConstants {
     public static final double kPDriveVel = 1.88;
   }
 
-  public static final class AutoConstants {
+  public static final class AutoConstants
+  {
     public static final double kMaxSpeedMetersPerSecond = 2;
     public static final double kMaxAccelerationMetersPerSecondSquared = .50;
 

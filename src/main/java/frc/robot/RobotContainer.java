@@ -397,86 +397,86 @@ public class RobotContainer
 
     private Trajectory makeTrajectoryFromJSON(File trajectoryJSON)
     {
-    Trajectory trajectory = new Trajectory();
-    try
-    {
-         trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
+        Trajectory trajectory = new Trajectory();
+        try
+        {
+            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
+        }
+        catch (IOException ex)
+        {
+            // If we are unable to open the file the method returns a null object
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
+            return null;
+        }
+        return trajectory;
     }
-    catch (IOException ex)
-    {
-        // If we are unable to open the file the method returns a null object
-        DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
-        return null;
-    }
-    return trajectory;
-  }
 
-  private Command makeTrajectoryCommand(Trajectory trajectory, boolean bFirst) 
-  {
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
-            DriveConstants.kaVoltSecondsSquaredPerMeter),
-        DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
+    private Command makeTrajectoryCommand(Trajectory trajectory, boolean bFirst) 
+    {
+        RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
+            new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+            new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
+                DriveConstants.kaVoltSecondsSquaredPerMeter),
+            DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
+            new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
+            // RamseteCommand passes volts to the callback
+            m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
     
-    // Tell the robot where it is starting from if this is the first trajectory of a path.
-    if(bFirst)
-    {
-        m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+        // Tell the robot where it is starting from if this is the first trajectory of a path.
+        if(bFirst)
+        {
+            m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+        }
+
+        // Run path following command, then stop at the end.
+        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
     }
 
+    public void enterTestMode()
+    {
 
-    // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
-  }
+        if (m_Intake.isPresent())
+        {
+            var intake = m_Intake.get();
+            intake.setDefaultCommand(new TestIntakeCommand(intake)); 
+        }
+        if (m_ballIndexerSubsystem.isPresent())
+        {
+            var indexer = m_ballIndexerSubsystem.get();
+            indexer.setDefaultCommand(new TestIndexerCommand(indexer));
+        }
+        if (m_launcherSubsystem.isPresent())
+        {
+            var launcher = m_launcherSubsystem.get();
+            launcher.setDefaultCommand(new TestLauncherCommand(launcher));
+        }
+    }
 
-  public void enterTestMode()
-  {
-
-    if (m_Intake.isPresent())
+    public void exitTestMode()
     {
-        var intake = m_Intake.get();
-        intake.setDefaultCommand(new TestIntakeCommand(intake)); 
-    }
-    if (m_ballIndexerSubsystem.isPresent())
-    {
-        var indexer = m_ballIndexerSubsystem.get();
-        indexer.setDefaultCommand(new TestIndexerCommand(indexer));
-    }
-    if (m_launcherSubsystem.isPresent())
-    {
-        var launcher = m_launcherSubsystem.get();
-        launcher.setDefaultCommand(new TestLauncherCommand(launcher));
-    }
-  }
-
-  public void exitTestMode()
-  {
-    if (m_Intake.isPresent())
-    {
-        var intake = m_Intake.get();
-        intake.resetDefaultCommand();
-    }
-    if (m_ballIndexerSubsystem.isPresent())
-    {
-        var indexer = m_ballIndexerSubsystem.get();
-        indexer.resetDefaultCommand();
-    }
-    if (m_launcherSubsystem.isPresent())
-    {
-        var launcher = m_launcherSubsystem.get();
-        launcher.resetDefaultCommand();
-    }
+        if (m_Intake.isPresent())
+        {
+            var intake = m_Intake.get();
+            intake.resetDefaultCommand();
+        }
+        if (m_ballIndexerSubsystem.isPresent())
+        {
+            var indexer = m_ballIndexerSubsystem.get();
+            indexer.resetDefaultCommand();
+        }
+        if (m_launcherSubsystem.isPresent())
+        {
+            var launcher = m_launcherSubsystem.get();
+            launcher.resetDefaultCommand();
+        }
     }
 
     /**
      * Reset the encoders and gyro in the drive subsystem. This should be called
      * on boot and when initializing auto and reset modes.
      */
-    public void resetDriveSubsystem() {
+    public void resetDriveSubsystem()
+    {
         m_driveSubsystem.resetEncoders();
         m_driveSubsystem.resetGyro();
     }

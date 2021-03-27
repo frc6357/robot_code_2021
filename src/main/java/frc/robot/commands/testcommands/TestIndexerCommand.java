@@ -39,29 +39,6 @@ public class TestIndexerCommand extends CommandBase
         addRequirements(indexerSubsystem);
     }
 
-    // public void startRoller()
-    // {
-    //     indexerSubsystem.indexerRoller.setForwards();
-    // }
-
-    // /**
-    //  * Sets the value of the indexerMotor in the Indexer Subsystem to be the value
-    //  * provided for that motor from SmartDashboard.
-    //  */
-    // public void setForwardIndexMotor()
-    // {
-    //     indexerSubsystem.indexerMotor
-    //         .set(indexerSpinEntry.getValue().getDouble());
-    // }
-
-    /**
-     * When activated the rollers are set to run at 0 speed
-     */
-    // public void stopRoller()
-    // {
-    //     indexerSubsystem.indexerRoller.setStop();
-    // }
-
     // Called when the command is initially scheduled.
     @Override
     public void initialize()
@@ -80,7 +57,6 @@ public class TestIndexerCommand extends CommandBase
     {
         indexerSubsystem.indexerMotor.set(indexerMotorEntry.getValue().getDouble());
         indexerSubsystem.indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
-        
     }
 
     // False as test commands are intended to run the entire test mode.
@@ -89,5 +65,4 @@ public class TestIndexerCommand extends CommandBase
     {
         return false;
     }
-
 }

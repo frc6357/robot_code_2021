@@ -56,6 +56,7 @@ import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
+import frc.robot.commands.testcommands.TestDriveCommand;
 import frc.robot.commands.testcommands.TestIndexerCommand;
 import frc.robot.commands.testcommands.TestIntakeCommand;
 import frc.robot.commands.testcommands.TestLauncherCommand;
@@ -178,9 +179,7 @@ public class RobotContainer
         driverJoystick.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
         driverJoystick.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
 
-        // Configure default commands
-        // Set the default drive command to split-stick arcade drive
-        m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
+        resetDriveDefaultCommand();
 
         // Driver camera configuration.
         if (RobotBase.isReal())
@@ -190,6 +189,13 @@ public class RobotContainer
             camera.setFPS(15);
         }
     }
+
+private void resetDriveDefaultCommand()
+{
+    // Configure default commands
+    // Set the default drive command to split-stick arcade drive
+    m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
+}
 
     private void configureShuffleboard()
     {
@@ -447,6 +453,8 @@ public class RobotContainer
         var launcher = m_launcherSubsystem.get();
         launcher.setDefaultCommand(new TestLauncherCommand(launcher));
     }
+    m_driveSubsystem.setDefaultCommand(new TestDriveCommand(m_driveSubsystem)); 
+    
   }
 
   public void exitTestMode()
@@ -466,5 +474,6 @@ public class RobotContainer
         var launcher = m_launcherSubsystem.get();
         launcher.resetDefaultCommand();
     }
+    resetDriveDefaultCommand();
     }
 }

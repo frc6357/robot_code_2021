@@ -19,24 +19,24 @@ import frc.robot.Ports;
 import frc.robot.utils.MotorEncoder;
 
 public class SK21Drive extends SubsystemBase {
-  private final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
-  private final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
-  private final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
+  public final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
+  public final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
+  public final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
                                                         Constants.DriveConstants.kEncoderDistancePerPulse,
                                                         Constants.DriveConstants.kLeftEncoderReversed);
 
-  private final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
-  private final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
-  private final MotorEncoder m_rightMotorEncoder = new MotorEncoder(m_rightLeader, 
+  public final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
+  public final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
+  public final MotorEncoder m_rightMotorEncoder = new MotorEncoder(m_rightLeader, 
                                                         Constants.DriveConstants.kEncoderDistancePerPulse,
                                                         Constants.DriveConstants.kRightEncoderReversed);
 
-  private final SpeedControllerGroup m_leftGroup =
+  public final SpeedControllerGroup m_leftGroup =
       new SpeedControllerGroup(m_leftLeader, m_leftFollower);
-  private final SpeedControllerGroup m_rightGroup =
+  public final SpeedControllerGroup m_rightGroup =
       new SpeedControllerGroup(m_rightLeader, m_rightFollower);
 
-  private final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
+  public final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
 
   // The robot's drive
   private final DifferentialDrive m_drive = new DifferentialDrive(m_leftGroup, m_rightGroup);

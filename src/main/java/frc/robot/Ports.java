@@ -102,18 +102,15 @@ public class Ports
     public static final int OIDriverTurn                = 0;  // Left Joystick X
     public static final int OIDriverMove                = 5;  // Right Joystick Y
 
-    public static final int OIDriverSetLowGear          = 5;  // Set low gear (LeftBumper)
-    public static final int OIDriverSetHighGear         = 6;  // Set high gear (RightBumper)
-
     public static final int OIDriverSlowmode            = 3;  // Right Trigger Axis
 
     public static final int OIOperatorJoystick          = 1;
     public static final int OIOperatorDpad = 0; 
 
-    // public static final int OIOperatorStopColorWheel    = 1;    // Button A
+    // public static final int OIOperatorStopColorWheel    = 11;    // Nothing at the moment
     // public static final int OIOperatorStartThreeRotate  = 9;    // Left Joystick press button
-    public static final int OIOperatorStartSetColor     = 10;   // Right Joystick press button
-    public static final int OIOperatorColorWheelLift    = 7;    // Back button
+    public static final int OIOperatorStartSetColor     = 12;   // Nothing at the moment
+    public static final int OIOperatorColorWheelLift    = 10;    // Right Stick
     
     
     public static final int OIOperatorReverseIntake     = 9;    // Left Joystick Button
@@ -125,10 +122,10 @@ public class Ports
     public static final int OIOperatorLowHoodAngle      = 6;    // Right Bumper
     public static final int OIOperatorShootBall         = 2;    // Button B
 
-    public static final int OIOperatorArmClimb          = 4;    // Button Y
-    public static final int OIOperatorRunWinchArm       = 3;    // Button X
+    public static final int OIOperatorClimbReverse      = 4;    // Button Y
+    public static final int OIOperatorClimb             = 7;    // Button Back
 
-    public static final int OIOperatorSetLauncherSpeed  = 8;    // Goes through launcher speed list TODO: Set this correctly
+    public static final int OIOperatorSetLauncherSpeed  = 1;    // Button A
 
 
 

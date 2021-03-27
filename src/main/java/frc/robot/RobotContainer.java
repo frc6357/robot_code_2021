@@ -9,7 +9,6 @@ package frc.robot;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +35,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -73,7 +73,8 @@ import frc.robot.utils.filters.FilterDeadband;
  * scheduler calls). Instead, the structure of the robot (including subsystems,
  * commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer
+{
 
     public static UsbCamera camera;
 
@@ -113,7 +114,7 @@ public class RobotContainer {
 
     //Indexer control buttons
     private final TriggerButton startIndexer = new TriggerButton(operatorJoystick, Ports.OIOperatorActivateIndexer);
-    private final TriggerButton stopIndexer = new TriggerButton(operatorJoystick,Ports.OIOperatorDeactivateIndexer);
+    private final TriggerButton stopIndexer = new TriggerButton(operatorJoystick, Ports.OIOperatorDeactivateIndexer);
 
     // TODO Climb Buttons
     // TODO Color wheel buttons
@@ -126,9 +127,9 @@ public class RobotContainer {
 
         configureShuffleboard();
 
-        m_launcherSubsystem  = Optional.of(new SK21Launcher());
-        m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
-        m_Intake  = Optional.of(new SK21Intake());
+        m_launcherSubsystem  = Optional.empty(); //Optional.of(new SK21Launcher());
+        m_ballIndexerSubsystem  = Optional.empty(); //Optional.of(new SK21BallIndexer());
+        m_Intake  = Optional.empty(); // Optional.of(new SK21Intake());
 
         // Configure the button bindings
         configureButtonBindings();
@@ -141,7 +142,8 @@ public class RobotContainer {
         m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
 
         // Driver camera configuration.
-        if (RobotBase.isReal()) {
+        if (RobotBase.isReal())
+        {
             camera = CameraServer.getInstance().startAutomaticCapture("Driver Front Camera", 0);
             camera.setResolution(240, 240);
             camera.setFPS(15);
@@ -162,12 +164,14 @@ public class RobotContainer {
 
         File splineDirectory = new File(Constants.kSplineDirectory);
 
-        if(!splineDirectory.exists()){
+        if (!splineDirectory.exists())
+        {
             splineDirectory = new File(Constants.kSplineDirectoryWindows);
         }
         
         File[] pathNames = splineDirectory.listFiles();
-        for (File pathname : pathNames) {
+        for (File pathname : pathNames)
+        {
             // Print the names of files and directories
             System.out.println(pathname);
             splineCommandSelector.addOption(pathname.getName(), pathname);
@@ -193,7 +197,8 @@ public class RobotContainer {
 
         //Intake
 
-        if(m_Intake.isPresent()){
+        if (m_Intake.isPresent())
+        {
             var intake = m_Intake.get();
             extendIntakeButton.whenPressed(new ExtendIntakeCommand(intake));
             retractIntakeButton.whenPressed(new RetractIntakeCommand(intake));
@@ -202,7 +207,8 @@ public class RobotContainer {
         }
 
         //Indexer
-        if(m_ballIndexerSubsystem.isPresent()){
+        if (m_ballIndexerSubsystem.isPresent())
+        {
             var indexer = m_ballIndexerSubsystem.get();
             startIndexer.whenPressed(new StartIndexerCommand(indexer));
             stopIndexer.whenPressed(new StopIndexerCommand(indexer));
@@ -211,7 +217,8 @@ public class RobotContainer {
         }
 
         //Launcher
-        if(m_launcherSubsystem.isPresent()){
+        if (m_launcherSubsystem.isPresent())
+        {
             var launcher = m_launcherSubsystem.get();
             setHighAngle.whenPressed(new SetHoodHighShotCommand(launcher));
             setLowAngle.whenPressed(new SetHoodLowShotCommand(launcher));
@@ -226,6 +233,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand()
     {
+        File splineDirectory = new File(Constants.kSplineDirectory);
+
+        if (!splineDirectory.exists())
+        {
+            splineDirectory = new File(Constants.kSplineDirectoryWindows);
+        }
+
         var autoSelector = autoCommandSelector.getSelected();
 
         switch (autoSelector)
@@ -238,6 +252,10 @@ public class RobotContainer {
                 // mentioned here.
                 File splineFile = splineCommandSelector.getSelected();
                 Trajectory trajectory = makeTrajectoryFromJSON(splineFile);
+                if (trajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
                 return makeTrajectoryCommand(trajectory);
             
             case DriveSplineCanned:
@@ -252,23 +270,82 @@ public class RobotContainer {
                         .setKinematics(DriveConstants.kDriveKinematics)
                         // Apply the voltage constraint
                         .addConstraint(autoVoltageConstraint);
-                Trajectory cannedTrajectory = TrajectoryGenerator.generateTrajectory(
-                                new Pose2d(0, 0, new Rotation2d(0)),
-                                List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
-                                new Pose2d(5, 0, new Rotation2d(0)), config);
-                return makeTrajectoryCommand(cannedTrajectory);
+                // Trajectory cannedTrajectory = TrajectoryGenerator.generateTrajectory(
+                //                 new Pose2d(0, 0, new Rotation2d(0)),
+                //                 List.of(new Translation2d(2, 1), new Translation2d(3, -1)),
+                //                 new Pose2d(5, 0, new Rotation2d(0)), config);
+                Trajectory cannedTrajectory = 
+                TrajectoryGenerator.generateTrajectory(new Pose2d(0, 0, new Rotation2d(0)), 
+                    List.of(new Translation2d(0.5, 0)),
+                    new Pose2d(1, 0, new Rotation2d(0)), config);
 
+                return makeTrajectoryCommand(cannedTrajectory);
+            
+            // This sequentially runs thorugh the 2 sub-paths of the Drive1mForwardBackward path defined in PathWeaver 
             case Drive1mForwardBackward:
-                // TODO: Create 2 trajectory commands, one from the drive forward JSON, one from the drive
-                // backwards JSON, then create a compound/sequential command to drive these one after the
-                // other, returning that command.
-                return new DoNothingCommand();
                 
+                // Generate a command for driving 1m forward from trajectory created from PathWeaver JSON file
+                File drive1mf = new File(splineDirectory + "/1m Forwards.wpilib.json");
+                Trajectory drive1mfTrajectory = makeTrajectoryFromJSON(drive1mf);
+                if (drive1mfTrajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
+                Command drive1mfCommand = makeTrajectoryCommand(drive1mfTrajectory);
+
+                // Generate a command for driving 1m backward from trajectory created from PathWeaver JSON file
+                File drive1mb = new File(splineDirectory + "/1m Backwards.wpilib.json");
+                Trajectory drive1mbTrajectory = makeTrajectoryFromJSON(drive1mb);
+                if (drive1mbTrajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
+                Command drive1mbCommand = makeTrajectoryCommand(drive1mbTrajectory);
+
+                // Execute each of the single commands in chronological order
+                return new SequentialCommandGroup(drive1mfCommand, drive1mbCommand);
+            
+            // This sequentially runs thorugh the 4 sub-paths of the Bounce Path defined in PathWeaver  
             case DriveBounce:
-                // TODO: Create 4 trajectory commands, one from each of the bounce segment paths,
-                // then create a compound/sequential command to drive these one after the
-                // other, returning that command.
-                return new DoNothingCommand();
+                
+                // Generate a command for driving the first segment Bounce Path trajectory defined by PathWeaver JSON file 
+                File bounceSeg1 = new File(splineDirectory + "/Bounce Segment 1.wpilib.json");
+                Trajectory bounceSeg1Trajectory = makeTrajectoryFromJSON(bounceSeg1);
+                if (bounceSeg1Trajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory);
+
+                // Generate a command for driving the second segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");
+                Trajectory bounceSeg2Trajectory = makeTrajectoryFromJSON(bounceSeg2);
+                if (bounceSeg2Trajectory == null) 
+                {
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory);
+
+                // Generate a command for driving the third segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg3 = new File(splineDirectory + "/Bounce Segment 3.wpilib.json");
+                Trajectory bounceSeg3Trajectory = makeTrajectoryFromJSON(bounceSeg3);
+                if (bounceSeg3Trajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory);
+                
+                // Generate a command for driving the fourth segment Bounce Path trajectory defined by PathWeaver JSON file
+                File bounceSeg4 = new File(splineDirectory + "/Bounce Segment 4.wpilib.json");
+                Trajectory bounceSeg4Trajectory = makeTrajectoryFromJSON(bounceSeg4);
+                if (bounceSeg4Trajectory == null)
+                {
+                    return new DoNothingCommand();
+                }
+                Command driveBounceSeg4 = makeTrajectoryCommand(bounceSeg4Trajectory);
+
+                // Execute each of the single commands in chronological order
+                return new SequentialCommandGroup(driveBounceSeg1, driveBounceSeg2, driveBounceSeg3, driveBounceSeg4);
 
             default:
                 DriverStation.reportError("Uncoded selection from autoSelector chooser!", false);
@@ -277,16 +354,18 @@ public class RobotContainer {
         }
     }
 
-    private Trajectory makeTrajectoryFromJSON(File trajectoryJSON) {
+    private Trajectory makeTrajectoryFromJSON(File trajectoryJSON)
+    {
     Trajectory trajectory = new Trajectory();
-    try {
+    try
+    {
          trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryJSON.toPath());
     }
-    catch (IOException ex) {
-        // TODO: If we hit this exception, will the software exit immediately or will we end up
-        // returning a bogus trajectory object? If the latter, this is dangerous and will need 
-        // fixed!
+    catch (IOException ex)
+    {
+        // If we are unable to open the file the method returns a null object
         DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON.getName(), ex.getStackTrace());
+        return null;
     }
     return trajectory;
   }
@@ -309,32 +388,40 @@ public class RobotContainer {
     return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
   }
 
-  public void enterTestMode(){
+  public void enterTestMode()
+  {
 
-    if(m_Intake.isPresent()){
+    if (m_Intake.isPresent())
+    {
         var intake = m_Intake.get();
         intake.setDefaultCommand(new TestIntakeCommand(intake)); 
     }
-    if(m_ballIndexerSubsystem.isPresent()){
+    if (m_ballIndexerSubsystem.isPresent())
+    {
         var indexer = m_ballIndexerSubsystem.get();
         indexer.setDefaultCommand(new TestIndexerCommand(indexer));
     }
-    if(m_launcherSubsystem.isPresent()){
+    if (m_launcherSubsystem.isPresent())
+    {
         var launcher = m_launcherSubsystem.get();
         launcher.setDefaultCommand(new TestLauncherCommand(launcher));
     }
   }
 
-  public void exitTestMode(){
-    if(m_Intake.isPresent()){
+  public void exitTestMode()
+  {
+    if (m_Intake.isPresent())
+    {
         var intake = m_Intake.get();
         intake.resetDefaultCommand();
     }
-    if(m_ballIndexerSubsystem.isPresent()){
+    if (m_ballIndexerSubsystem.isPresent())
+    {
         var indexer = m_ballIndexerSubsystem.get();
         indexer.resetDefaultCommand();
     }
-    if(m_launcherSubsystem.isPresent()){
+    if (m_launcherSubsystem.isPresent())
+    {
         var launcher = m_launcherSubsystem.get();
         launcher.resetDefaultCommand();
     }

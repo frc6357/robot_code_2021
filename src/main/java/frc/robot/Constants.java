@@ -18,6 +18,9 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants
 {
+    /**
+     * Constants related to Driving the Robot.
+     */
     public static final class DriveConstants
     {
         public static final boolean kLeftEncoderReversed = false;
@@ -44,6 +47,9 @@ public final class Constants
         public static final double kPDriveVel = 1.88;
     }
 
+    /**
+     * Constants related to the Autonomous operation mode for the Robot.
+     */
     public static final class AutoConstants
     {
         public static final double kMaxSpeedMetersPerSecond = 2;

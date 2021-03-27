@@ -87,6 +87,9 @@ public class RobotContainer
      */
     private UsbCamera camera;
 
+    /**
+     * Available autonomous commands for the Robot.
+     */
     private enum AutoCommands
     {
         DoNothing, DriveSplineFromJSON, DriveSplineCanned, Drive1mForwardBackward, DriveBounce

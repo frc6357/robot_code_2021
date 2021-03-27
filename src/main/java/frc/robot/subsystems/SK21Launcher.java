@@ -27,7 +27,7 @@ public class SK21Launcher extends SubsystemBase
      */
     public final CANSparkMax launcherMotor =
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
-    public final CANPIDController pidControl = launcherMotor.getPIDController();
+    private final CANPIDController pidControl = launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
 
     /**
@@ -35,9 +35,16 @@ public class SK21Launcher extends SubsystemBase
      */
     public final CANSparkMax releaseMotor =
             new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
+
+    /**
+     * The BaseRoller for the launch release motor.
+     */
     public final BaseRoller releaseRoller =
             new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
 
+    /**
+     * The (Double) Solenoid that controls the Hood on the Launcher.
+     */
     public final DoubleSolenoid hoodMover =
             new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 

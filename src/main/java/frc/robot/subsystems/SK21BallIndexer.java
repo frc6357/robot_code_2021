@@ -14,8 +14,16 @@ import frc.robot.subsystems.base.BaseRoller;
  */
 public class SK21BallIndexer extends SubsystemBase
 {
+    /**
+     * The motor controller to be used in the BaseRoller of the Indexer.
+     */
     public final CANSparkMax indexerMotor;
+
+    /**
+     * The BaseRoller for the Indexer.
+     */
     public final BaseRoller indexerRoller;
+
     private CANSparkMax feederMotor;
     private BaseRoller feederRoller;
     private boolean indexerMotorIsStarted = false;

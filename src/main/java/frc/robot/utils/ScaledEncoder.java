@@ -2,6 +2,11 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Encoder;
 
+/**
+ * Implements an Encoder that scales the values on the encoder. This can be effectively
+ * used to convert encoder pulses to wheel rotations (to abstract away the number of
+ * pulses per revolution).
+ */
 public class ScaledEncoder extends Encoder
 {
     private final int pulsesPerRotation;

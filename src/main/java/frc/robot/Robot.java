@@ -8,9 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -23,8 +23,8 @@ public class Robot extends TimedRobot
     // private enum driveTestModeChoice{TestStraightCommandGroup,
     // TestStraightInterruptCommandGroup, TestTurnCommandGroup,
     // TestTurnInterruptCommandGroup}
-    private Command m_autonomousCommand;
-    private RobotContainer m_robotContainer;
+    private Command autonomousCommand;
+    private RobotContainer robotContainer;
 
     // public Robot() {
     // WPI_VictorSPX frontLeft = new WPI_VictorSPX(Ports.frontLeftDrive);
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit() 
     {
-        m_robotContainer = new RobotContainer();
+        robotContainer = new RobotContainer();
     }
 
     /**
@@ -86,7 +86,8 @@ public class Robot extends TimedRobot
     public void robotPeriodic() 
     {
         
-        /* Runs the Scheduler. This is responsible for polling buttons, adding
+        /* 
+         * Runs the Scheduler. This is responsible for polling buttons, adding
          * newly-scheduled commands, running already-scheduled commands, removing
          * finished or interrupted commands, and running subsystem periodic()
          * methods. This must be called from the robot's periodic block in order
@@ -108,13 +109,13 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit() 
     {
-        m_robotContainer.resetDriveSubsystem();
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        robotContainer.resetDriveSubsystem();
+        autonomousCommand = robotContainer.getAutonomousCommand();
 
         // Schedule the autonomous command (example)
-        if (m_autonomousCommand != null) 
+        if (autonomousCommand != null) 
         {
-            m_autonomousCommand.schedule();
+            autonomousCommand.schedule();
         }
     }
 
@@ -124,23 +125,22 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousPeriodic()
     {
-      
     }
 
     @Override
     public void teleopInit() 
     {
-        m_robotContainer.resetDriveSubsystem();
+        robotContainer.resetDriveSubsystem();
 
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (m_autonomousCommand != null)
+        /*
+         * This makes sure that the autonomous stops running when teleop starts running.
+         * If you want the autonomous to continue until interrupted by another command,
+         * remove this line or comment it out.
+         */
+        if (autonomousCommand != null)
         {
-            m_autonomousCommand.cancel();
+            autonomousCommand.cancel();
         }
-
     }
 
     /**
@@ -155,12 +155,11 @@ public class Robot extends TimedRobot
     @Override
     public void testInit() 
     {
-        m_robotContainer.resetDriveSubsystem();
+        robotContainer.resetDriveSubsystem();
         
         // Cancels all running commands at the start of test mode.
-        m_robotContainer.enterTestMode();
+        robotContainer.enterTestMode();
         CommandScheduler.getInstance().cancelAll();
-        
     }
 
     /**

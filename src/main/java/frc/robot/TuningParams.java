@@ -2,6 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Color;
 
+/**
+ * TuningParams represents Tuning Parameters for the Robot.
+ * 
+ * These are generally items that are dependent upon a specific robot design, not
+ * generally usable for another robot.
+ */
 public final class TuningParams 
 {
     //////////////////////////////
@@ -93,7 +99,7 @@ public final class TuningParams
     // Climb Params
     ///////////////////////////////
     public static final double WINCH_MOTOR_SPEED            = 0.5;
-    public static final boolean DEPLOY_CLIMB_ARM            = true; //assumes that the solenoid needs to be energized be extended
+    public static final boolean DEPLOY_CLIMB_ARM            = true; //assume the solenoid is energized to extend
 
     ///////////////////////////////
     // Auto Params

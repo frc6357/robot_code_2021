@@ -71,7 +71,6 @@ public class TestDriveCommand extends CommandBase
     @Override
     public void execute()
     {
-
         /*
          * TODO: This currently has an issue in setting for both individual motors and the
          * speed group. We need to add a "chooser" to this command to have the user
@@ -79,17 +78,17 @@ public class TestDriveCommand extends CommandBase
          * these SET items with an IF based on how that chooser (in smartdashboard) is
          * set.
          */
-        driveSubsystem.m_leftLeader.set(leftLeaderEntry.getValue().getDouble());
+        driveSubsystem.leftLeader.set(leftLeaderEntry.getValue().getDouble());
 
-        driveSubsystem.m_leftFollower.set(leftFollowerEntry.getValue().getDouble());
+        driveSubsystem.leftFollower.set(leftFollowerEntry.getValue().getDouble());
 
-        driveSubsystem.m_rightLeader.set(rightLeaderEntry.getValue().getDouble());
+        driveSubsystem.rightLeader.set(rightLeaderEntry.getValue().getDouble());
 
-        driveSubsystem.m_rightFollower.set(rightFollowerEntry.getValue().getDouble());
+        driveSubsystem.rightFollower.set(rightFollowerEntry.getValue().getDouble());
 
-        driveSubsystem.m_leftGroup.set(speedControllerGroupLeftEntry.getValue().getDouble());
+        driveSubsystem.leftGroup.set(speedControllerGroupLeftEntry.getValue().getDouble());
 
-        driveSubsystem.m_rightGroup.set(speedControllerGroupRightEntry.getValue().getDouble());
+        driveSubsystem.rightGroup.set(speedControllerGroupRightEntry.getValue().getDouble());
 
     }
 

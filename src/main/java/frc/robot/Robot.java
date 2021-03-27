@@ -51,7 +51,6 @@ public class Robot extends TimedRobot
      */
     public Robot() 
     {
-
         // m_driveStraightCommand = command;
 
         // Drive
@@ -63,9 +62,6 @@ public class Robot extends TimedRobot
         // driveTestModeChoice.TestTurnCommandGroup);
         // driveTestModeSelector.addOption("TestTurnInterruptCommandGroup",
         // driveTestModeChoice.TestTurnInterruptCommandGroup);
-
-        
-
     }
 
     @Override
@@ -85,7 +81,6 @@ public class Robot extends TimedRobot
     @Override
     public void robotPeriodic() 
     {
-        
         /* 
          * Runs the Scheduler. This is responsible for polling buttons, adding
          * newly-scheduled commands, running already-scheduled commands, removing

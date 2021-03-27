@@ -130,29 +130,24 @@ public class RobotContainer
    */
     public RobotContainer()
     {
-
         configureShuffleboard();
 
         File subsystemFile = new File(Constants.kSubsystem);
-
         if (!subsystemFile.exists())
         {
             subsystemFile = new File(Constants.kSubsystemWindows);
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        
         JsonFactory factory = new JsonFactory();
         
-        m_launcherSubsystem  = Optional.empty(); 
-        m_ballIndexerSubsystem  = Optional.empty();
-        m_Intake  = Optional.empty();
+        m_launcherSubsystem = Optional.empty(); 
+        m_ballIndexerSubsystem = Optional.empty();
+        m_Intake = Optional.empty();
 
         try
         {
             JsonParser parser = factory.createParser(subsystemFile);
-            
-            
             SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
             
             if (subsystems.isLauncherPresent())
@@ -170,12 +165,8 @@ public class RobotContainer
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            DriverStation.reportError("Failure to read Subsystem Control File!", e.getStackTrace());
         }
-
-        
-
 
         // Configure the button bindings
         configureButtonBindings();
@@ -194,12 +185,12 @@ public class RobotContainer
         }
     }
 
-private void resetDriveDefaultCommand()
-{
-    // Configure default commands
-    // Set the default drive command to split-stick arcade drive
-    m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
-}
+    private void resetDriveDefaultCommand()
+    {
+         // Configure default commands
+         // Set the default drive command to split-stick arcade drive
+         m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
+    }
 
     private void configureShuffleboard()
     {
@@ -247,7 +238,6 @@ private void resetDriveDefaultCommand()
             .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
 
         //Intake
-
         if (m_Intake.isPresent())
         {
             var intake = m_Intake.get();
@@ -285,7 +275,6 @@ private void resetDriveDefaultCommand()
     public Command getAutonomousCommand()
     {
         File splineDirectory = new File(Constants.kSplineDirectory);
-
         if (!splineDirectory.exists())
         {
             splineDirectory = new File(Constants.kSplineDirectoryWindows);
@@ -441,11 +430,13 @@ private void resetDriveDefaultCommand()
         // Run path following command, then stop at the end.
         return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
     }
-   
 
+    /**
+     * Enter test mode. This sets the default commands for the subsystems to be commands
+     * that enable testing.
+     */
     public void enterTestMode()
     {
-
         if (m_Intake.isPresent())
         {
             var intake = m_Intake.get();
@@ -462,9 +453,12 @@ private void resetDriveDefaultCommand()
             launcher.setDefaultCommand(new TestLauncherCommand(launcher));
         }
         m_driveSubsystem.setDefaultCommand(new TestDriveCommand(m_driveSubsystem)); 
-    
     }
 
+    /**
+     * Exit test mode. This resets the default commands for the subsystems to be commands
+     * that are used in teleop/autonomous.
+     */
     public void exitTestMode()
     {
         if (m_Intake.isPresent())

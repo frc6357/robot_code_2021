@@ -1,7 +1,6 @@
 package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Ports;
 
 /**
  * Creates a class that converts Dpad behaviors to binary up/down behaviors. Note we

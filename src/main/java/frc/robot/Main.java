@@ -18,9 +18,9 @@ public final class Main
   /**
    * Main initialization function. Do not perform any initialization here.
    *
-   * <p>If you change your main robot class, change the parameter type.
+   * @param ignored The ignored arguments to this program
    */
-  public static void main(String... args)
+  public static void main(String... ignored)
   {
     RobotBase.startRobot(Robot::new);
   }

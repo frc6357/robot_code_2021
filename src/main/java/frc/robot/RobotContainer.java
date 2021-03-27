@@ -134,7 +134,8 @@ public class RobotContainer
 
         File subsystemFile = new File(Constants.kSubsystem);
 
-        if(!subsystemFile.exists()){
+        if (!subsystemFile.exists())
+        {
             subsystemFile = new File(Constants.kSubsystemWindows);
         }
 
@@ -153,13 +154,16 @@ public class RobotContainer
             
             SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
             
-            if(subsystems.isLauncherPresent()){
+            if (subsystems.isLauncherPresent())
+            {
                 m_launcherSubsystem  = Optional.of(new SK21Launcher());
             }
-            if(subsystems.isIndexerPresent()){
+            if (subsystems.isIndexerPresent())
+            {
                 m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
             }
-            if(subsystems.isIntakePresent()){
+            if (subsystems.isIntakePresent())
+            {
                 m_Intake  = Optional.of(new SK21Intake());
             }
         }
@@ -349,7 +353,7 @@ public class RobotContainer
             // This sequentially runs thorugh the 4 sub-paths of the Bounce Path defined in PathWeaver  
             case DriveBounce:
                 
-                // Generate a command for driving the first segment Bounce Path trajectory defined by PathWeaver JSON file 
+                // Generate a command for driving the 1st segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg1 = new File(splineDirectory + "/Bounce Segment 1.wpilib.json");
                 Trajectory bounceSeg1Trajectory = makeTrajectoryFromJSON(bounceSeg1);
                 if (bounceSeg1Trajectory == null)
@@ -358,7 +362,7 @@ public class RobotContainer
                 }
                 Command driveBounceSeg1 = makeTrajectoryCommand(bounceSeg1Trajectory, false);
 
-                // Generate a command for driving the second segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 2nd segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg2 = new File(splineDirectory + "/Bounce Segment 2.wpilib.json");
                 Trajectory bounceSeg2Trajectory = makeTrajectoryFromJSON(bounceSeg2);
                 if (bounceSeg2Trajectory == null) 
@@ -367,7 +371,7 @@ public class RobotContainer
                 }
                 Command driveBounceSeg2 = makeTrajectoryCommand(bounceSeg2Trajectory, false);
 
-                // Generate a command for driving the third segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 3rd segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg3 = new File(splineDirectory + "/Bounce Segment 3.wpilib.json");
                 Trajectory bounceSeg3Trajectory = makeTrajectoryFromJSON(bounceSeg3);
                 if (bounceSeg3Trajectory == null)
@@ -376,7 +380,7 @@ public class RobotContainer
                 }
                 Command driveBounceSeg3 = makeTrajectoryCommand(bounceSeg3Trajectory, false);
                 
-                // Generate a command for driving the fourth segment Bounce Path trajectory defined by PathWeaver JSON file
+                // Generate a command for driving the 4th segment Bounce Path trajectory defined by PathWeaver JSON file
                 File bounceSeg4 = new File(splineDirectory + "/Bounce Segment 4.wpilib.json");
                 Trajectory bounceSeg4Trajectory = makeTrajectoryFromJSON(bounceSeg4);
                 if (bounceSeg4Trajectory == null)
@@ -423,7 +427,7 @@ public class RobotContainer
             m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
     
         // Tell the robot where it is starting from if this is the first trajectory of a path.
-        if(bFirst)
+        if (bFirst)
         {
             m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
         }

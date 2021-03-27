@@ -64,7 +64,8 @@ public final class TuningParams
     public static final double LAUNCHER_SET_PERCENTAGE_CRITICAL = -0.80; // TODO: IMPORTANT! Tune this
     public static final int RELEASE_MOTOR_RUNTIME               = 300; // In Milliseconds
     //TODO: IMPORTANT! Tune these PID values later
-    // After reading information from Chief Delphi and RevRobotics people, these values are supposed to be insanely small as their
+    // After reading information from Chief Delphi and RevRobotics people,
+    // these values are supposed to be insanely small as their
     // software is different than most other PID controllers
     public static final double LAUNCHER_P_VALUE                = 0.001;
     public static final double LAUNCHER_I_VALUE                = 0.0000005;

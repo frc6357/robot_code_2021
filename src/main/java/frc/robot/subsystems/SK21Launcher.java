@@ -62,6 +62,9 @@ public class SK21Launcher extends SubsystemBase
         resetDefaultCommand();
     }
 
+    /**
+     * Resets the default command for this subsystem to the command used during auto/teleop.
+     */
     public void resetDefaultCommand()
     {
         setDefaultCommand(defaultCommand);

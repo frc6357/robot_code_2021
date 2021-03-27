@@ -95,10 +95,9 @@ public class Robot extends TimedRobot
         CommandScheduler.getInstance().run();
         // boolean IBMToggle = SmartDashboard.getBoolean("Ball Mangement Toggle", true);
         // RobotContainer.toggleBallManagement.setPressed(IBMToggle);
-        boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
 
-        
         // TODO: Reinstate this later
+        // boolean colorWheelActivate = SmartDashboard.getBoolean("Spin Color Wheel Manually", false);
         // RobotContainer.spinColorWheel.setPressed(colorWheelActivate);
     }
 

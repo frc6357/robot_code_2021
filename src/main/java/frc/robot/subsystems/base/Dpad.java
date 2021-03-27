@@ -1,6 +1,7 @@
 package frc.robot.subsystems.base;
 
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.Ports;
 
 /**
  * Creates a class that converts Dpad behaviors to binary up/down behaviors. Note we
@@ -13,6 +14,7 @@ public class Dpad
      * The Joystick on which this Dpad is present.
      */
     private final Joystick joystick;
+    private final int dpadNumber;
 
     /**
      * Constructs a new Dpad for the given operatorJoystick
@@ -20,9 +22,10 @@ public class Dpad
      * @param joystick
      *            The Joystick the Dpad is on
      */
-    public Dpad(Joystick joystick)
+    public Dpad(Joystick joystick, int dpadNumber)
     {
         this.joystick = joystick;
+        this.dpadNumber = dpadNumber;
     }
 
     /**
@@ -34,7 +37,7 @@ public class Dpad
      */
     public boolean isUpPressed()
     {
-        int direction = joystick.getPOV();
+        int direction = joystick.getPOV(dpadNumber);
         return (direction == 0) || (direction == 315) || (direction == 45);
     }
 
@@ -48,7 +51,7 @@ public class Dpad
 
     public boolean isDownPressed()
     {
-        int direction = joystick.getPOV();
+        int direction = joystick.getPOV(dpadNumber);
         return (direction == 180) || (direction == 225) || (direction == 135);
     }
 

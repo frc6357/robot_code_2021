@@ -99,7 +99,7 @@ public class RobotContainer {
     private Optional<SK21Intake> m_Intake = Optional.empty();
 
     // Intake control buttons
-    private final Dpad dpad = new Dpad(operatorJoystick);
+    private final Dpad dpad = new Dpad(operatorJoystick, Ports.OIOperatorDpad);
     private final DpadUpButton extendIntakeButton = new DpadUpButton(dpad);
     private final DpadDownButton retractIntakeButton = new DpadDownButton(dpad);
     private final JoystickButton reverseIntake = new JoystickButton(operatorJoystick, Ports.OIOperatorReverseIntake);

@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -64,6 +68,7 @@ import frc.robot.subsystems.base.DpadDownButton;
 import frc.robot.subsystems.base.DpadUpButton;
 import frc.robot.subsystems.base.TriggerButton;
 import frc.robot.utils.FilteredJoystick;
+import frc.robot.utils.SubsystemControls;
 import frc.robot.utils.filters.FilterDeadband;
 
 /**
@@ -127,9 +132,45 @@ public class RobotContainer
 
         configureShuffleboard();
 
-        m_launcherSubsystem  = Optional.empty(); //Optional.of(new SK21Launcher());
-        m_ballIndexerSubsystem  = Optional.empty(); //Optional.of(new SK21BallIndexer());
-        m_Intake  = Optional.empty(); // Optional.of(new SK21Intake());
+        File subsystemFile = new File(Constants.kSubsystem);
+
+        if(!subsystemFile.exists()){
+            subsystemFile = new File(Constants.kSubsystemWindows);
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        
+        JsonFactory factory = new JsonFactory();
+        
+        m_launcherSubsystem  = Optional.empty(); 
+        m_ballIndexerSubsystem  = Optional.empty();
+        m_Intake  = Optional.empty();
+
+        try
+        {
+            JsonParser parser = factory.createParser(subsystemFile);
+            
+            
+            SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
+            
+            if(subsystems.isLauncherPresent()){
+                m_launcherSubsystem  = Optional.of(new SK21Launcher());
+            }
+            if(subsystems.isIndexerPresent()){
+                m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
+            }
+            if(subsystems.isIntakePresent()){
+                m_Intake  = Optional.of(new SK21Intake());
+            }
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        
+
 
         // Configure the button bindings
         configureButtonBindings();

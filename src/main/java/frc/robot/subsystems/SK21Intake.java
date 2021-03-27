@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.commands.DoNothingCommand;
+import frc.robot.commands.IntakeIdleCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
@@ -33,7 +33,7 @@ public class SK21Intake extends SubsystemBase
      */
     private final CANEncoder intakeRollerEncoder;
 
-    private final DoNothingCommand intake;
+    private final IntakeIdleCommand intake;
 
     /**
      * Will let us know the state of the intake motor.
@@ -58,7 +58,7 @@ public class SK21Intake extends SubsystemBase
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop,
             Ports.intakeMoverRaise);
-            intake = new DoNothingCommand();
+            intake = new IntakeIdleCommand(this);
             resetDefaultCommand();
         }
     

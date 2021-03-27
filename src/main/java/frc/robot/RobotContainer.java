@@ -95,15 +95,15 @@ public class RobotContainer
 
     // The Robot controllers
     private final FilteredJoystick driverJoystick = new FilteredJoystick(0);
-    private final FilterDeadband m_deadbandThrottle = new FilterDeadband(0.05, -1.0);
-    private final FilterDeadband m_deadbandTurn = new FilterDeadband(0.05, 1.0);
+    private final FilterDeadband deadbandThrottle = new FilterDeadband(0.05, -1.0);
+    private final FilterDeadband deadbandTurn = new FilterDeadband(0.05, 1.0);
     private final Joystick operatorJoystick = new Joystick(Ports.OIOperatorJoystick);
   
     // The robot's subsystems are defined here...
-    private final SK21Drive m_driveSubsystem = new SK21Drive();
-    private Optional<SK21Launcher> m_launcherSubsystem = Optional.empty();
-    private Optional<SK21BallIndexer> m_ballIndexerSubsystem = Optional.empty();
-    private Optional<SK21Intake> m_Intake = Optional.empty();
+    private final SK21Drive driveSubsystem = new SK21Drive();
+    private Optional<SK21Launcher> launcherSubsystem = Optional.empty();
+    private Optional<SK21BallIndexer> ballIndexerSubsystem = Optional.empty();
+    private Optional<SK21Intake> intakeSubsystem = Optional.empty();
 
     // Intake control buttons
     private final Dpad dpad = new Dpad(operatorJoystick, Ports.OIOperatorDpad);
@@ -141,9 +141,9 @@ public class RobotContainer
         ObjectMapper mapper = new ObjectMapper();
         JsonFactory factory = new JsonFactory();
         
-        m_launcherSubsystem = Optional.empty(); 
-        m_ballIndexerSubsystem = Optional.empty();
-        m_Intake = Optional.empty();
+        launcherSubsystem = Optional.empty(); 
+        ballIndexerSubsystem = Optional.empty();
+        intakeSubsystem = Optional.empty();
 
         try
         {
@@ -152,15 +152,15 @@ public class RobotContainer
             
             if (subsystems.isLauncherPresent())
             {
-                m_launcherSubsystem  = Optional.of(new SK21Launcher());
+                launcherSubsystem  = Optional.of(new SK21Launcher());
             }
             if (subsystems.isIndexerPresent())
             {
-                m_ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
+                ballIndexerSubsystem  = Optional.of(new SK21BallIndexer());
             }
             if (subsystems.isIntakePresent())
             {
-                m_Intake  = Optional.of(new SK21Intake());
+                intakeSubsystem  = Optional.of(new SK21Intake());
             }
         }
         catch (IOException e)
@@ -171,8 +171,8 @@ public class RobotContainer
         // Configure the button bindings
         configureButtonBindings();
     
-        driverJoystick.setFilter(Ports.OIDriverTurn, m_deadbandTurn);
-        driverJoystick.setFilter(Ports.OIDriverMove, m_deadbandThrottle);
+        driverJoystick.setFilter(Ports.OIDriverTurn, deadbandTurn);
+        driverJoystick.setFilter(Ports.OIDriverMove, deadbandThrottle);
 
         resetDriveDefaultCommand();
 
@@ -189,7 +189,7 @@ public class RobotContainer
     {
          // Configure default commands
          // Set the default drive command to split-stick arcade drive
-         m_driveSubsystem.setDefaultCommand(new DefaultDriveCommand(m_driveSubsystem, driverJoystick));
+         driveSubsystem.setDefaultCommand(new DefaultDriveCommand(driveSubsystem, driverJoystick));
     }
 
     private void configureShuffleboard()
@@ -234,13 +234,13 @@ public class RobotContainer
         // TODO: Test this implementation to make sure that it works as expected since it's 
         // different from the way we've done this in the past.
         new JoystickButton(driverJoystick, Button.kBumperRight.value)
-            .whenPressed(() -> m_driveSubsystem.setMaxOutput(0.5))
-            .whenReleased(() -> m_driveSubsystem.setMaxOutput(1));
+            .whenPressed(() -> driveSubsystem.setMaxOutput(0.5))
+            .whenReleased(() -> driveSubsystem.setMaxOutput(1));
 
         //Intake
-        if (m_Intake.isPresent())
+        if (intakeSubsystem.isPresent())
         {
-            var intake = m_Intake.get();
+            var intake = intakeSubsystem.get();
             extendIntakeButton.whenPressed(new ExtendIntakeCommand(intake));
             retractIntakeButton.whenPressed(new RetractIntakeCommand(intake));
             reverseIntake.whenPressed(new ReverseIntakeCommand(intake));
@@ -248,9 +248,9 @@ public class RobotContainer
         }
 
         //Indexer
-        if (m_ballIndexerSubsystem.isPresent())
+        if (ballIndexerSubsystem.isPresent())
         {
-            var indexer = m_ballIndexerSubsystem.get();
+            var indexer = ballIndexerSubsystem.get();
             startIndexer.whenPressed(new StartIndexerCommand(indexer));
             stopIndexer.whenPressed(new StopIndexerCommand(indexer));
             launchBall.whenPressed(new TriggerShotCommand(indexer));
@@ -258,9 +258,9 @@ public class RobotContainer
         }
 
         //Launcher
-        if (m_launcherSubsystem.isPresent())
+        if (launcherSubsystem.isPresent())
         {
-            var launcher = m_launcherSubsystem.get();
+            var launcher = launcherSubsystem.get();
             setHighAngle.whenPressed(new SetHoodHighShotCommand(launcher));
             setLowAngle.whenPressed(new SetHoodLowShotCommand(launcher));
             toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(launcher));
@@ -412,23 +412,23 @@ public class RobotContainer
 
     private Command makeTrajectoryCommand(Trajectory trajectory, boolean bFirst) 
     {
-        RamseteCommand ramseteCommand = new RamseteCommand(trajectory, m_driveSubsystem::getPose,
+        RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveSubsystem::getPose,
             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
             new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter,
                 DriveConstants.kaVoltSecondsSquaredPerMeter),
-            DriveConstants.kDriveKinematics, m_driveSubsystem::getWheelSpeeds,
+            DriveConstants.kDriveKinematics, driveSubsystem::getWheelSpeeds,
             new PIDController(DriveConstants.kPDriveVel, 0, 0), new PIDController(DriveConstants.kPDriveVel, 0, 0),
             // RamseteCommand passes volts to the callback
-            m_driveSubsystem::tankDriveVolts, m_driveSubsystem);
+            driveSubsystem::tankDriveVolts, driveSubsystem);
     
         // Tell the robot where it is starting from if this is the first trajectory of a path.
         if (bFirst)
         {
-            m_driveSubsystem.resetOdometry(trajectory.getInitialPose());
+            driveSubsystem.resetOdometry(trajectory.getInitialPose());
         }
 
         // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
+        return ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
     }
 
     /**
@@ -437,22 +437,22 @@ public class RobotContainer
      */
     public void enterTestMode()
     {
-        if (m_Intake.isPresent())
+        if (intakeSubsystem.isPresent())
         {
-            var intake = m_Intake.get();
+            var intake = intakeSubsystem.get();
             intake.setDefaultCommand(new TestIntakeCommand(intake)); 
         }
-        if (m_ballIndexerSubsystem.isPresent())
+        if (ballIndexerSubsystem.isPresent())
         {
-            var indexer = m_ballIndexerSubsystem.get();
+            var indexer = ballIndexerSubsystem.get();
             indexer.setDefaultCommand(new TestIndexerCommand(indexer));
         }
-        if (m_launcherSubsystem.isPresent())
+        if (launcherSubsystem.isPresent())
         {
-            var launcher = m_launcherSubsystem.get();
+            var launcher = launcherSubsystem.get();
             launcher.setDefaultCommand(new TestLauncherCommand(launcher));
         }
-        m_driveSubsystem.setDefaultCommand(new TestDriveCommand(m_driveSubsystem)); 
+        driveSubsystem.setDefaultCommand(new TestDriveCommand(driveSubsystem)); 
     }
 
     /**
@@ -461,19 +461,19 @@ public class RobotContainer
      */
     public void exitTestMode()
     {
-        if (m_Intake.isPresent())
+        if (intakeSubsystem.isPresent())
         {
-            var intake = m_Intake.get();
+            var intake = intakeSubsystem.get();
             intake.resetDefaultCommand();
         }
-        if (m_ballIndexerSubsystem.isPresent())
+        if (ballIndexerSubsystem.isPresent())
         {
-            var indexer = m_ballIndexerSubsystem.get();
+            var indexer = ballIndexerSubsystem.get();
             indexer.resetDefaultCommand();
         }
-        if (m_launcherSubsystem.isPresent())
+        if (launcherSubsystem.isPresent())
         {
-            var launcher = m_launcherSubsystem.get();
+            var launcher = launcherSubsystem.get();
             launcher.resetDefaultCommand();
         }
         resetDriveDefaultCommand();
@@ -485,7 +485,7 @@ public class RobotContainer
      */
     public void resetDriveSubsystem()
     {
-        m_driveSubsystem.resetEncoders();
-        m_driveSubsystem.resetGyro();
+        driveSubsystem.resetEncoders();
+        driveSubsystem.resetGyro();
     }
 }

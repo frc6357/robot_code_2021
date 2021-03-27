@@ -18,51 +18,86 @@ import frc.robot.Constants;
 import frc.robot.Ports;
 import frc.robot.utils.MotorEncoder;
 
+/**
+ * The SK21Drive class is the subsystem that controls the drive train of the Robot.
+ */
 public class SK21Drive extends SubsystemBase
 {
-    public final WPI_TalonFX m_leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
-    public final WPI_TalonFX m_leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
-    public final MotorEncoder m_leftMotorEncoder = new MotorEncoder(m_leftLeader, 
+    /**
+     * Motor controller for the leading left motor.
+     */
+    public final WPI_TalonFX leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
+
+    /**
+     * Motor controller for the following left motor.
+     */
+    public final WPI_TalonFX leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
+
+    /**
+     * Encoder attached to the leading left motor.
+     */
+    public final MotorEncoder leftMotorEncoder = new MotorEncoder(leftLeader, 
                                                         Constants.DriveConstants.kEncoderDistancePerPulse,
                                                         Constants.DriveConstants.kLeftEncoderReversed);
 
-    public final WPI_TalonFX m_rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
-    public final WPI_TalonFX m_rightFollower = new WPI_TalonFX(Ports.backRightDrive);
-    public final MotorEncoder m_rightMotorEncoder = new MotorEncoder(m_rightLeader, 
+    /**
+     * Motor controller for the leading right motor.
+     */
+    public final WPI_TalonFX rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
+
+    /**
+     * Motor controller for the following right motor.
+     */
+    public final WPI_TalonFX rightFollower = new WPI_TalonFX(Ports.backRightDrive);
+
+    /**
+     * Encoder attached to the leading right motor.
+     */
+    public final MotorEncoder rightMotorEncoder = new MotorEncoder(rightLeader, 
                                                         Constants.DriveConstants.kEncoderDistancePerPulse,
                                                         Constants.DriveConstants.kRightEncoderReversed);
 
-    public final SpeedControllerGroup m_leftGroup =
-        new SpeedControllerGroup(m_leftLeader, m_leftFollower);
-    public final SpeedControllerGroup m_rightGroup =
-        new SpeedControllerGroup(m_rightLeader, m_rightFollower);
+    /**
+     * SpeedControllerGroup for the left motors.
+     */
+    public final SpeedControllerGroup leftGroup =
+        new SpeedControllerGroup(leftLeader, leftFollower);
 
-    public final ADIS16448_IMU m_gyro = new ADIS16448_IMU();
+    /**
+     * SpeedControllerGroup for the right motors.
+     */
+    public final SpeedControllerGroup rightGroup =
+        new SpeedControllerGroup(rightLeader, rightFollower);
+
+    /**
+     * Gyroscope for the Robot.
+     */
+    public final ADIS16448_IMU gyro = new ADIS16448_IMU();
 
     // The robot's drive
-    private final DifferentialDrive m_drive = new DifferentialDrive(m_leftGroup, m_rightGroup);
+    private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
 
     // Odometry class for tracking robot pose
-    private final DifferentialDriveOdometry m_odometry;
+    private final DifferentialDriveOdometry odometry;
   
     /** Creates a new SK21Drive. */
     public SK21Drive()
     {
         resetEncoders();
-        m_gyro.reset();
-        m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+        gyro.reset();
+        odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     }
 
     @Override
     public void periodic()
     {
-        double leftEncoderDistanceMeters = m_leftMotorEncoder.getPositionMeters();
-        double rightEncoderDistanceMeters = m_rightMotorEncoder.getPositionMeters();
-        double leftEncoderSpeedMeters = m_leftMotorEncoder.getVelocityMeters();
-        double rightEncoderSpeedMeters = m_rightMotorEncoder.getVelocityMeters();
+        double leftEncoderDistanceMeters = leftMotorEncoder.getPositionMeters();
+        double rightEncoderDistanceMeters = rightMotorEncoder.getPositionMeters();
+        double leftEncoderSpeedMeters = leftMotorEncoder.getVelocityMeters();
+        double rightEncoderSpeedMeters = rightMotorEncoder.getVelocityMeters();
         // Update the odometry in the periodic block
-        m_odometry.update(
-            m_gyro.getRotation2d(), 
+        odometry.update(
+            gyro.getRotation2d(), 
             leftEncoderDistanceMeters,
             rightEncoderDistanceMeters);
 
@@ -70,7 +105,7 @@ public class SK21Drive extends SubsystemBase
         SmartDashboard.putNumber("Right Wheel Distance", rightEncoderDistanceMeters);
         SmartDashboard.putNumber("Left Wheel Speed", leftEncoderSpeedMeters);
         SmartDashboard.putNumber("Right Wheel Speed", rightEncoderSpeedMeters);
-        SmartDashboard.putNumber("Gyro Angle", m_gyro.getRotation2d().getDegrees());
+        SmartDashboard.putNumber("Gyro Angle", gyro.getRotation2d().getDegrees());
     }
 
     /**
@@ -80,7 +115,7 @@ public class SK21Drive extends SubsystemBase
      */
     public Pose2d getPose()
     {
-        return m_odometry.getPoseMeters();
+        return odometry.getPoseMeters();
     }
 
     /**
@@ -88,10 +123,11 @@ public class SK21Drive extends SubsystemBase
      *
      * @return The current wheel speeds.
      */
-    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    public DifferentialDriveWheelSpeeds getWheelSpeeds()
+    {
         return new DifferentialDriveWheelSpeeds(
-            m_leftMotorEncoder.getVelocityMeters(), 
-            m_rightMotorEncoder.getVelocityMeters());
+            leftMotorEncoder.getVelocityMeters(), 
+            rightMotorEncoder.getVelocityMeters());
     }
 
     /**
@@ -102,7 +138,7 @@ public class SK21Drive extends SubsystemBase
     public void resetOdometry(Pose2d pose)
     {
         resetEncoders();
-        m_odometry.resetPosition(pose, m_gyro.getRotation2d());
+        odometry.resetPosition(pose, gyro.getRotation2d());
     }
 
     /**
@@ -113,7 +149,7 @@ public class SK21Drive extends SubsystemBase
      */
     public void arcadeDrive(double fwd, double rot)
     {
-        m_drive.arcadeDrive(fwd, rot);
+        drive.arcadeDrive(fwd, rot);
     }
 
     /**
@@ -123,22 +159,22 @@ public class SK21Drive extends SubsystemBase
      */
     public void tankDriveVolts(double leftVolts, double rightVolts)
     {
-        m_leftGroup.setVoltage(leftVolts);
-        m_rightGroup.setVoltage(-rightVolts);
-        m_drive.feed();
+        leftGroup.setVoltage(leftVolts);
+        rightGroup.setVoltage(-rightVolts);
+        drive.feed();
     }
 
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders()
     {
-        m_leftMotorEncoder.resetEncoder();
-        m_rightMotorEncoder.resetEncoder();
+        leftMotorEncoder.resetEncoder();
+        rightMotorEncoder.resetEncoder();
     }
 
     /** Reset the ADS gyro */
     public void resetGyro()
     {
-        m_gyro.reset();
+        gyro.reset();
     }
 
     /**
@@ -149,7 +185,7 @@ public class SK21Drive extends SubsystemBase
     public double getAverageEncoderDistance()
     {
       // return (m_leftEncoder.getDistance() + m_rightEncoder.getDistance()) / 2.0;
-      return (m_leftMotorEncoder.getPositionMeters() + m_rightMotorEncoder.getPositionMeters()) / 2.0;
+      return (leftMotorEncoder.getPositionMeters() + rightMotorEncoder.getPositionMeters()) / 2.0;
     }
 
     /**
@@ -159,13 +195,13 @@ public class SK21Drive extends SubsystemBase
      */
     public void setMaxOutput(double maxOutput)
     {
-        m_drive.setMaxOutput(maxOutput);
+        drive.setMaxOutput(maxOutput);
     }
 
    /** Zeroes the heading of the robot. */
     public void zeroHeading()
     {
-        m_gyro.reset();
+        gyro.reset();
     }
 
     /**
@@ -175,7 +211,7 @@ public class SK21Drive extends SubsystemBase
      */
     public double getHeading()
     {
-        return m_gyro.getRotation2d().getDegrees();
+        return gyro.getRotation2d().getDegrees();
     }
 
     /**
@@ -185,6 +221,6 @@ public class SK21Drive extends SubsystemBase
      */
     public double getTurnRate()
     {
-        return -m_gyro.getRate();
+        return -gyro.getRate();
     }
 }

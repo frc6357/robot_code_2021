@@ -55,7 +55,7 @@ public class SmoothDrive
      * decellerate/accelerate towards the given value without exceeding the
      * acceleration limits.
      */
-    public void SmoothDrivePeriodic()
+    public void smoothDrivePeriodic()
     {
         double[] delta = { speedTarget[LEFT] - speedCurrentTarget[LEFT],
                 speedTarget[RIGHT] - speedCurrentTarget[RIGHT] };

@@ -13,6 +13,7 @@ import frc.robot.subsystems.SK21Launcher;
 
 /**
  * This command works by setting the launcher speed based on the hood position.
+ * 
  * TODO: Update the command to be able to use multiple different speeds
  *  - Because of the change in the game this year it has become more and more important to make sure that
  *    the PID gets tuned properly and the code is built to be able to take multiple different speeds
@@ -25,18 +26,14 @@ public class LauncherActivateCommand extends CommandBase
      */
     private final SK21Launcher launcherSubsystem;
 
-    private final boolean endable;
-
     /**
      * Creates a new LauncherActivateCommand.
      *
      * @param launcherSubsystem The subsystem used by this command.
-     * @param endable ??
      */
-    public LauncherActivateCommand(SK21Launcher launcherSubsystem, boolean endable) 
+    public LauncherActivateCommand(SK21Launcher launcherSubsystem) 
     {
         this.launcherSubsystem = launcherSubsystem;
-        this.endable = endable;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(launcherSubsystem);
     }
@@ -55,10 +52,9 @@ public class LauncherActivateCommand extends CommandBase
         }
     }
 
-    // Returns true when the command should end.
     @Override
     public boolean isFinished() 
     {
-        return endable;
+        return false;
     }
 }

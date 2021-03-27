@@ -6,7 +6,7 @@ package frc.robot.utils.filters;
  */
 public class MovingAverageFilter extends Filter
 {
-    private int MAX_VALUES;
+    private int numberOfValues;
     private double average, gain;
     private boolean firstPass;
 
@@ -19,7 +19,7 @@ public class MovingAverageFilter extends Filter
     public MovingAverageFilter(int max)
     {
         gain = 1;
-        MAX_VALUES = max;
+        numberOfValues = max;
     }
 
     /**
@@ -32,7 +32,7 @@ public class MovingAverageFilter extends Filter
      */
     public MovingAverageFilter(int max, double g)
     {
-        MAX_VALUES = max;
+        numberOfValues = max;
         gain = g;
     }
 
@@ -54,8 +54,8 @@ public class MovingAverageFilter extends Filter
         }
         else
         {
-            average -= average / MAX_VALUES;
-            average += rawAxis / MAX_VALUES;
+            average -= average / numberOfValues;
+            average += rawAxis / numberOfValues;
         }
         return average * gain;
     }
@@ -68,7 +68,7 @@ public class MovingAverageFilter extends Filter
      */
     public void setMaxValues(int m)
     {
-        MAX_VALUES = m;
+        numberOfValues = m;
     }
 
     /**

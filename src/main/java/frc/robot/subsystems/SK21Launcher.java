@@ -58,7 +58,7 @@ public class SK21Launcher extends SubsystemBase
         setPIDValues();
         setHoodForHighAngleShot(false);
 
-        defaultCommand = new LauncherActivateCommand(this, false);
+        defaultCommand = new LauncherActivateCommand(this);
         resetDefaultCommand();
     }
 

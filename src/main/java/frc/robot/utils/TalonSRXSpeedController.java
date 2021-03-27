@@ -10,13 +10,13 @@ public class TalonSRXSpeedController implements SpeedController
     /**
      * Constructs a new TalonSRXSpeedController with the given CAN address.
      * 
-     * @param CANAddress
+     * @param canAddress
      *            The CAN address for the speed controller underlying this
      *            TalonSRXSpeedController
      */
-    public TalonSRXSpeedController(int CANAddress)
+    public TalonSRXSpeedController(int canAddress)
     {
-        speedController = new WPI_TalonSRX(CANAddress);
+        speedController = new WPI_TalonSRX(canAddress);
     }
 
     @Override

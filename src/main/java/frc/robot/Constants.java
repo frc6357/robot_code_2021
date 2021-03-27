@@ -55,4 +55,7 @@ public static final class DriveConstants {
   
   public static final String kSplineDirectory = "/home/lvuser/deploy/paths";
   public static final String kSplineDirectoryWindows = "C:/Users/Owner/Documents/WeaverOutput/output";
+
+  public static final String kSubsystem = "/home/lvuser/deploy/Subsystems.json";
+  public static final String kSubsystemWindows = "C:/Users/Owner/Documents/Subsystems.json";
 }

@@ -78,7 +78,7 @@ public class SmoothDrive
      * @param scaled
      *            The drivetrain side that will be scaled to accelrate proportionately
      *            with the other side
-     * @return double[] - It returns the speeds we need to set the new speeds of motors.
+     * @return The speeds we need to set the new speeds of motors.
      */
     private double[] calculateNewSpeeds(double[] delta, int unscaled, int scaled)
     {
@@ -100,8 +100,7 @@ public class SmoothDrive
      * 
      * @param side
      *            The side of the drivetrain
-     * @return double - Will return the exact unscaled speed that the motors should be set
-     *         to.
+     * @return The exact unscaled speed that the motors should be set to
      */
     private double calculateSendSpeed(int side, double scalingFactor)
     {
@@ -126,7 +125,7 @@ public class SmoothDrive
      *            The target speed that we are trying to reach.
      * @param currentTarget
      *            The acceleration incremented speed that we last sent to the motors.
-     * @return double - The limit for the acceleration depending on the current target we
+     * @return The limit for the acceleration depending on the current target we
      *         last sent to the motors and the final target we are attempting to reach.
      */
     public double getAccel(double target, double currentTarget)

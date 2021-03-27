@@ -3,16 +3,20 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.Encoder;
 
 /**
- * Implements an Encoder that scales the values on the encoder. This can be effectively
- * used to convert encoder pulses to wheel rotations (to abstract away the number of
- * pulses per revolution).
+ * Implements an Encoder that scales the values on the encoder. This is used to convert
+ * encoder pulses to wheel rotations (to abstract away the number of pulses per
+ * revolution).
  */
 public class ScaledEncoder extends Encoder
 {
+    /**
+     * Indicates the pulses per rotation for this ScaledEncoder.
+     */
     private final int pulsesPerRotation;
 
     /**
-     * Constructor for the Scaled Encoder
+     * Constructs a new ScaledEncoder which extends an Encoder with knowledge of the
+     * pulses per revolution and diameter of the drive wheels.
      * 
      * @param channelA
      *            The digital input ID for channel A
@@ -34,7 +38,9 @@ public class ScaledEncoder extends Encoder
     }
 
     /**
-     * Constructor for the Scaled Encoder
+     * Constructs a new ScaledEncoder which extends an Encoder with knowledge of the
+     * pulses per revolution and diameter of the drive wheels. This constructor assumes
+     * the direction is not reversed.
      * 
      * @param channelA
      *            The digital input ID for channel A
@@ -53,9 +59,9 @@ public class ScaledEncoder extends Encoder
     }
 
     /**
-     * Gets the amount of degrees the wheel has turned
+     * Returns the amount of degrees the wheel has turned.
      * 
-     * @return double - The amount of degrees the wheel has turned
+     * @return The amount of degrees the wheel has turned
      */
     public double getAngleDegrees()
     {
@@ -63,9 +69,9 @@ public class ScaledEncoder extends Encoder
     }
 
     /**
-     * Gets the amount of radians the wheel has turned
+     * Returns the amount of radians the wheel has turned.
      * 
-     * @return double - The amount of radians the wheel has turned
+     * @return The amount of radians the wheel has turned
      */
     public double getAngleRadians()
     {
@@ -73,9 +79,9 @@ public class ScaledEncoder extends Encoder
     }
 
     /**
-     * Gets the amount of rotations the wheel has turned
+     * Returns the amount of rotations the wheel has turned
      * 
-     * @return double - The amount of rotations the wheel has turned
+     * @return The amount of rotations the wheel has turned
      */
     public double getRotations()
     {

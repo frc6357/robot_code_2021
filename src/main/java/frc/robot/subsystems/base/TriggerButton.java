@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.TuningParams;
 
 /**
- * Creates a Button for a Trigger (which normally doesn't behave like a button).
+ * Creates a Button for a Trigger (which normally doesn't behave like a button). This will
+ * trigger as a Button when the trigger is pulled beyond a specific threshold.
  */
 public class TriggerButton extends Button
 {

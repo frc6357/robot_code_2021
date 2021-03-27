@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  * The base class for any 2 or 3 motor sided drive train that has multiple subclasses.
+ * This leverates DifferentialDrive in order to leverage all of the capabilities delivered
+ * in that WPILib class.
  */
 public class BaseDrive
 {
@@ -12,7 +14,7 @@ public class BaseDrive
     private final DifferentialDrive driveDiff;
 
     /**
-     * Constructor of the BaseDrive and Sets up Differential Drive
+     * Constructs a BaseDrive from the given SpeedControllerGroups.
      * 
      * @param motorGroupLeft
      *            A group containing all the motors on the left side of the drivetrain
@@ -27,15 +29,14 @@ public class BaseDrive
     }
 
     /**
-     * Sets the speed for the left and right side of the drivetrain
+     * Sets the speed for the left and right side of the drivetrain.
      * 
      * @param speedLeft
      *            A number between -1.0 and 1.0 to set speed of the left side of the
      *            drivetrain
      * @param speedRight
      *            A number between -1.0 and 1.0 to set speed of the right side of the
-     *            drivetrain - The speed that the motor controller is going to be set to,
-     *            1 for full forwards and -1 for full back
+     *            drivetrain
      */
     public void setSpeed(double speedLeft, double speedRight)
     {
@@ -43,10 +44,10 @@ public class BaseDrive
     }
 
     /**
-     * Returns the current set speed for the left side of the drivetrain
+     * Returns the current set speed for the left side of the drivetrain.
      * 
-     * @return double - Current set speed of motor controller, 1 for full forwards, -1 for
-     *         full back
+     * @return The current set speed of motor controller, 1 for full forwards, -1 for full
+     *         back
      */
     public double getLeftSpeed()
     {
@@ -54,10 +55,10 @@ public class BaseDrive
     }
 
     /**
-     * Returns the current set speed for the right side of the drivetrain
+     * Returns the current set speed for the right side of the drivetrain.
      * 
-     * @return double - Current set speed of motor controller, 1 for full forwards, -1 for
-     *         full back
+     * @return The current set speed of motor controller, 1 for full forwards, -1 for full
+     *         back
      */
     public double getRightSpeed()
     {

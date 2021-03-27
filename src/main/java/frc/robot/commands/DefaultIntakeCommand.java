@@ -41,8 +41,11 @@ public class DefaultIntakeCommand extends CommandBase
     public void initialize()
     {
         /**
-         * TODO Is this strange to have a Default Command using initialize() and not
-         * execute()?
+         * Note: This looks strange, but is useful, as the ExtendIntakeCommand has a "side
+         * effect" of starting the intake roller. If this is not done here when the
+         * default command re-enters, then the rollers could only be started by retracting
+         * and then extending the rollers. This is a "good" detection of existing state of
+         * the robot.
          */
         if (intakeSubsystem.isIntakeExtended())
         {

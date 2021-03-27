@@ -19,7 +19,7 @@ public class StartIndexerCommand extends CommandBase
     private final SK21BallIndexer indexerSubsystem;
 
     /**
-     * Creates a new StartIndexerCommand which takes in the required subsystem
+     * Creates a new StartIndexerCommand which takes in the required subsystem.
      *
      * @param indexerSubsystem
      *            The indexer subsystem used by this command.

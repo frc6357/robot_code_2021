@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
  */
 public class DpadDownButton extends Button
 {
-
     /**
      * The underlying Dpad for this DpanDownButton.
      */
@@ -30,5 +29,4 @@ public class DpadDownButton extends Button
     {
         return dpad.isDownPressed();
     }
-
 }

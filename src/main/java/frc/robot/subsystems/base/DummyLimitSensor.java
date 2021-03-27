@@ -6,7 +6,6 @@ package frc.robot.subsystems.base;
  */
 public class DummyLimitSensor extends LimitSensor
 {
-
     /**
      * The value the DummyLimitSensor will return from the get() method.
      */
@@ -25,7 +24,7 @@ public class DummyLimitSensor extends LimitSensor
     }
 
     /**
-     * @return Returns the state set in the constructor of the DummyLimitSensor.
+     * @return The state set in the constructor of the DummyLimitSensor.
      */
     @Override
     public boolean get()

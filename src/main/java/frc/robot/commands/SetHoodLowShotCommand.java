@@ -22,7 +22,7 @@ public class SetHoodLowShotCommand extends CommandBase
     private final SK21Launcher launcherSubsystem;
 
     /**
-     * Creates a new SetHoodLowShotCommand which takes in the required subsystem
+     * Creates a new SetHoodLowShotCommand which takes in the required subsystem.
      *
      * @param launcherSubsystem
      *            The launcher subsystem used by this command.

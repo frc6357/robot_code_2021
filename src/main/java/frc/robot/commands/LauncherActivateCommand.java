@@ -17,7 +17,7 @@ import frc.robot.subsystems.SK21Launcher;
  * TODO: Update the command to be able to use multiple different speeds - Because of the
  * change in the game this year it has become more and more important to make sure that
  * the PID gets tuned properly and the code is built to be able to take multiple different
- * speeds based off of a SmartDashboard Chooser
+ * speeds based off of a SmartDashboard Chooser.
  */
 public class LauncherActivateCommand extends CommandBase
 {

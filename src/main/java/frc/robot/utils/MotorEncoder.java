@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
  */
 public class MotorEncoder
 {
-
     /**
      * The underlying motor for this MotorEncoder.
      */

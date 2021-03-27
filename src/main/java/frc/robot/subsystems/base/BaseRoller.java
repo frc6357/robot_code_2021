@@ -4,20 +4,34 @@ import edu.wpi.first.wpilibj.SpeedController;
 import frc.robot.subsystems.base.SuperClasses.RollerDirection;
 
 /**
- * Base class to be extended by any class requiring rollers
+ * Base class to be extended by any class requiring rollers.
  */
 public class BaseRoller
 {
-    // Speed Controller
+    /**
+     * The underlying SpeedController for this BaseRoller.
+     */
     private final SpeedController motorController;
+
+    /**
+     * The speed to be used by setForwards (or interted for setBackwards).
+     */
     private double speed = 1.0;
+
+    /**
+     * The current speed (meaning the speed last sent to the motors by setForwards or
+     * setBackwards).
+     */
     private double currentSpeed = 0.0;
 
+    /**
+     * The current direction of the roller.
+     */
     private RollerDirection directionReader;
 
     /**
      * Consructs a new BaseRoller that uses the given SpeedController to control the
-     * motors.
+     * motors. Initial speed is set to zero.
      * 
      * @param motorController
      *            The motor controller used to control the speed of the motors in the
@@ -31,8 +45,12 @@ public class BaseRoller
     }
 
     /**
-     * Consructs a new BaseRoller that uses the given SpeedController to control the
-     * motors and the given speed as the initial speed of the motors.
+     * Constructs a new BaseRoller that uses the given SpeedController to control the
+     * motors and the given speed as the initial speed to be used for the roller.
+     * 
+     * Note: Even if a non-zero value is provided for the speed, this constructor does not
+     * start the motors. Either setForwards() or setBackwards() must be called to start
+     * the motors.
      * 
      * @param motorController
      *            The SpeedController for the BaseRoller
@@ -46,7 +64,7 @@ public class BaseRoller
     }
 
     /**
-     * Sets the roller motor/s to be spinning forwards.
+     * Directs the roller to be spinning forwards.
      */
     public void setForwards()
     {
@@ -59,7 +77,7 @@ public class BaseRoller
     }
 
     /**
-     * Sets the roller motor/s to be spinning backwards at a speed set by the speed
+     * Directs the roller to be spinning backwards at a speed set by the speed.
      */
     public void setBackwards()
     {
@@ -72,7 +90,7 @@ public class BaseRoller
     }
 
     /**
-     * Sets the roller motors to stop.
+     * Directs the roller to stop.
      */
     public void setStop()
     {
@@ -85,10 +103,9 @@ public class BaseRoller
     }
 
     /**
-     * Returns the direction that the motor is set to
+     * Returns the direction that the roller is set to.
      * 
-     * @return - Type int - Values of -1, 0, 1 - Used to check whether motor is stopped,
-     *         moving forwards or backwards
+     * @return The RollerDirection indicating the direction of the roller.
      */
     public RollerDirection getDirection()
     {
@@ -96,10 +113,13 @@ public class BaseRoller
     }
 
     /**
-     * Sets or changes the speed that is used by the motor controller
+     * Sets the speed that is used by the SpeedController for this BaseRoller.
+     * 
+     * Note: This speed will be used when setForwards() or setBackwards() is next called;
+     * it will not immediately impact the speed.
      * 
      * @param newSpeed
-     *            - Type double - Changes the speed of the rollers
+     *            The new speed of the rollers
      */
     public void setSpeed(double newSpeed)
     {
@@ -107,9 +127,9 @@ public class BaseRoller
     }
 
     /**
-     * Returns the speed that is set to the default motherboard
+     * Returns the speed that is to be used for the underlying SpeedController.
      * 
-     * @return - Type double - Current speed that the motor controller is utilizing
+     * @return The speed that the SpeedController is utilizing
      */
     public double returnSpeed()
     {
@@ -117,7 +137,9 @@ public class BaseRoller
     }
 
     /**
-     * Function for test use only. This sets the motor to run at the commanded speed,
+     * Warning: Function for test use only. 
+     * 
+     * This sets the roller to run at the commanded speed,
      * regardless of the speed set during initialization.
      * 
      * @param speed
@@ -132,9 +154,11 @@ public class BaseRoller
     }
 
     /**
-     * Retrieve the current speed of the roller.
+     * Retrieve the current speed of the roller. This is set each time setForwards() or
+     * setBackwards() is called. Note this is the theoretical speed, it is NOT the speed
+     * returned by an Encoder.
      * 
-     * @return The current speed that the encoder reads
+     * @return The current speed being asserted by the BaseRoller
      */
     public double testGetSpeed()
     {

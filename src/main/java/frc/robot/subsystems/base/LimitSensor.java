@@ -28,12 +28,12 @@ public class LimitSensor extends DigitalInput
         this.inverted = inverted;
     }
 
-    @Override
     /**
      * This retuns the value of the limit sensor taking into count the inverted boolean.
      * 
      * @return The value of the limit sensor
      */
+    @Override
     public boolean get()
     {
         boolean returnVal = super.get();

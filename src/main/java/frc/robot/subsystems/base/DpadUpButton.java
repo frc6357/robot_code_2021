@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.button.Button;
  */
 public class DpadUpButton extends Button
 {
-
     /**
      * The underlying Dpad for this DpadUpButton.
      */

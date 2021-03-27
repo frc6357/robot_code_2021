@@ -55,6 +55,12 @@ public class SK21Intake extends SubsystemBase
         intakeRoller = new BaseRoller(intakeRollerMotor, TuningParams.INTAKE_MAX_SPEED);
         intakeRollerEncoder = intakeRollerMotor.getEncoder();
         intakeMover = new DoubleSolenoid(Ports.pcm, Ports.intakeMoverDrop, Ports.intakeMoverRaise);
+        /*
+         * TODO "this" escaping from a constructor should be avoided if possible - it
+         * indicates a circular reference, and in certain conditions can cause programs to
+         * crash. A better methodology here is similar to what is used in SK21Drive, where
+         * the default command is external to the subsystem.
+         */
         intake = new IntakeIdleCommand(this);
         resetDefaultCommand();
     }
@@ -117,7 +123,7 @@ public class SK21Intake extends SubsystemBase
      * Checks whether the intake is extended or retracted based on the current solenoid
      * state
      * 
-     * @return Returns true if the intake is extended, false otherwise.
+     * @return true if the intake is extended, false otherwise.
      */
     public boolean isIntakeExtended()
     {

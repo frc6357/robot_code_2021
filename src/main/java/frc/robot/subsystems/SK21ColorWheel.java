@@ -48,7 +48,12 @@ public class SK21ColorWheel extends SubsystemBase
         spinnerLifter =
                 new DoubleSolenoid(Ports.pcm, Ports.colorSpinnerExtend, Ports.colorSpinnerRetract);
         spinnerRollerEncoder = spinnerRollerMotor.getEncoder();
-
+        /*
+         * TODO "this" escaping from a constructor should be avoided if possible - it
+         * indicates a circular reference, and in certain conditions can cause programs to
+         * crash. A better methodology here is similar to what is used in SK21Drive, where
+         * the default command is external to the subsystem.
+         */
         colorWheelDefaultCommand = new DefaultColorWheelCommand(this);
         setDefaultCommand(colorWheelDefaultCommand);
     }

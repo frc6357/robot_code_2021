@@ -72,7 +72,7 @@ public class TestDriveCommand extends CommandBase
     public void execute()
     {
 
-        /**
+        /*
          * TODO: This currently has an issue in setting for both individual motors and the
          * speed group. We need to add a "chooser" to this command to have the user
          * indicate which form of control to use, and then have this execute() method gate

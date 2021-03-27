@@ -13,6 +13,10 @@ public class Dpad
      * The Joystick on which this Dpad is present.
      */
     private final Joystick joystick;
+
+    /**
+     * The DPad Number on the Joystick.
+     */
     private final int dpadNumber;
 
     /**
@@ -49,11 +53,9 @@ public class Dpad
      * @return true if we want to convert the current state of the Dpad to a "Down"
      *         behavior; false otherwise
      */
-
     public boolean isDownPressed()
     {
         int direction = joystick.getPOV(dpadNumber);
         return (direction == 180) || (direction == 225) || (direction == 135);
     }
-
 }

@@ -19,7 +19,7 @@ public class StopIndexerCommand extends CommandBase
     private final SK21BallIndexer indexerSubsystem;
 
     /**
-     * Creates a new StopIndexerCommand which takes in the required subsystem
+     * Creates a new StopIndexerCommand which takes in the required subsystem.
      *
      * @param indexerSubsystem
      *            The indexer subsystem used by this command.

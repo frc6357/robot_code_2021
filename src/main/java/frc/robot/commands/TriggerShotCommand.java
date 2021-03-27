@@ -15,7 +15,7 @@ public class TriggerShotCommand extends CommandBase
     private final SK21BallIndexer indexerSubsystem;
 
     /**
-     * Creates a new ReverseIntake which takes in the required subsystem
+     * Creates a new ReverseIntake which takes in the required subsystem.
      *
      * @param indexerSubsystem
      *            The indexer subsystem used by this command.
@@ -27,14 +27,19 @@ public class TriggerShotCommand extends CommandBase
         addRequirements(indexerSubsystem);
     }
 
-    // Called once when the command is initially scheduled - we use as a "one shot"
     /**
+     * Called once when the command is initially scheduled - we use as a "one shot".
+     * 
      * We assume here that the motor can be started coincidentally with thet feeder arm
      * being extended.
      */
     @Override
     public void initialize()
     {
+        /*
+         * TODO: This seems to only start the feeder motor - does something need to happen
+         * with a feeder Arm anymore or are the docs above inaccurate?
+         */
         indexerSubsystem.startLauncherFeederMotor();
     }
 

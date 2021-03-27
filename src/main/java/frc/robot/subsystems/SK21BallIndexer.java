@@ -24,10 +24,13 @@ public class SK21BallIndexer extends SubsystemBase
      */
     public final BaseRoller indexerRoller;
 
+    /**
+     * TODO These being private indicates that they are not currently access by the Test
+     * Commands.
+     */
     private CANSparkMax feederMotor;
     private BaseRoller feederRoller;
-    private boolean indexerMotorIsStarted = false;
-    private boolean feederMotorIsStarted = false;
+
     private final DefaultBallIndexerCommand ballIndexer;
 
     /**
@@ -39,6 +42,12 @@ public class SK21BallIndexer extends SubsystemBase
         feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless);
         indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
+        /*
+         * TODO "this" escaping from a constructor should be avoided if possible - it
+         * indicates a circular reference, and in certain conditions can cause programs to
+         * crash. A better methodology here is similar to what is used in SK21Drive, where
+         * the default command is external to the subsystem.
+         */
         ballIndexer = new DefaultBallIndexerCommand(this);
         resetDefaultCommand();
     }
@@ -58,7 +67,6 @@ public class SK21BallIndexer extends SubsystemBase
     public void startIndexerRotation()
     {
         indexerRoller.setForwards();
-        indexerMotorIsStarted = true;
     }
 
     /**
@@ -67,17 +75,6 @@ public class SK21BallIndexer extends SubsystemBase
     public void stopIndexerRotation()
     {
         indexerRoller.setStop();
-        indexerMotorIsStarted = false;
-    }
-
-    /**
-     * Returns the current state of the Indexer Motor
-     * 
-     * @return the current state of the Indexer Motor
-     */
-    public boolean isIndexerMotorStarted()
-    {
-        return indexerMotorIsStarted;
     }
 
     /**
@@ -86,7 +83,6 @@ public class SK21BallIndexer extends SubsystemBase
     public void startLauncherFeederMotor()
     {
         feederRoller.setForwards();
-        feederMotorIsStarted = true;
     }
 
     /**
@@ -95,16 +91,5 @@ public class SK21BallIndexer extends SubsystemBase
     public void stopLauncherFeederMotor()
     {
         feederRoller.setStop();
-        feederMotorIsStarted = false;
-    }
-
-    /**
-     * Returns current state of the Feeder Motor
-     * 
-     * @return current state of the feeder motor (true=yes/false=no)
-     */
-    public boolean isLauncherFeederMotorStarted()
-    {
-        return feederMotorIsStarted;
     }
 }

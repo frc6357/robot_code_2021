@@ -57,13 +57,20 @@ public class SK21Launcher extends SubsystemBase
      */
     public SK21Launcher()
     {
-        // Set the launcher motor into coast mode. If we don't do this and we stop the motor quickly,
-        // there's a very good chance we'll damage something since there's a large flywheel attached 
-        // to this subsystem!
+        /*
+         * Set the launcher motor into coast mode. If we don't do this and we stop the
+         * motor quickly, there's a very good chance we'll damage something since there's
+         * a large flywheel attached to this subsystem!
+         */
         launcherMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
         setPIDValues();
         setHoodForHighAngleShot(false);
-
+        /*
+         * TODO "this" escaping from a constructor should be avoided if possible - it
+         * indicates a circular reference, and in certain conditions can cause programs to
+         * crash. A better methodology here is similar to what is used in SK21Drive, where
+         * the default command is external to the subsystem.
+         */
         defaultCommand = new LauncherActivateCommand(this);
         resetDefaultCommand();
     }

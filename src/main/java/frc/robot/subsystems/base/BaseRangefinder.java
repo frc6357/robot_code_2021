@@ -15,7 +15,7 @@ public abstract class BaseRangefinder
      * the rangefinder failed to measure a range last time it was triggered, OUT_OF_RANGE
      * is returned. If no reading has been taken, NO_READING is returned.
      * 
-     * @return Returns the distance in inches measured by the rangefinder the last time a
+     * @return The distance in inches measured by the rangefinder the last time a
      *         measurement completed. If no reading has been taken, NO_READING is
      *         returned. If the last measurement failed to measure a range, OUT_OF_RANGE
      *         is returned.
@@ -37,7 +37,7 @@ public abstract class BaseRangefinder
      * This function may be used to read the rangefinder's minimum measurement distance in
      * inches.
      * 
-     * @return Returns the minimum range supported by the rangefinder in inches.
+     * @return The minimum range supported by the rangefinder in inches.
      */
     public double getMinDistanceInches()
     {
@@ -48,7 +48,7 @@ public abstract class BaseRangefinder
      * This function may be used to read the rangefinder's maximum measurement distance in
      * inches.
      * 
-     * @return Returns the maximum range supported by the rangefinder in inches.
+     * @return The maximum range supported by the rangefinder in inches.
      */
     public double getMaxDistanceInches()
     {
@@ -59,7 +59,7 @@ public abstract class BaseRangefinder
      * This function may be used to read the rangefinder's maximum measurement distance in
      * millimeters.
      * 
-     * @return Returns the maximum range supported by the rangefinder in millimeters.
+     * @return The maximum range supported by the rangefinder in millimeters.
      */
     public abstract double getMaxDistanceMm();
 
@@ -67,7 +67,7 @@ public abstract class BaseRangefinder
      * This function may be used to read the rangefinder's minimum measurement distance in
      * millimeters.
      * 
-     * @return Returns the minimum range supported by the rangefinder in millimeters.
+     * @return The minimum range supported by the rangefinder in millimeters.
      */
     public abstract double getMinDistanceMm();
 
@@ -81,7 +81,7 @@ public abstract class BaseRangefinder
      * be polled after calling startMeasurement() to determine when a new distance reading
      * is available.
      * 
-     * @return Returns true if the last measurement has completed, false if measurement is
+     * @return true if the last measurement has completed, false if measurement is
      *         still ongoing.
      */
     public abstract boolean getIsMeasurementDone();
@@ -92,7 +92,7 @@ public abstract class BaseRangefinder
      * triggered, OUT_OF_RANGE is returned. If no reading has been taken, NO_READING is
      * returned.
      * 
-     * @return Returns the distance in millimeters measured by the rangefinder the last
+     * @return The distance in millimeters measured by the rangefinder the last
      *         time a measurement completed. If no reading has been taken, NO_READING is
      *         returned. If the last measurement failed to measure a range, OUT_OF_RANGE
      *         is returned.

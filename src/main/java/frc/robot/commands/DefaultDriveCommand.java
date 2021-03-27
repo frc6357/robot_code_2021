@@ -44,9 +44,12 @@ public class DefaultDriveCommand extends CommandBase
     @Override
     public void execute()
     {
-        // TODO: This used to call the slowMode() method on the driveSubsystem dependent
-        // upon the value of the joystick bumper. This is now handled by creating a joystick
-        // button command which calls setMaxOutput(). Check to make sure this still works!
+        /*
+         * TODO: This used to call the slowMode() method on the driveSubsystem dependent
+         * upon the value of the joystick bumper. This is now handled by creating a
+         * joystick button command which calls setMaxOutput(). Check to make sure this
+         * still works!
+         */
         double throttle = joystickDriver.getFilteredAxis(Ports.OIDriverMove);
         double turnRate = joystickDriver.getFilteredAxis(Ports.OIDriverTurn);
 

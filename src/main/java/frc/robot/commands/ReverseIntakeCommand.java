@@ -20,7 +20,7 @@ public class ReverseIntakeCommand extends CommandBase
     private final SK21Intake intakeSubsystem;
 
     /**
-     * Creates a new ReverseIntakeCommand which takes in the required subsystem
+     * Creates a new ReverseIntakeCommand which takes in the required subsystem.
      *
      * @param intakeSubsystem
      *            The intake subsystem used by this command.
@@ -36,6 +36,9 @@ public class ReverseIntakeCommand extends CommandBase
     /**
      * It will set the intake to go to the reverse direction and will only set it if the
      * intake is extended.
+     * 
+     * TODO: This is inconsistent with the documentation - which is hold to activate, so
+     * this should not be using initialize (which is a one-shot)
      */
     @Override
     public void initialize()

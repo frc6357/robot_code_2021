@@ -31,7 +31,6 @@ public class LauncherSpeedCommand extends CommandBase
      */
     public LauncherSpeedCommand(SK21Launcher subsystem)
     {
-        // Sets up the required variables from the constructer for our use
         launcherSubsystem = subsystem;
 
         // Use addRequirements() here to declare subsystem dependencies.
@@ -49,11 +48,10 @@ public class LauncherSpeedCommand extends CommandBase
         speedIndex = (speedIndex + 1) % 4;
     }
 
-    // Returns true when the command should end.
+    // Return true as we used initialize() as a one-shot (we do not need ongoing behavior).
     @Override
     public boolean isFinished()
     {
-        // The command only sets the speeds and does nothing else, so the command ends immediately
         return true;
     }
 }

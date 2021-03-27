@@ -21,7 +21,7 @@ public class ExtendIntakeCommand extends CommandBase
     private final SK21Intake intakeSubsystem;
 
     /**
-     * Creates a new ExtendIntakeCommand which takes in the required subsystem
+     * Creates a new ExtendIntakeCommand which takes in the required subsystem.
      *
      * @param intakeSubsystem
      *            The intake subsystem used by this command.

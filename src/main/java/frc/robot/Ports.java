@@ -97,11 +97,11 @@ public class Ports
     ///////////////////////////////
     public static final int OIDriverJoystick            = 0;
 
-    // Controls set for Arcade Drive - left stick turn, right stick throttle.
-    public static final int OIDriverTurn                = 0;  // Left Joystick X
-    public static final int OIDriverMove                = 5;  // Right Joystick Y
+    // Controls set for Arcade Drive using a Logitech Formula Force GP USB racing wheel and pedals
+    public static final int OIDriverTurn                = 0;  // Wingman Formula Force GP wheel
+    public static final int OIDriverMove                = 1;  // Wingman Formula Force GP pedals
 
-    public static final int OIDriverSlowmode            = 3;  // Right Trigger Axis
+    public static final int OIDriverSlowmode            = 1;  // Wingman Formula Force GP right paddle
 
     public static final int OIOperatorJoystick          = 1;
     public static final int OIOperatorDpad = 0; 

@@ -40,12 +40,12 @@ public final class Constants
             // Assumes the encoders are directly mounted on the wheel shafts
             (kWheelDiameterMeters * Math.PI) / ((double) kEncoderCPR * kDriveGearReduction);
 
-        // Data taken from characterization analysis on 03/02/2021
-        public static final double ksVolts = 0.516;
-        public static final double kvVoltSecondsPerMeter = 2.38;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.133;
-        public static final double kPDriveVel = 1.88;
-    }
+    // Data taken from characterization analysis on 03/02/2021
+    public static final double ksVolts = 0.651;
+    public static final double kvVoltSecondsPerMeter = 2.3;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.217;
+    public static final double kPDriveVel = 2.26;
+  }
 
     /**
      * Constants related to the Autonomous operation mode for the Robot.

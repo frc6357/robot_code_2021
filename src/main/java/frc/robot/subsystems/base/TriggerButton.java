@@ -38,6 +38,7 @@ public class TriggerButton extends Button
     @Override
     public boolean get()
     {
-        return joystick.getRawAxis(axis) >= TuningParams.TRIGGER_THRESHOLD;
+        double axisValue = joystick.getRawAxis(axis);
+        return axisValue >= TuningParams.TRIGGER_THRESHOLD;
     }
 }

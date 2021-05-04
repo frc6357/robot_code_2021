@@ -127,15 +127,25 @@ public class BaseRoller
     }
 
     /**
-     * Returns the speed that is to be used for the underlying SpeedController.
+     * Returns the speed setpoint that is to be used for the underlying SpeedController
+     * when the roller is enabled in the forwards direction.
      * 
-     * @return The speed that the SpeedController is utilizing
+     * @return The speed that the roller has been set to use when told to run.
      */
-    public double returnSpeed()
+    public double getSpeedSetpoint()
     {
         return this.speed;
     }
 
+    /**
+     * Returns the speed that is the roller motor is currently running at.
+     * 
+     * @return The speed that the roller is currently running at.
+     */
+    public double getSpeed()
+    {
+        return this.currentSpeed;
+    }
     /**
      * Warning: Function for test use only. 
      * 

@@ -6,24 +6,24 @@ package frc.robot.utils.filters;
  * 
  * output = coefficient * (input^3)
  */
-public class ExponentialFilter extends Filter
+public class CubicFilter implements Filter
 {
     /**
      * Coefficient of gain to multiply by.
      */
-    private double coefficient;
+    private double gain;
 
     /**
      * Constructs a new ExponentialFilter with the given gain coefficient.
      * 
-     * @param coef
+     * @param gain
      *            The coefficient of the cubic function for this ExponentialFilter. This
      *            can be positive or negative, allowing the joystick value to be inverted
      *            at the same time as the filter is applied.
      */
-    public ExponentialFilter(double coef)
+    public CubicFilter(double gain)
     {
-        coefficient = coef;
+        this.gain = gain;
     }
 
     /**
@@ -36,18 +36,18 @@ public class ExponentialFilter extends Filter
     @Override
     public double filter(double rawAxis)
     {
-        return coefficient * Math.pow(rawAxis, 3);
+        return gain * Math.pow(rawAxis, 3);
     }
 
     /**
      * Sets the coefficient of the cubic function of this ExponentialFilter.
      * 
-     * @param c
+     * @param g
      *            The new coefficient for this ExponentialFilter, which must be greater
      *            than zero
      */
-    public void setCoef(double c)
+    public void setGain(double g)
     {
-        coefficient = Math.abs(c);
+        gain = Math.abs(g);
     }
 }

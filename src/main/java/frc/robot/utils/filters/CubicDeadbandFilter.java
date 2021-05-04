@@ -4,7 +4,7 @@ package frc.robot.utils.filters;
  * CubicDeadbandFilter can filter a value through a cubic relation, but also applies a
  * deadband to the incoming value.
  */
-public class CubicDeadbandFilter extends Filter
+public class CubicDeadbandFilter implements Filter
 {
     /**
      * Coefficient of gain to multiply by.

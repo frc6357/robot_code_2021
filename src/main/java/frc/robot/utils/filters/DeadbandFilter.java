@@ -10,7 +10,7 @@ package frc.robot.utils.filters;
  * The gain value can be modified to alter the slope (The gain is a multiplier on the
  * scope after the scope calculation is performed).
  */
-public class FilterDeadband extends Filter
+public class DeadbandFilter implements Filter
 {
     /**
      * The deadbanding for the input, equal to distance from zero.
@@ -29,19 +29,19 @@ public class FilterDeadband extends Filter
     private double gain;
 
     /**
-     * Constructs a new FilterDeadband with a deadband of the given width.
+     * Constructs a new DeadbandFilter with a deadband of the given width.
      * 
      * @param deadband
      *            The width of the deadbanding zone, equivalent to the distance from zero
      */
-    public FilterDeadband(double deadband)
+    public DeadbandFilter(double deadband)
     {
         gain = 1;
         setDeadband(deadband);
     }
 
     /**
-     * Constructs a new FilterDeadband with a deadband of the given width and the provided
+     * Constructs a new DeadbandFilter with a deadband of the given width and the provided
      * gain.
      * 
      * @param deadband
@@ -50,7 +50,7 @@ public class FilterDeadband extends Filter
      *            The gain value used to amplify the slope of values calculated above the
      *            deadband
      */
-    public FilterDeadband(double deadband, double gain)
+    public DeadbandFilter(double deadband, double gain)
     {
         setDeadband(deadband);
         this.gain = gain;
@@ -63,7 +63,7 @@ public class FilterDeadband extends Filter
      * 
      * @param rawAxis
      *            The data to be passed in, from -1 to 1
-     * @return The value after the FilterDeadband has been applied
+     * @return The value after the DeadbandFilter has been applied
      */
     @Override
     public double filter(double rawAxis)
@@ -83,7 +83,7 @@ public class FilterDeadband extends Filter
      * to zero.
      * 
      * @param deadband
-     *            The new deadband value for this FilterDeadband
+     *            The new deadband value for this DeadbandFilter
      */
     public void setDeadband(double deadband)
     {
@@ -96,7 +96,7 @@ public class FilterDeadband extends Filter
      * deadband.
      * 
      * @param gain
-     *            The new gain to adjust the filtered value in this FilterDeadband
+     *            The new gain to adjust the filtered value in this DeadbandFilter
      */
     public void setGain(double gain)
     {

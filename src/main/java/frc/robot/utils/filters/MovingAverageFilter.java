@@ -4,7 +4,7 @@ package frc.robot.utils.filters;
  * This class creates a filter which has active dampening. The function essentially works
  * by creating a moving average and adjusting the returned value based on this average.
  */
-public class MovingAverageFilter extends Filter
+public class MovingAverageFilter implements Filter
 {
     private int numberOfValues;
     private double average, gain;

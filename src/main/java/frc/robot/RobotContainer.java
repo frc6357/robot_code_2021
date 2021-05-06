@@ -61,7 +61,9 @@ import frc.robot.commands.testcommands.TestDriveCommand;
 import frc.robot.commands.testcommands.TestIndexerCommand;
 import frc.robot.commands.testcommands.TestIntakeCommand;
 import frc.robot.commands.testcommands.TestLauncherCommand;
+import frc.robot.commands.testcommands.TestClimbCommand;
 import frc.robot.subsystems.SK21BallIndexer;
+import frc.robot.subsystems.SK21Climb;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -108,6 +110,7 @@ public class RobotContainer
     private Optional<SK21Launcher> launcherSubsystem = Optional.empty();
     private Optional<SK21BallIndexer> ballIndexerSubsystem = Optional.empty();
     private Optional<SK21Intake> intakeSubsystem = Optional.empty();
+    private Optional<SK21Climb> climbSubsystem = Optional.empty();
 
     // Intake control buttons
     private final Dpad dpad = new Dpad(operatorJoystick, Ports.OIOperatorDpad);
@@ -145,6 +148,7 @@ public class RobotContainer
         launcherSubsystem = Optional.empty(); 
         ballIndexerSubsystem = Optional.empty();
         intakeSubsystem = Optional.empty();
+        climbSubsystem = Optional.empty();
 
         try
         {
@@ -442,6 +446,11 @@ public class RobotContainer
             var launcher = launcherSubsystem.get();
             launcher.setDefaultCommand(new TestLauncherCommand(launcher));
         }
+        if (climbSubsystem.isPresent())
+        {
+            var climb = climbSubsystem.get();
+            climb.setDefaultCommand(new TestClimbCommand(climb));
+        }
         driveSubsystem.setDefaultCommand(new TestDriveCommand(driveSubsystem)); 
     }
 
@@ -465,6 +474,11 @@ public class RobotContainer
         {
             var launcher = launcherSubsystem.get();
             launcher.resetDefaultCommand();
+        }
+        if (climbSubsystem.isPresent())
+        {
+            var climb = climbSubsystem.get();
+            climb.resetDefaultCommand();
         }
         resetDriveDefaultCommand();
     }

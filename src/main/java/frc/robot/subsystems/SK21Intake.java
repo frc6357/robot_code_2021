@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.commands.IntakeIdleCommand;
+import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
@@ -33,7 +33,7 @@ public class SK21Intake extends SubsystemBase
      */
     private final CANEncoder intakeRollerEncoder;
 
-    private final IntakeIdleCommand intake;
+    private final DefaultIntakeCommand intakeCommand;
 
     /**
      * Will let us know the state of the intake motor.
@@ -61,7 +61,7 @@ public class SK21Intake extends SubsystemBase
          * crash. A better methodology here is similar to what is used in SK21Drive, where
          * the default command is external to the subsystem.
          */
-        intake = new IntakeIdleCommand(this);
+        intakeCommand = new DefaultIntakeCommand(this);
         resetDefaultCommand();
     }
 
@@ -71,7 +71,7 @@ public class SK21Intake extends SubsystemBase
      */
     public void resetDefaultCommand()
     {
-        setDefaultCommand(intake);
+        setDefaultCommand(intakeCommand);
     }
 
     /**
@@ -97,17 +97,29 @@ public class SK21Intake extends SubsystemBase
      */
     public void startIntakeRoller()
     {
-        intakeRoller.setForwards();
         intakeMotorIsStarted = true;
+
+        if (intakeIsReversed)
+        {
+            intakeRoller.setBackwards();
+        }
+        else
+        {
+            intakeRoller.setForwards();
+        }
     }
 
     /**
      * Start the intake roller motor running in the reverse direction.
      */
-    public void reverseIntakeRoller()
+    public void setIntakeRollerBackwards(boolean isBackwards)
     {
-        intakeRoller.setBackwards();
-        intakeIsReversed = true;
+        intakeIsReversed = isBackwards;
+
+        if (isIntakeExtended())
+        {
+            startIntakeRoller();
+        }
     }
 
     /**

@@ -15,45 +15,17 @@ public class DefaultIntakeCommand extends CommandBase
 {
 
     /**
-     * The Ball Intake Subsystem
-     */
-    private final SK21Intake intakeSubsystem;
-
-    /**
-     * Creates a new DefaultIntakeCommand which takes in the required subsystem
-     *
+     * Construct a new IntakeIdleCommand.
+     * 
      * @param intakeSubsystem
-     *            The intake subsystem used by this command.
+     *            The Intake Subsystem this Command depends upon
      */
     public DefaultIntakeCommand(SK21Intake intakeSubsystem)
     {
-        this.intakeSubsystem = intakeSubsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(intakeSubsystem);
     }
 
-    // Called once when the command is initially scheduled - we use as a "one shot"
-    /**
-     * It will set the intake to go to the forward direction and will only set it if the
-     * intake is extended.
-     */
-    @Override
-    public void initialize()
-    {
-        /**
-         * Note: This looks strange, but is useful, as the ExtendIntakeCommand has a "side
-         * effect" of starting the intake roller. If this is not done here when the
-         * default command re-enters, then the rollers could only be started by retracting
-         * and then extending the rollers. This is a "good" detection of existing state of
-         * the robot.
-         */
-        if (intakeSubsystem.isIntakeExtended())
-        {
-            intakeSubsystem.startIntakeRoller();
-        }
-    }
-
-    // False as default commands are intended to not end.
     @Override
     public boolean isFinished()
     {

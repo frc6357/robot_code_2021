@@ -44,13 +44,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DisableShotCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.ForwardIntakeCommand;
 import frc.robot.commands.SetHoodHighShotCommand;
 import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
@@ -250,7 +250,7 @@ public class RobotContainer
             extendIntakeButton.whenPressed(new ExtendIntakeCommand(intake));
             retractIntakeButton.whenPressed(new RetractIntakeCommand(intake));
             reverseIntake.whenPressed(new ReverseIntakeCommand(intake));
-            reverseIntake.whenReleased(new DefaultIntakeCommand(intake));
+            reverseIntake.whenReleased(new ForwardIntakeCommand(intake));
         }
 
         //Indexer

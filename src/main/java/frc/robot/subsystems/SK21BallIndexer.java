@@ -30,7 +30,7 @@ public class SK21BallIndexer extends SubsystemBase
     
     public final DoubleSolenoid feederArmSolenoid;
 
-    private final DefaultBallIndexerCommand ballIndexer;
+    private final DefaultBallIndexerCommand ballIndexerCommand;
 
     /**
      * Constructs a new SK21BallIndexer.
@@ -49,7 +49,7 @@ public class SK21BallIndexer extends SubsystemBase
          * crash. A better methodology here is similar to what is used in SK21Drive, where
          * the default command is external to the subsystem.
          */
-        ballIndexer = new DefaultBallIndexerCommand(this);
+        ballIndexerCommand = new DefaultBallIndexerCommand(this);
         resetDefaultCommand();
     }
 
@@ -59,7 +59,7 @@ public class SK21BallIndexer extends SubsystemBase
      */
     public void resetDefaultCommand()
     {
-        setDefaultCommand(ballIndexer);
+        setDefaultCommand(ballIndexerCommand);
     }
 
     /**

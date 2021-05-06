@@ -4,7 +4,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableValue;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21ColorWheel;
 
@@ -21,7 +23,12 @@ public class TestColorWheelCommand extends CommandBase
     /**
      * NetworkTableEntry for the Deployment Solenoid used to extend the mechanism.
      */
-    private NetworkTableEntry colorwheelDeployment;
+    private ComplexWidget colorwheelDeployment;
+
+    /**
+     * Sendable chooser used to set the options for the Solenoid
+     */
+    SendableChooser<DoubleSolenoid.Value> solenoidChooser = new SendableChooser<DoubleSolenoid.Value>();
 
     /**
      * NetworkTableEntry for the Motor used to spin the color wheel.
@@ -45,9 +52,14 @@ public class TestColorWheelCommand extends CommandBase
     @Override
     public void initialize()
     {
+        
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
         // Toggle widget that controls the extension state of the color wheel mechanism
-        colorwheelDeployment = Shuffleboard.getTab("Color Wheel").add("Extension", 0)
-        .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1).withPosition(0, 0).getEntry();
+        colorwheelDeployment = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+        .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         // Slider widget going from -1 to 1 that controls the motor that is used to spin the
         // the color wheel
@@ -61,14 +73,11 @@ public class TestColorWheelCommand extends CommandBase
     {
         // Grabs the boolean value of the togglable widget and uses the value
         // to set the state of the solenoid that extends the mechanism
-        NetworkTableValue extendColorwheelNetworkTable = colorwheelMotor.getValue();
-        boolean extendColorwheel = extendColorwheelNetworkTable.getBoolean();
-        DoubleSolenoid.Value value = extendColorwheel
-            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+        DoubleSolenoid.Value value = solenoidChooser.getSelected();
         colorwheelSubsystem.spinnerLifter.set(value);
 
         // Grabs the value of the slider and sets that speed to the motor
-        double speed = colorwheelDeployment.getValue().getDouble();
+        double speed = colorwheelMotor.getValue().getDouble();
         colorwheelSubsystem.spinnerRollerMotor.set(speed);
     }
 

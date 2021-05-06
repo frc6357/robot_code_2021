@@ -70,6 +70,7 @@ import frc.robot.subsystems.base.DpadUpButton;
 import frc.robot.subsystems.base.TriggerButton;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.SubsystemControls;
+import frc.robot.utils.filters.CubicDeadbandFilter;
 import frc.robot.utils.filters.DeadbandFilter;
 
 /**
@@ -101,8 +102,8 @@ public class RobotContainer
 
     // The Robot controllers
     private final FilteredJoystick driverJoystick = new FilteredJoystick(0);
-    private final DeadbandFilter deadbandThrottle = new DeadbandFilter(0.05, -1.0);
-    private final DeadbandFilter deadbandTurn = new DeadbandFilter(0.05, 1.0);
+    private final CubicDeadbandFilter deadbandThrottle = new CubicDeadbandFilter(1, 0.05, true);
+    private final CubicDeadbandFilter deadbandTurn = new CubicDeadbandFilter(0.6, 0.05, false);
     private final Joystick operatorJoystick = new Joystick(Ports.OIOperatorJoystick);
   
     // The robot's subsystems are defined here...

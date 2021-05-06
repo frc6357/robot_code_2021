@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Ports;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.utils.FilteredJoystick;
+import frc.robot.utils.filters.CubicDeadbandFilter;
 
 /**
  * A default drive command that takes in the filtered joysticks such that the robot drives
@@ -33,6 +34,18 @@ public class DefaultDriveCommand extends CommandBase
     {
         this.driveSubsystem = driveSubsystem;
         this.joystickDriver = joystickDriver;
+        
+        // Applies a Cubic filter with a Deadband to the Turning axis of the joystick.
+        // This Cubic filter will have a moderate curvature with a coefficient of 0.6.
+        // The Deadband will have a width of 0.05.
+        joystickDriver.setFilter(Ports.OIDriverTurn, new CubicDeadbandFilter(0.6, 0.05, false));
+
+        // Applies a Cubic Filter with a Deadband to the Moving axis of the joystick.
+        // This Cubic filter will have maxmimum curvature with a coefficient of 1.
+        // The Deadband will have a width of 0.05.
+        // The throttle axis' inputs will be flipped
+        joystickDriver.setFilter(Ports.OIDriverMove, new CubicDeadbandFilter(1, 0.05, true));
+
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(driveSubsystem);
     }

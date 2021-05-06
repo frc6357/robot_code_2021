@@ -12,6 +12,7 @@ public class SubsystemControls
     private final boolean intake;
     private final boolean launcher;
     private final boolean indexer;
+    private final boolean colorwheel;
 
     /**
      * Constructs a new SubsystemControls object with the given subsystem presence.
@@ -26,11 +27,13 @@ public class SubsystemControls
     public SubsystemControls(@JsonProperty(required = true, value = "intake")
     boolean intake, @JsonProperty(required = true, value = "launcher")
     boolean launcher, @JsonProperty(required = true, value = "indexer")
-    boolean indexer)
+    boolean indexer, @JsonProperty(required = true, value = "colorwheel")
+    boolean colorwheel)
     {
         this.intake = intake;
         this.launcher = launcher;
         this.indexer = indexer;
+        this.colorwheel = colorwheel;
     }
 
     /**
@@ -64,5 +67,16 @@ public class SubsystemControls
     public boolean isIndexerPresent()
     {
         return indexer;
+    }
+
+    /**
+     * Returns true if the colorwheel system is indicated as present and should be enabled.
+     * 
+     * @return true if the indexer system is indicated as present and should be enabled;
+     *         false otherwise
+     */
+    public boolean isColorwheelPresent()
+    {
+        return colorwheel;
     }
 }

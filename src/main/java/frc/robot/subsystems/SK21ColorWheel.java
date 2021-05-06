@@ -24,8 +24,6 @@ import frc.robot.subsystems.base.ColorSensor2021;
 public class SK21ColorWheel extends SubsystemBase
 {
     private BaseRoller spinnerRoller;
-    private DoubleSolenoid spinnerLifter;
-    private CANSparkMax spinnerRollerMotor;
     private int spinnerTransitionCount = 0;
     private ColorSensor2021 colorSensor;
     private CANEncoder spinnerRollerEncoder;
@@ -36,6 +34,10 @@ public class SK21ColorWheel extends SubsystemBase
     private boolean colorArrayIsFull = false;
     private Color2021 colorDebounced = Color2021.NONE;
     private final DefaultColorWheelCommand colorWheelDefaultCommand;
+
+    // Are public for the use of test mode
+    public DoubleSolenoid spinnerLifter;
+    public CANSparkMax spinnerRollerMotor;
 
     /**
      * Creates the SK21ColorWheel object and all hardware resources it uses.
@@ -55,6 +57,15 @@ public class SK21ColorWheel extends SubsystemBase
          * the default command is external to the subsystem.
          */
         colorWheelDefaultCommand = new DefaultColorWheelCommand(this);
+        setDefaultCommand(colorWheelDefaultCommand);
+    }
+
+    /**
+     * Resets the default command for this subsystem to the command used during
+     * auto/teleop.
+     */
+    public void resetDefaultCommand()
+    {
         setDefaultCommand(colorWheelDefaultCommand);
     }
 

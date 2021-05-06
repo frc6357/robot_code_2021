@@ -57,6 +57,7 @@ import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
+import frc.robot.commands.testcommands.TestColorWheelCommand;
 import frc.robot.commands.testcommands.TestDriveCommand;
 import frc.robot.commands.testcommands.TestIndexerCommand;
 import frc.robot.commands.testcommands.TestIntakeCommand;
@@ -64,6 +65,7 @@ import frc.robot.commands.testcommands.TestLauncherCommand;
 import frc.robot.commands.testcommands.TestClimbCommand;
 import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Climb;
+import frc.robot.subsystems.SK21ColorWheel;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -111,6 +113,7 @@ public class RobotContainer
     private Optional<SK21BallIndexer> ballIndexerSubsystem = Optional.empty();
     private Optional<SK21Intake> intakeSubsystem = Optional.empty();
     private Optional<SK21Climb> climbSubsystem = Optional.empty();
+    private Optional<SK21ColorWheel> colorwheelSubsystem = Optional.empty();
 
     // Intake control buttons
     private final Dpad dpad = new Dpad(operatorJoystick, Ports.OIOperatorDpad);
@@ -149,6 +152,7 @@ public class RobotContainer
         ballIndexerSubsystem = Optional.empty();
         intakeSubsystem = Optional.empty();
         climbSubsystem = Optional.empty();
+        colorwheelSubsystem = Optional.empty();
 
         try
         {
@@ -166,6 +170,10 @@ public class RobotContainer
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem  = Optional.of(new SK21Intake());
+            }
+            if (subsystems.isColorwheelPresent())
+            {
+                colorwheelSubsystem  = Optional.of(new SK21ColorWheel());
             }
         }
         catch (IOException e)
@@ -451,6 +459,11 @@ public class RobotContainer
             var climb = climbSubsystem.get();
             climb.setDefaultCommand(new TestClimbCommand(climb));
         }
+        if (colorwheelSubsystem.isPresent())
+        {
+            var colorwheel = colorwheelSubsystem.get();
+            colorwheel.setDefaultCommand(new TestColorWheelCommand(colorwheel));
+        }
         driveSubsystem.setDefaultCommand(new TestDriveCommand(driveSubsystem)); 
     }
 
@@ -479,6 +492,11 @@ public class RobotContainer
         {
             var climb = climbSubsystem.get();
             climb.resetDefaultCommand();
+        }
+        if (colorwheelSubsystem.isPresent())
+        {
+            var colorwheel = colorwheelSubsystem.get();
+            colorwheel.resetDefaultCommand();
         }
         resetDriveDefaultCommand();
     }

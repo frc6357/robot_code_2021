@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -139,11 +140,8 @@ public class RobotContainer
     {
         configureShuffleboard();
 
-        File subsystemFile = new File(Constants.kSubsystem);
-        if (!subsystemFile.exists())
-        {
-            subsystemFile = new File(Constants.kSubsystemWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File subsystemFile = new File(deployDirectory, Constants.kSubsystem);
 
         ObjectMapper mapper = new ObjectMapper();
         JsonFactory factory = new JsonFactory();
@@ -210,14 +208,9 @@ public class RobotContainer
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
-        File splineDirectory = new File(Constants.kSplineDirectory);
-
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
-        
         File[] pathNames = splineDirectory.listFiles();
         for (File pathname : pathNames)
         {
@@ -281,11 +274,8 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        File splineDirectory = new File(Constants.kSplineDirectory);
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
         var autoSelector = autoCommandSelector.getSelected();
 

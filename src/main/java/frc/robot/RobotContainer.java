@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -70,7 +71,6 @@ import frc.robot.subsystems.base.DpadUpButton;
 import frc.robot.subsystems.base.TriggerButton;
 import frc.robot.utils.FilteredJoystick;
 import frc.robot.utils.SubsystemControls;
-import frc.robot.utils.filters.DeadbandFilter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -101,8 +101,6 @@ public class RobotContainer
 
     // The Robot controllers
     private final FilteredJoystick driverJoystick = new FilteredJoystick(0);
-    private final DeadbandFilter deadbandThrottle = new DeadbandFilter(0.05, -1.0);
-    private final DeadbandFilter deadbandTurn = new DeadbandFilter(0.05, 1.0);
     private final Joystick operatorJoystick = new Joystick(Ports.OIOperatorJoystick);
   
     // The robot's subsystems are defined here...
@@ -138,11 +136,8 @@ public class RobotContainer
     {
         configureShuffleboard();
 
-        File subsystemFile = new File(Constants.kSubsystem);
-        if (!subsystemFile.exists())
-        {
-            subsystemFile = new File(Constants.kSubsystemWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File subsystemFile = new File(deployDirectory, Constants.kSubsystem);
 
         ObjectMapper mapper = new ObjectMapper();
         JsonFactory factory = new JsonFactory();
@@ -176,9 +171,6 @@ public class RobotContainer
 
         // Configure the button bindings
         configureButtonBindings();
-    
-        driverJoystick.setFilter(Ports.OIDriverTurn, deadbandTurn);
-        driverJoystick.setFilter(Ports.OIDriverMove, deadbandThrottle);
 
         resetDriveDefaultCommand();
 
@@ -209,14 +201,9 @@ public class RobotContainer
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
-        File splineDirectory = new File(Constants.kSplineDirectory);
-
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
-        
         File[] pathNames = splineDirectory.listFiles();
         for (File pathname : pathNames)
         {
@@ -280,11 +267,8 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        File splineDirectory = new File(Constants.kSplineDirectory);
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
         var autoSelector = autoCommandSelector.getSelected();
 

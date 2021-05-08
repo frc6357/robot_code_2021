@@ -333,6 +333,6 @@ public class SK21ColorWheel extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-
+        colorwheelMotor.setDouble(0.0);
     }
 }

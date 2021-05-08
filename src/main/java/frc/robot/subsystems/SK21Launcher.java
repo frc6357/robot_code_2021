@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.LauncherActivateCommand;
-import frc.robot.subsystems.base.BaseRoller;
 
 /**
  * This is the launcher subsystem that controls everything that has to do with the
@@ -30,8 +29,6 @@ public class SK21Launcher extends SKSubsystemBase
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
     private final CANPIDController pidControl = launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
-    private final CANSparkMax releaseMotor =
-            new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
 
     private final DoubleSolenoid hoodMover =
             new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
@@ -190,6 +187,6 @@ public class SK21Launcher extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-        launcherMotorEntry.setValue(0.0);
+        launcherMotorEntry.setDouble(0.0);
     }
 }

@@ -248,11 +248,11 @@ public class SK21Drive extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-        speedControllerGroupRightEntry.setNumber(0);
-        speedControllerGroupLeftEntry.setNumber(0);
-        leftFollowerEntry.setNumber(0);
-        rightFollowerEntry.setNumber(0);
-        rightLeaderEntry.setNumber(0);
-        leftLeaderEntry.setNumber(0);
+        speedControllerGroupRightEntry.setDouble(0.0);
+        speedControllerGroupLeftEntry.setDouble(0.0);
+        leftFollowerEntry.setDouble(0.0);
+        rightFollowerEntry.setDouble(0.0);
+        rightLeaderEntry.setDouble(0.0);
+        leftLeaderEntry.setDouble(0.0);
     }
 }

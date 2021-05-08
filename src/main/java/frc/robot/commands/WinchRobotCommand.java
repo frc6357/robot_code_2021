@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Climb;
 
 /**
- * An example command that uses an example subsystem.
+ * WinchRobotCommand is a Command to control the Climb subsystem on the robot.
  */
 public class WinchRobotCommand extends CommandBase
 {
@@ -16,9 +16,9 @@ public class WinchRobotCommand extends CommandBase
      * WinchRobot command tells whether or not to winch or stop winching the robot.
      * 
      * @param subsystem
-     *            is the SK20Climb subsystem
+     *            The SK20Climb subsystem
      * @param startMotor
-     *            tells whether or not the winch motor should be on or off
+     *            Indicates whether or not the winch motor should be on or off
      */
     public WinchRobotCommand(SK21Climb subsystem, Boolean startMotor)
     {
@@ -35,12 +35,12 @@ public class WinchRobotCommand extends CommandBase
         // when true start winch
         if (startWinch)
         {
-            this.subsystem.startWinchRobot();
+            subsystem.startWinchRobot();
         }
         // when false stop winch
         else
         {
-            this.subsystem.stopWinchRobot();
+            subsystem.stopWinchRobot();
         }
     }
 

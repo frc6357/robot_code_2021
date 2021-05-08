@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Manager for Spring Konstant's Test Mode Control System.
+ * Manager for The Spring Konstant's Test Mode Control System.
  * 
  * Manages registration of Subsystems and delegates initialize and periodic methods to all
  * registered subsystems.

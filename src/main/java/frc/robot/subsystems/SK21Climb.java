@@ -88,7 +88,7 @@ public class SK21Climb extends SKSubsystemBase
     {
         winchMotorGroup.set(climbEntry.getValue().getDouble());
     }
-    
+
     @Override
     public void enterTestMode()
     {

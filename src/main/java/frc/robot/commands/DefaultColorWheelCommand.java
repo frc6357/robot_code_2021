@@ -11,7 +11,7 @@ import frc.robot.subsystems.base.ColorUtilities;
 public class DefaultColorWheelCommand extends CommandBase
 {
     /**
-     * The Color Wheel subsystem for this DefaultColorWheelCommand
+     * The Color Wheel subsystem for this DefaultColorWheelCommand.
      */
     private final SK21ColorWheel colorWheelSubsystem;
 

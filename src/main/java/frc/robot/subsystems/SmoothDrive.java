@@ -20,7 +20,7 @@ public class SmoothDrive
 
     /**
      * This constructor accepts the BaseDrive object that allows it to interface the robot
-     * hardware
+     * hardware.
      * 
      * @param drive
      *            A basicDrive type used to set up the baseDrive in SmoothDrive

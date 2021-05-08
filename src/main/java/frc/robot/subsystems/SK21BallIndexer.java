@@ -118,8 +118,7 @@ public class SK21BallIndexer extends SKSubsystemBase
      */
     public boolean isLauncherFeederArmExtended()
     {
-        DoubleSolenoid.Value state;
-        state = this.feederArmSolenoid.get();
+        DoubleSolenoid.Value state = this.feederArmSolenoid.get();
         return state == DoubleSolenoid.Value.kForward;
     }
 

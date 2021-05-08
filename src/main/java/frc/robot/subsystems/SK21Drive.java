@@ -32,9 +32,9 @@ public class SK21Drive extends SKSubsystemBase
     private final MotorEncoder leftMotorEncoder =
             new MotorEncoder(leftLeader, Constants.DriveConstants.kEncoderDistancePerPulse,
                 Constants.DriveConstants.kLeftEncoderReversed);
-                private final SpeedControllerGroup leftGroup =
-                new SpeedControllerGroup(leftLeader, leftFollower);
-    
+    private final SpeedControllerGroup leftGroup =
+            new SpeedControllerGroup(leftLeader, leftFollower);
+
     private final WPI_TalonFX rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
     private final WPI_TalonFX rightFollower = new WPI_TalonFX(Ports.backRightDrive);
     private final MotorEncoder rightMotorEncoder =
@@ -213,7 +213,7 @@ public class SK21Drive extends SKSubsystemBase
         testControlChooser.addOption("Individual motors", false);
 
         Shuffleboard.getTab("Drive").add("Control Mode", testControlChooser)
-        .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         leftLeaderEntry = Shuffleboard.getTab("Drive").add("leftLeader", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 1).getEntry();
@@ -239,9 +239,7 @@ public class SK21Drive extends SKSubsystemBase
     @Override
     public void testModePeriodic()
     {
-        Boolean TestByGroups = testControlChooser.getSelected();
-
-        if(TestByGroups)
+        if (testControlChooser.getSelected())
         {
             leftGroup.set(speedControllerGroupLeftEntry.getValue().getDouble());
             rightGroup.set(speedControllerGroupRightEntry.getValue().getDouble());

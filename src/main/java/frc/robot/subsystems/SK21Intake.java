@@ -187,8 +187,7 @@ public class SK21Intake extends SKSubsystemBase
     public void testModePeriodic()
     {
         intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
-        DoubleSolenoid.Value value = solenoidChooser.getSelected();
-        intakeMover.set(value);
+        intakeMover.set(solenoidChooser.getSelected());
     }
 
     @Override

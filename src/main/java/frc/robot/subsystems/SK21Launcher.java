@@ -6,10 +6,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.LauncherActivateCommand;
@@ -20,37 +22,44 @@ import frc.robot.subsystems.base.BaseRoller;
  * launcher including releasing a ball into the launcher, the speed of the launcher and
  * the position of the hood.
  */
-public class SK21Launcher extends SubsystemBase
+public class SK21Launcher extends SKSubsystemBase
 {
-    /**
-     * The motor used to spin the high energy flywheel launch roller.
-     */
-    public final CANSparkMax launcherMotor =
+
+    private final CANSparkMax launcherMotor =
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
     private final CANPIDController pidControl = launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
-
-    /**
-     * The motor driving the roller which feeds balls into the launch roller.
-     */
-    public final CANSparkMax releaseMotor =
+    private final CANSparkMax releaseMotor =
             new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
 
-    /**
-     * The BaseRoller for the launch release motor.
-     */
-    public final BaseRoller releaseRoller =
+    private final BaseRoller releaseRoller =
             new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
-
-    /**
-     * The (Double) Solenoid that controls the Hood on the Launcher.
-     */
-    public final DoubleSolenoid hoodMover =
+    private final DoubleSolenoid hoodMover =
             new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
     private double launcherSetpoint = 0.0;
     private double lastSetSpeed = 0.0;
     private LauncherActivateCommand defaultCommand;
+
+    /**
+     * NetworkTableEntry for the launcher motor.
+     */
+    private NetworkTableEntry launcherMotorEntry;
+
+    /**
+     * NetworkTableEntry for the release motor.
+     */
+    private NetworkTableEntry releaseMotorEntry;
+
+    /**
+     * NetworkTableEntry for the Hood Solenoid.
+     */
+    private NetworkTableEntry hoodMoverEntry;
+
+    /**
+     * NetworkTableEntry for the release roller.
+     */
+    private NetworkTableEntry releaseRollerEntry;
 
     /**
      * Constructs a new SK21Launcher.
@@ -186,5 +195,35 @@ public class SK21Launcher extends SubsystemBase
     public void periodic()
     {
         SmartDashboard.putNumber("Launcher Encoder Value", launcherMotorEncoder.getVelocity());
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+
+        hoodMoverEntry = Shuffleboard.getTab("Launcher").add("hoodMover", 3)
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(0, 4).getEntry();
+
+        releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 6).getEntry();
+        releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 6).getEntry();
+
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        launcherMotor.set(launcherMotorEntry.getValue().getDouble());
+        releaseMotor.set(releaseMotorEntry.getValue().getDouble());
+        releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
+
+        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean()
+            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+
+        hoodMover.set(value);
+
     }
 }

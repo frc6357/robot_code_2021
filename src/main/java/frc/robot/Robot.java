@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.TestModeManager;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -150,11 +151,8 @@ public class Robot extends TimedRobot
     @Override
     public void testInit() 
     {
+        TestModeManager.initializeTestMode();
         robotContainer.resetDriveSubsystem();
-        
-        // Cancels all running commands at the start of test mode.
-        robotContainer.enterTestMode();
-        CommandScheduler.getInstance().cancelAll();
     }
 
     /**
@@ -163,5 +161,6 @@ public class Robot extends TimedRobot
     @Override
     public void testPeriodic() 
     {
+        TestModeManager.testModePeriodic();
     }
 }

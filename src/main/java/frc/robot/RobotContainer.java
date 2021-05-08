@@ -48,21 +48,15 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DisableShotCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.ExtendIntakeCommand;
+import frc.robot.commands.ForwardIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
-import frc.robot.commands.ForwardIntakeCommand;
 import frc.robot.commands.SetHoodHighShotCommand;
 import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
-import frc.robot.commands.testcommands.TestColorWheelCommand;
-import frc.robot.commands.testcommands.TestDriveCommand;
-import frc.robot.commands.testcommands.TestIndexerCommand;
-import frc.robot.commands.testcommands.TestIntakeCommand;
-import frc.robot.commands.testcommands.TestLauncherCommand;
-import frc.robot.commands.testcommands.TestClimbCommand;
 import frc.robot.subsystems.SK21BallIndexer;
 import frc.robot.subsystems.SK21Climb;
 import frc.robot.subsystems.SK21ColorWheel;
@@ -454,74 +448,6 @@ public class RobotContainer
     }
 
     /**
-     * Enter test mode. This sets the default commands for the subsystems to be commands
-     * that enable testing.
-     */
-    public void enterTestMode()
-    {
-        if (intakeSubsystem.isPresent())
-        {
-            var intake = intakeSubsystem.get();
-            intake.setDefaultCommand(new TestIntakeCommand(intake)); 
-        }
-        if (ballIndexerSubsystem.isPresent())
-        {
-            var indexer = ballIndexerSubsystem.get();
-            indexer.setDefaultCommand(new TestIndexerCommand(indexer));
-        }
-        if (launcherSubsystem.isPresent())
-        {
-            var launcher = launcherSubsystem.get();
-            launcher.setDefaultCommand(new TestLauncherCommand(launcher));
-        }
-        if (climbSubsystem.isPresent())
-        {
-            var climb = climbSubsystem.get();
-            climb.setDefaultCommand(new TestClimbCommand(climb));
-        }
-        if (colorwheelSubsystem.isPresent())
-        {
-            var colorwheel = colorwheelSubsystem.get();
-            colorwheel.setDefaultCommand(new TestColorWheelCommand(colorwheel));
-        }
-        driveSubsystem.setDefaultCommand(new TestDriveCommand(driveSubsystem)); 
-    }
-
-    /**
-     * Exit test mode. This resets the default commands for the subsystems to be commands
-     * that are used in teleop/autonomous.
-     */
-    public void exitTestMode()
-    {
-        if (intakeSubsystem.isPresent())
-        {
-            var intake = intakeSubsystem.get();
-            intake.resetDefaultCommand();
-        }
-        if (ballIndexerSubsystem.isPresent())
-        {
-            var indexer = ballIndexerSubsystem.get();
-            indexer.resetDefaultCommand();
-        }
-        if (launcherSubsystem.isPresent())
-        {
-            var launcher = launcherSubsystem.get();
-            launcher.resetDefaultCommand();
-        }
-        if (climbSubsystem.isPresent())
-        {
-            var climb = climbSubsystem.get();
-            climb.resetDefaultCommand();
-        }
-        if (colorwheelSubsystem.isPresent())
-        {
-            var colorwheel = colorwheelSubsystem.get();
-            colorwheel.resetDefaultCommand();
-        }
-        resetDriveDefaultCommand();
-    }
-
-    /**
      * Reset the encoders and gyro in the drive subsystem. This should be called
      * on boot and when initializing auto and reset modes.
      */
@@ -530,4 +456,9 @@ public class RobotContainer
         driveSubsystem.resetEncoders();
         driveSubsystem.resetGyro();
     }
+
+	public void testInit()
+	{
+
+	}
 }

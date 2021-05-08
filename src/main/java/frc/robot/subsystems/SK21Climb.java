@@ -3,8 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.DefaultClimbCommand;
@@ -12,14 +14,15 @@ import frc.robot.commands.DefaultClimbCommand;
 /**
  * The SK20Climb class is a subsystem that interacts with the climbing mechanism in order to deploy the arm and winch the robot up
  */
-public class SK21Climb extends SubsystemBase 
+public class SK21Climb extends SKSubsystemBase 
 {
     //instantiates climb mechanisms
     private WPI_TalonFX winchClimbLeft;
     private WPI_TalonFX winchClimbRight;
-    public SpeedControllerGroup winchMotorGroup;
+    private SpeedControllerGroup winchMotorGroup;
 
     private final DefaultClimbCommand climb;
+    private NetworkTableEntry climbEntry;
     
     //assigns values to instantiated objects
     public SK21Climb()
@@ -68,6 +71,21 @@ public class SK21Climb extends SubsystemBase
     public void stopWinchRobot() 
     {
         winchMotorGroup.stopMotor();
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        climbEntry = Shuffleboard.getTab("Climb").add("Speed", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+        
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        winchMotorGroup.set(climbEntry.getValue().getDouble());
+        
     }
 
 }

@@ -4,9 +4,11 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.DefaultIntakeCommand;
@@ -16,34 +18,23 @@ import frc.robot.subsystems.base.BaseRoller;
  * The SK21Intake class is the subsystem that interacts with the intake to both set its
  * speed and deploy or retract it and get its status.
  */
-public class SK21Intake extends SubsystemBase
+public class SK21Intake extends SKSubsystemBase
 {
-    /**
-     * The BaseRoller for the Intake.
-     */
-    public final BaseRoller intakeRoller;
+    private final BaseRoller intakeRoller;
 
-    /**
-     * The Solenoid used to extend and retract the Intake.
-     */
-    public final DoubleSolenoid intakeMover;
+    private final DoubleSolenoid intakeMover;
 
-    /**
-     * The encoder on the Intake Roller.
-     */
     private final CANEncoder intakeRollerEncoder;
 
     private final DefaultIntakeCommand intakeCommand;
 
-    /**
-     * Will let us know the state of the intake motor.
-     */
     private boolean intakeMotorIsStarted = false;
 
-    /**
-     * Will let us know if the intake rollers are reversed or forward.
-     */
     private boolean intakeIsReversed = false;
+
+    private NetworkTableEntry intakeDeployEntry;
+
+    private NetworkTableEntry intakeRollerEntry;
 
     /**
      * Sets up the intake control such that it takes the values that are declared for it
@@ -171,5 +162,28 @@ public class SK21Intake extends SubsystemBase
     public boolean isIntakeReversed()
     {
         return intakeIsReversed;
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        intakeDeployEntry = Shuffleboard.getTab("Intake").add("extension", 1)
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1).withPosition(0, 0).getEntry();
+
+        intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 4).getEntry();
+
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
+
+        DoubleSolenoid.Value value = intakeDeployEntry.getValue().getBoolean()
+            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+
+        intakeMover.set(value);
+
     }
 }

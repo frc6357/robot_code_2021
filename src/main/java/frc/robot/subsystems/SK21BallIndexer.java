@@ -3,8 +3,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.DefaultBallIndexerCommand;
@@ -13,24 +15,23 @@ import frc.robot.subsystems.base.BaseRoller;
 /**
  * Sets the methods that are used to hold and control the balls inside of the robot.
  */
-public class SK21BallIndexer extends SubsystemBase
+public class SK21BallIndexer extends SKSubsystemBase
 {
-    /**
-     * The motor controller to be used in the BaseRoller of the Indexer.
-     */
-    public final CANSparkMax indexerMotor;
+    private final CANSparkMax indexerMotor;
 
-    /**
-     * The BaseRoller for the Indexer.
-     */
-    public final BaseRoller indexerRoller;
+    private final BaseRoller indexerRoller;
 
     private CANSparkMax feederMotor;
+
     private BaseRoller feederRoller;
-    
-    public final DoubleSolenoid feederArmSolenoid;
+
+    private final DoubleSolenoid feederArmSolenoid;
 
     private final DefaultBallIndexerCommand ballIndexerCommand;
+
+    private NetworkTableEntry indexerSpinEntry;
+
+    private NetworkTableEntry indexerMotorEntry;
 
     /**
      * Constructs a new SK21BallIndexer.
@@ -41,7 +42,8 @@ public class SK21BallIndexer extends SubsystemBase
         feederMotor = new CANSparkMax(Ports.feederMotor, MotorType.kBrushless);
         indexerRoller = new BaseRoller(indexerMotor, TuningParams.INDEXER_SPEED);
         feederRoller = new BaseRoller(feederMotor, TuningParams.INDEXER_SPEED);
-        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederExtend, Ports.launcherFeederRetract);
+        feederArmSolenoid = new DoubleSolenoid(Ports.pcm, Ports.launcherFeederExtend,
+            Ports.launcherFeederRetract);
 
         /*
          * TODO "this" escaping from a constructor should be avoided if possible - it
@@ -64,8 +66,8 @@ public class SK21BallIndexer extends SubsystemBase
 
     /**
      * Activates the launcher feeder Arm to extend. The launcher feeder will then pop
-     * balls into the launcher. The rollers that are run by the motor do this
-     * action not the arm itself. 
+     * balls into the launcher. The rollers that are run by the motor do this action not
+     * the arm itself.
      */
     public void extendLauncherFeederArm()
     {
@@ -73,9 +75,8 @@ public class SK21BallIndexer extends SubsystemBase
     }
 
     /**
-     * Deactivates (retracts) the launcher feeder Arm to extend. When the arm is
-     * retracted the launcher feeder should no longer pop balls into the 
-     * launcher. 
+     * Deactivates (retracts) the launcher feeder Arm to extend. When the arm is retracted
+     * the launcher feeder should no longer pop balls into the launcher.
      */
     public void retractLauncherFeederArm()
     {
@@ -103,7 +104,7 @@ public class SK21BallIndexer extends SubsystemBase
      */
     public void startLauncherFeederMotor()
     {
-        feederRoller.setForwards(); 
+        feederRoller.setForwards();
     }
 
     /**
@@ -123,15 +124,32 @@ public class SK21BallIndexer extends SubsystemBase
     {
         DoubleSolenoid.Value state;
         state = this.feederArmSolenoid.get();
-        
+
         if (state == DoubleSolenoid.Value.kForward)
         {
             return true;
-        }  
+        }
         else
         {
             return false;
         }
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        indexerSpinEntry = Shuffleboard.getTab("Indexer").add("Spin", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+        indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3).withSize(1, 1)
+            .withPosition(0, 6).getEntry();
+
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        indexerMotor.set(indexerMotorEntry.getValue().getDouble());
+        indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
     }
 
 }

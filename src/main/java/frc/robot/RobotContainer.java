@@ -175,6 +175,10 @@ public class RobotContainer
             {
                 colorwheelSubsystem  = Optional.of(new SK21ColorWheel());
             }
+            if (subsystems.isClimbPresent())
+            {
+                climbSubsystem  = Optional.of(new SK21Climb());
+            }
         }
         catch (IOException e)
         {
@@ -270,6 +274,22 @@ public class RobotContainer
             setLowAngle.whenPressed(new SetHoodLowShotCommand(launcher));
             toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(launcher));
         }
+
+        /*
+
+        if (colorwheelSubsystem.isPresent())
+        {
+            var colorwheel = colorwheelSubsystem.get(); //TODO: what does this do?
+            
+        }
+
+        if (climbSubsystem.isPresent())
+        {
+            var climb = climbSubsystem.get(); //TODO: implement these controls
+           
+        }
+
+        */
     }
 
     /**

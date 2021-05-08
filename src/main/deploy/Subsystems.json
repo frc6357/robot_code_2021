@@ -1,5 +1,7 @@
 {
-    "intake" : true,
+    "intake" : false,
     "launcher" : false,
-    "indexer": false
+    "indexer": true,
+    "colorwheel" : false,
+    "climb" : false
 }

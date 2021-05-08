@@ -81,7 +81,6 @@ public class SK21Climb extends SKSubsystemBase
     {
         climbEntry = Shuffleboard.getTab("Climb").add("Speed", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
-            climbEntry.setNumber(0);
     }
 
     @Override
@@ -93,7 +92,7 @@ public class SK21Climb extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-
+        climbEntry.setNumber(0);
     }
 
 }

@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class LauncherSpeedCommand extends CommandBase
 {
-    
+
     private final SK21Launcher launcherSubsystem;
     private int speedIndex = 0;
 
     private final double[] possibleSpeeds = {TuningParams.LAUNCHER_SET_PERCENTAGE_SLOW,
-                                             TuningParams.LAUNCHER_SET_PERCENTAGE_MEDIUM,
-                                             TuningParams.LAUNCHER_SET_PERCENTAGE_HIGH,
-                                             TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL};
+        TuningParams.LAUNCHER_SET_PERCENTAGE_MEDIUM, TuningParams.LAUNCHER_SET_PERCENTAGE_HIGH,
+        TuningParams.LAUNCHER_SET_PERCENTAGE_CRITICAL};
 
     /**
      * Creates a new LauncherSpeedCommand and sets up the variables.

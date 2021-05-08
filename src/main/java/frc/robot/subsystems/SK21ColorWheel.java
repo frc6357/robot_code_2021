@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Ports;
@@ -31,7 +30,7 @@ public class SK21ColorWheel extends SKSubsystemBase
     private int spinnerTransitionCount = 0;
     private ColorSensor2021 colorSensor;
     private CANEncoder spinnerRollerEncoder;
-    private static Color2021[] fieldColors =
+    private static final Color2021[] FIELD_COLORS =
             {Color2021.RED, Color2021.GREEN, Color2021.CYAN, Color2021.YELLOW};
     private Color2021[] colorArray = new Color2021[TuningParams.COLOR_WHEEL_ARRAY_SIZE];
     private int indexOfColorArray = 0;
@@ -41,9 +40,8 @@ public class SK21ColorWheel extends SKSubsystemBase
 
     private DoubleSolenoid spinnerLifter;
     private CANSparkMax spinnerRollerMotor;
-    private ComplexWidget colorwheelDeployment;
 
-    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+    private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
 
     private NetworkTableEntry colorwheelMotor;
@@ -252,11 +250,11 @@ public class SK21ColorWheel extends SKSubsystemBase
         }
         else
         {
-            for (int i = 0; i < fieldColors.length; i++)
+            for (int i = 0; i < FIELD_COLORS.length; i++)
             {
-                if (col == fieldColors[i])
+                if (col == FIELD_COLORS[i])
                 {
-                    return fieldColors[(i + 2) % 4];
+                    return FIELD_COLORS[(i + 2) % 4];
                 }
             }
 
@@ -290,11 +288,11 @@ public class SK21ColorWheel extends SKSubsystemBase
         }
         else
         {
-            for (int i = 0; i < fieldColors.length; i++)
+            for (int i = 0; i < FIELD_COLORS.length; i++)
             {
-                if (col == fieldColors[i])
+                if (col == FIELD_COLORS[i])
                 {
-                    return fieldColors[(i + 2) % 4];
+                    return FIELD_COLORS[(i + 2) % 4];
                 }
             }
         }
@@ -310,14 +308,13 @@ public class SK21ColorWheel extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         // Toggle widget that controls the extension state of the color wheel mechanism
-        colorwheelDeployment = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+        Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         // Slider widget going from -1 to 1 that controls the motor that is used to spin the
         // the color wheel
         colorwheelMotor = Shuffleboard.getTab("Color Wheel").add("Spin", 0)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 2).getEntry();
-
     }
 
     @Override
@@ -331,6 +328,11 @@ public class SK21ColorWheel extends SKSubsystemBase
         // Grabs the value of the slider and sets that speed to the motor
         double speed = colorwheelMotor.getValue().getDouble();
         spinnerRollerMotor.set(speed);
+    }
+
+    @Override
+    public void enterTestMode()
+    {
 
     }
 }

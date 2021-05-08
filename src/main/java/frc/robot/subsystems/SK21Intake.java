@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Ports;
@@ -23,22 +22,17 @@ import frc.robot.subsystems.base.BaseRoller;
 public class SK21Intake extends SKSubsystemBase
 {
     private final BaseRoller intakeRoller;
-
     private final DoubleSolenoid intakeMover;
-
     private final CANEncoder intakeRollerEncoder;
 
     private final DefaultIntakeCommand intakeCommand;
 
     private boolean intakeMotorIsStarted = false;
-
     private boolean intakeIsReversed = false;
-
-    private ComplexWidget intakeDeployEntry;
 
     private NetworkTableEntry intakeRollerEntry;
 
-    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+    private final SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
 
     /**
@@ -181,12 +175,12 @@ public class SK21Intake extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         // Toggle widget that controls the extension state of the color wheel mechanism
-        intakeDeployEntry = Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
+
+        Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 2).getEntry();
-
     }
 
     @Override
@@ -195,6 +189,11 @@ public class SK21Intake extends SKSubsystemBase
         intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
         DoubleSolenoid.Value value = solenoidChooser.getSelected();
         intakeMover.set(value);
+    }
+
+    @Override
+    public void enterTestMode()
+    {
 
     }
 }

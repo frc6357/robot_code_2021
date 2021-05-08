@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
@@ -41,25 +42,12 @@ public class SK21Launcher extends SKSubsystemBase
     private double lastSetSpeed = 0.0;
     private LauncherActivateCommand defaultCommand;
 
-    /**
-     * NetworkTableEntry for the launcher motor.
-     */
     private NetworkTableEntry launcherMotorEntry;
-
-    /**
-     * NetworkTableEntry for the release motor.
-     */
     private NetworkTableEntry releaseMotorEntry;
-
-    /**
-     * NetworkTableEntry for the Hood Solenoid.
-     */
-    private NetworkTableEntry hoodMoverEntry;
-
-    /**
-     * NetworkTableEntry for the release roller.
-     */
     private NetworkTableEntry releaseRollerEntry;
+
+    private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+            new SendableChooser<DoubleSolenoid.Value>();
 
     /**
      * Constructs a new SK21Launcher.
@@ -200,17 +188,19 @@ public class SK21Launcher extends SKSubsystemBase
     @Override
     public void initializeTestMode()
     {
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
         launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 4).getEntry();
 
-        hoodMoverEntry = Shuffleboard.getTab("Launcher").add("hoodMover", 3)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(0, 4).getEntry();
-
+        Shuffleboard.getTab("Launcher").add("hoodMover", solenoidChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(1, 1).withPosition(1, 3);
         releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 6).getEntry();
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(2, 2).getEntry();
         releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 6).getEntry();
-
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 1).getEntry();
     }
 
     @Override
@@ -219,11 +209,14 @@ public class SK21Launcher extends SKSubsystemBase
         launcherMotor.set(launcherMotorEntry.getValue().getDouble());
         releaseMotor.set(releaseMotorEntry.getValue().getDouble());
         releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
-
-        DoubleSolenoid.Value value = hoodMoverEntry.getValue().getBoolean()
-            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
-
+        
+        DoubleSolenoid.Value value = solenoidChooser.getSelected();
         hoodMover.set(value);
+    }
+
+    @Override
+    public void enterTestMode()
+    {
 
     }
 }

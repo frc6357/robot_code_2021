@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class DefaultIntakeCommand extends CommandBase
 {
-
     /**
      * Construct a new IntakeIdleCommand.
      * 

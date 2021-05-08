@@ -27,24 +27,18 @@ public class SK21Drive extends SKSubsystemBase
 {
 
     private final WPI_TalonFX leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
-
     private final WPI_TalonFX leftFollower = new WPI_TalonFX(Ports.backLeftDrive);
-
     private final MotorEncoder leftMotorEncoder =
             new MotorEncoder(leftLeader, Constants.DriveConstants.kEncoderDistancePerPulse,
                 Constants.DriveConstants.kLeftEncoderReversed);
-
+                private final SpeedControllerGroup leftGroup =
+                new SpeedControllerGroup(leftLeader, leftFollower);
+    
     private final WPI_TalonFX rightLeader = new WPI_TalonFX(Ports.frontRightDrive);
-
     private final WPI_TalonFX rightFollower = new WPI_TalonFX(Ports.backRightDrive);
-
     private final MotorEncoder rightMotorEncoder =
             new MotorEncoder(rightLeader, Constants.DriveConstants.kEncoderDistancePerPulse,
                 Constants.DriveConstants.kRightEncoderReversed);
-
-    private final SpeedControllerGroup leftGroup =
-            new SpeedControllerGroup(leftLeader, leftFollower);
-
     private final SpeedControllerGroup rightGroup =
             new SpeedControllerGroup(rightLeader, rightFollower);
 
@@ -52,16 +46,12 @@ public class SK21Drive extends SKSubsystemBase
 
     private final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
     private final DifferentialDriveOdometry odometry;
+
     private NetworkTableEntry leftLeaderEntry;
-
     private NetworkTableEntry leftFollowerEntry;
-
     private NetworkTableEntry rightLeaderEntry;
-
     private NetworkTableEntry rightFollowerEntry;
-
     private NetworkTableEntry speedControllerGroupLeftEntry;
-
     private NetworkTableEntry speedControllerGroupRightEntry;
 
     /** Creates a new SK21Drive. */
@@ -235,7 +225,6 @@ public class SK21Drive extends SKSubsystemBase
         speedControllerGroupRightEntry = Shuffleboard.getTab("Drive")
             .add("SpeedControllerGroupRight", 1).withWidget(BuiltInWidgets.kNumberSlider)
             .withSize(2, 1).withPosition(2, 2).getEntry();
-
     }
 
     @Override
@@ -249,16 +238,21 @@ public class SK21Drive extends SKSubsystemBase
          * set.
          */
         leftLeader.set(leftLeaderEntry.getValue().getDouble());
-
         leftFollower.set(leftFollowerEntry.getValue().getDouble());
-
         rightLeader.set(rightLeaderEntry.getValue().getDouble());
-
         rightFollower.set(rightFollowerEntry.getValue().getDouble());
-
         leftGroup.set(speedControllerGroupLeftEntry.getValue().getDouble());
-
         rightGroup.set(speedControllerGroupRightEntry.getValue().getDouble());
+    }
 
+    @Override
+    public void enterTestMode()
+    {
+        speedControllerGroupRightEntry.setNumber(0);
+        speedControllerGroupLeftEntry.setNumber(0);
+        leftFollowerEntry.setNumber(0);
+        rightFollowerEntry.setNumber(0);
+        rightLeaderEntry.setNumber(0);
+        leftLeaderEntry.setNumber(0);
     }
 }

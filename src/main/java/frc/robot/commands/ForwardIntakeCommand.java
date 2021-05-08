@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ForwardIntakeCommand extends CommandBase
 {
-     /**
+    /**
      * The Ball Intake Subsystem.
      */
     private final SK21Intake intakeSubsystem;

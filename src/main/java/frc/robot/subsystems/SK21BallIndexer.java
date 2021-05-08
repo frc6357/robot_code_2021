@@ -18,11 +18,9 @@ import frc.robot.subsystems.base.BaseRoller;
 public class SK21BallIndexer extends SKSubsystemBase
 {
     private final CANSparkMax indexerMotor;
-
     private final BaseRoller indexerRoller;
 
     private CANSparkMax feederMotor;
-
     private BaseRoller feederRoller;
 
     private final DoubleSolenoid feederArmSolenoid;
@@ -122,15 +120,7 @@ public class SK21BallIndexer extends SKSubsystemBase
     {
         DoubleSolenoid.Value state;
         state = this.feederArmSolenoid.get();
-
-        if (state == DoubleSolenoid.Value.kForward)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return state == DoubleSolenoid.Value.kForward;
     }
 
     @Override
@@ -138,8 +128,11 @@ public class SK21BallIndexer extends SKSubsystemBase
     {
         indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+<<<<<<< HEAD
         
 
+=======
+>>>>>>> 15498aab7f195e54d34e7356df0334e370f0830b
     }
 
     @Override
@@ -148,4 +141,9 @@ public class SK21BallIndexer extends SKSubsystemBase
         indexerMotor.set(indexerMotorEntry.getValue().getDouble());
     }
 
+    @Override
+    public void enterTestMode()
+    {
+        indexerMotorEntry.setDouble(0.0);
+    }
 }

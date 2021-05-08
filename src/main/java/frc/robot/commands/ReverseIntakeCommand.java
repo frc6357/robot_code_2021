@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class ReverseIntakeCommand extends CommandBase
 {
-
     /**
      * The Ball Intake Subsystem.
      */

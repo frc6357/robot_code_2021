@@ -456,9 +456,4 @@ public class RobotContainer
         driveSubsystem.resetEncoders();
         driveSubsystem.resetGyro();
     }
-
-	public void testInit()
-	{
-
-	}
 }

@@ -9,7 +9,6 @@ import frc.robot.subsystems.SK21Climb;
  */
 public class DefaultClimbCommand extends CommandBase
 {
-
     /**
      * Constructs a new DefaultBallIndexerCommand for the given Ball Indexer Subsystem.
      * 

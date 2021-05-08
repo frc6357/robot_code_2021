@@ -33,8 +33,6 @@ public class SK21Launcher extends SKSubsystemBase
     private final CANSparkMax releaseMotor =
             new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
 
-    private final BaseRoller releaseRoller =
-            new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
     private final DoubleSolenoid hoodMover =
             new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
@@ -43,8 +41,6 @@ public class SK21Launcher extends SKSubsystemBase
     private LauncherActivateCommand defaultCommand;
 
     private NetworkTableEntry launcherMotorEntry;
-    private NetworkTableEntry releaseMotorEntry;
-    private NetworkTableEntry releaseRollerEntry;
 
     private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
@@ -162,23 +158,6 @@ public class SK21Launcher extends SKSubsystemBase
         return lastSetSpeed;
     }
 
-    /**
-     * Starts the launcher's release roller motor. Turning it on causes the shooter to
-     * fire balls.
-     */
-    public void startLaunchReleaseMotor()
-    {
-        releaseRoller.setForwards();
-    }
-
-    /**
-     * Stops the launcher's release roller motor.
-     */
-    public void stopLaunchReleaseMotor()
-    {
-        releaseRoller.setStop();
-    }
-
     @Override
     public void periodic()
     {
@@ -197,18 +176,12 @@ public class SK21Launcher extends SKSubsystemBase
 
         Shuffleboard.getTab("Launcher").add("hoodMover", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(1, 1).withPosition(1, 3);
-        releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(2, 2).getEntry();
-        releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 1).getEntry();
     }
 
     @Override
     public void testModePeriodic()
     {
         launcherMotor.set(launcherMotorEntry.getValue().getDouble());
-        releaseMotor.set(releaseMotorEntry.getValue().getDouble());
-        releaseRoller.setSpeed(releaseRollerEntry.getValue().getDouble());
         
         DoubleSolenoid.Value value = solenoidChooser.getSelected();
         hoodMover.set(value);
@@ -217,6 +190,6 @@ public class SK21Launcher extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-
+        launcherMotorEntry.setValue(0.0);
     }
 }

@@ -106,7 +106,11 @@ public class SK21Intake extends SKSubsystemBase
     }
 
     /**
-     * Start the intake roller motor running in the reverse direction.
+     * Set whether the intake roller motor should be running in the reverse direction;
+     * start the intake roller motor if necessary.
+     * 
+     * @param isBackwards
+     *            indicates if the intake roller motor should be reversed.
      */
     public void setIntakeRollerBackwards(boolean isBackwards)
     {

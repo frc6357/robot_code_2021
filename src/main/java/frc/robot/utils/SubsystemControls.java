@@ -24,6 +24,10 @@ public class SubsystemControls
      *            indicates if the launcher system is present and should be enabled
      * @param indexer
      *            indictes if the indexer system is present and should be enabled
+     * @param colorwheel
+     *            indicates if the color wheel system is present and should be enabled
+     * @param climb
+     *            indicates if the climb system is present and should be enabled
      */
     public SubsystemControls(@JsonProperty(required = true, value = "intake")
     boolean intake, @JsonProperty(required = true, value = "launcher")
@@ -75,7 +79,7 @@ public class SubsystemControls
     /**
      * Returns true if the colorwheel system is indicated as present and should be enabled.
      * 
-     * @return true if the indexer system is indicated as present and should be enabled;
+     * @return true if the colorwheel system is indicated as present and should be enabled;
      *         false otherwise
      */
     public boolean isColorwheelPresent()
@@ -83,7 +87,13 @@ public class SubsystemControls
         return colorwheel;
     }
 
-    public boolean isClimbPresent()
+    /**
+     * Returns true if the climb system is indicated as present and should be enabled.
+     * 
+     * @return true if the climb system is indicated as present and should be enabled;
+     *         false otherwise
+     */
+        public boolean isClimbPresent()
     {
         return climb;
     }

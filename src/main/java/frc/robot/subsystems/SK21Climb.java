@@ -12,27 +12,33 @@ import frc.robot.TuningParams;
 import frc.robot.commands.DefaultClimbCommand;
 
 /**
- * The SK20Climb class is a subsystem that interacts with the climbing mechanism in order to deploy the arm and winch the robot up
+ * The SK20Climb class is a subsystem that interacts with the climbing mechanism in order
+ * to deploy the arm and winch the robot up.
  */
-public class SK21Climb extends SKSubsystemBase 
+public class SK21Climb extends SKSubsystemBase
 {
-    //instantiates climb mechanisms
     private WPI_TalonFX winchClimbLeft;
     private WPI_TalonFX winchClimbRight;
     private SpeedControllerGroup winchMotorGroup;
 
     private final DefaultClimbCommand climb;
     private NetworkTableEntry climbEntry;
-    
-    //assigns values to instantiated objects
+
+    /**
+     * Instantiate the SK21Climb subsystem.
+     */
     public SK21Climb()
-    { 
+    {
         winchClimbLeft = new WPI_TalonFX(Ports.winchClimbLeft);
         winchClimbRight = new WPI_TalonFX(Ports.winchClimbRight);
         winchClimbLeft.setInverted(TuningParams.WINCH_LEFT_MOTOR_INVERT);
         winchClimbRight.setInverted(!TuningParams.WINCH_LEFT_MOTOR_INVERT);
-        winchClimbLeft.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, TuningParams.WINCH_MOTOR_CURRENT_LIMIT, TuningParams.WINCH_MOTOR_CURRENT_TRIGGER, TuningParams.WINCH_MOTOR_TRIGGER_TIME));
-        winchClimbRight.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, TuningParams.WINCH_MOTOR_CURRENT_LIMIT, TuningParams.WINCH_MOTOR_CURRENT_TRIGGER, TuningParams.WINCH_MOTOR_TRIGGER_TIME));
+        winchClimbLeft.configStatorCurrentLimit(
+            new StatorCurrentLimitConfiguration(true, TuningParams.WINCH_MOTOR_CURRENT_LIMIT,
+                TuningParams.WINCH_MOTOR_CURRENT_TRIGGER, TuningParams.WINCH_MOTOR_TRIGGER_TIME));
+        winchClimbRight.configStatorCurrentLimit(
+            new StatorCurrentLimitConfiguration(true, TuningParams.WINCH_MOTOR_CURRENT_LIMIT,
+                TuningParams.WINCH_MOTOR_CURRENT_TRIGGER, TuningParams.WINCH_MOTOR_TRIGGER_TIME));
         winchMotorGroup = new SpeedControllerGroup(winchClimbLeft, winchClimbRight);
 
         /*
@@ -44,7 +50,7 @@ public class SK21Climb extends SKSubsystemBase
         climb = new DefaultClimbCommand(this);
         resetDefaultCommand();
     }
-    
+
     /**
      * Resets the default command for this subsystem to the command used during
      * auto/teleop.
@@ -54,21 +60,18 @@ public class SK21Climb extends SKSubsystemBase
         setDefaultCommand(climb);
     }
 
-
-    /*
-     * When the startWinchRobot method is called a motor will start to winch the
-     * entirity of the robot upwards
+    /**
+     * Start the motor winching the robot.
      */
-    public void startWinchRobot() 
+    public void startWinchRobot()
     {
         winchMotorGroup.set(TuningParams.WINCH_MOTOR_SPEED);
     }
 
-    /*
-     * When the stopWinchRobot method is called the motor winching the robot will be
-     * stopped.
+    /**
+     * Stop the motor winching the robot.
      */
-    public void stopWinchRobot() 
+    public void stopWinchRobot()
     {
         winchMotorGroup.stopMotor();
     }
@@ -78,14 +81,12 @@ public class SK21Climb extends SKSubsystemBase
     {
         climbEntry = Shuffleboard.getTab("Climb").add("Speed", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
-        
     }
 
     @Override
     public void testModePeriodic()
     {
         winchMotorGroup.set(climbEntry.getValue().getDouble());
-        
     }
 
 }

@@ -235,7 +235,6 @@ public class SK21Drive extends SKSubsystemBase
         speedControllerGroupRightEntry = Shuffleboard.getTab("Drive")
             .add("SpeedControllerGroupRight", 1).withWidget(BuiltInWidgets.kNumberSlider)
             .withSize(2, 1).withPosition(2, 2).getEntry();
-
     }
 
     @Override
@@ -249,16 +248,10 @@ public class SK21Drive extends SKSubsystemBase
          * set.
          */
         leftLeader.set(leftLeaderEntry.getValue().getDouble());
-
         leftFollower.set(leftFollowerEntry.getValue().getDouble());
-
         rightLeader.set(rightLeaderEntry.getValue().getDouble());
-
         rightFollower.set(rightFollowerEntry.getValue().getDouble());
-
         leftGroup.set(speedControllerGroupLeftEntry.getValue().getDouble());
-
         rightGroup.set(speedControllerGroupRightEntry.getValue().getDouble());
-
     }
 }

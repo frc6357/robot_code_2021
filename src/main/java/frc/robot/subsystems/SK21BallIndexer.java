@@ -124,15 +124,7 @@ public class SK21BallIndexer extends SKSubsystemBase
     {
         DoubleSolenoid.Value state;
         state = this.feederArmSolenoid.get();
-
-        if (state == DoubleSolenoid.Value.kForward)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return state == DoubleSolenoid.Value.kForward;
     }
 
     @Override
@@ -142,7 +134,6 @@ public class SK21BallIndexer extends SKSubsystemBase
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
         indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3).withSize(1, 1)
             .withPosition(0, 6).getEntry();
-
     }
 
     @Override
@@ -151,5 +142,4 @@ public class SK21BallIndexer extends SKSubsystemBase
         indexerMotor.set(indexerMotorEntry.getValue().getDouble());
         indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
     }
-
 }

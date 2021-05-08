@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Ports;
@@ -41,7 +40,6 @@ public class SK21ColorWheel extends SKSubsystemBase
 
     private DoubleSolenoid spinnerLifter;
     private CANSparkMax spinnerRollerMotor;
-    private ComplexWidget colorwheelDeployment;
 
     SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
@@ -310,14 +308,13 @@ public class SK21ColorWheel extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         // Toggle widget that controls the extension state of the color wheel mechanism
-        colorwheelDeployment = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+        Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         // Slider widget going from -1 to 1 that controls the motor that is used to spin the
         // the color wheel
         colorwheelMotor = Shuffleboard.getTab("Color Wheel").add("Spin", 0)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 2).getEntry();
-
     }
 
     @Override
@@ -331,6 +328,5 @@ public class SK21ColorWheel extends SKSubsystemBase
         // Grabs the value of the slider and sets that speed to the motor
         double speed = colorwheelMotor.getValue().getDouble();
         spinnerRollerMotor.set(speed);
-
     }
 }

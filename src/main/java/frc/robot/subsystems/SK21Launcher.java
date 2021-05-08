@@ -41,24 +41,9 @@ public class SK21Launcher extends SKSubsystemBase
     private double lastSetSpeed = 0.0;
     private LauncherActivateCommand defaultCommand;
 
-    /**
-     * NetworkTableEntry for the launcher motor.
-     */
     private NetworkTableEntry launcherMotorEntry;
-
-    /**
-     * NetworkTableEntry for the release motor.
-     */
     private NetworkTableEntry releaseMotorEntry;
-
-    /**
-     * NetworkTableEntry for the Hood Solenoid.
-     */
     private NetworkTableEntry hoodMoverEntry;
-
-    /**
-     * NetworkTableEntry for the release roller.
-     */
     private NetworkTableEntry releaseRollerEntry;
 
     /**
@@ -202,15 +187,12 @@ public class SK21Launcher extends SKSubsystemBase
     {
         launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
-
         hoodMoverEntry = Shuffleboard.getTab("Launcher").add("hoodMover", 3)
             .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(0, 4).getEntry();
-
         releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 6).getEntry();
         releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 6).getEntry();
-
     }
 
     @Override
@@ -224,6 +206,5 @@ public class SK21Launcher extends SKSubsystemBase
             ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
 
         hoodMover.set(value);
-
     }
 }

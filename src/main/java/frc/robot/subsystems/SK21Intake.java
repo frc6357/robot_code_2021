@@ -181,7 +181,7 @@ public class SK21Intake extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         // Toggle widget that controls the extension state of the color wheel mechanism
-        intakeDeployEntry = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+        intakeDeployEntry = Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)

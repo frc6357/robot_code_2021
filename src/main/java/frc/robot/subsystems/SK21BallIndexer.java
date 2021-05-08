@@ -139,6 +139,6 @@ public class SK21BallIndexer extends SKSubsystemBase
     @Override
     public void enterTestMode()
     {
-
+        indexerMotorEntry.setDouble(0.0);
     }
 }

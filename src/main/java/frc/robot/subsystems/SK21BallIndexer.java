@@ -128,11 +128,6 @@ public class SK21BallIndexer extends SKSubsystemBase
     {
         indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> 15498aab7f195e54d34e7356df0334e370f0830b
     }
 
     @Override

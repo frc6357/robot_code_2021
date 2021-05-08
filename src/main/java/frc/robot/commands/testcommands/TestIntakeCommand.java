@@ -3,7 +3,9 @@ package frc.robot.commands.testcommands;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SK21Intake;
 
@@ -20,12 +22,15 @@ public class TestIntakeCommand extends CommandBase
     /**
      * NetworkTableEntry for the Deployment Solenoid.
      */
-    private NetworkTableEntry intakeDeployEntry;
+    private ComplexWidget intakeDeployEntry;
 
     /**
      * NetworkTableEntry for the Roller Motor.
      */
     private NetworkTableEntry intakeRollerEntry;
+
+    SendableChooser<DoubleSolenoid.Value> solenoidChooser = new SendableChooser<DoubleSolenoid.Value>();
+
 
     /**
      * Creates a new TestIntakeCommand for thegiven intakeSubsystem.
@@ -44,8 +49,13 @@ public class TestIntakeCommand extends CommandBase
     @Override
     public void initialize()
     {
-        intakeDeployEntry = Shuffleboard.getTab("Intake").add("extension", 1)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1).withPosition(0, 0).getEntry();
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
+        // Toggle widget that controls the extension state of the color wheel mechanism
+        intakeDeployEntry = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+        .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 4).getEntry();
@@ -57,11 +67,9 @@ public class TestIntakeCommand extends CommandBase
     {
 
         intakeSubsystem.intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
-
-        DoubleSolenoid.Value value = intakeDeployEntry.getValue().getBoolean()
-            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
-
+        DoubleSolenoid.Value value = solenoidChooser.getSelected();
         intakeSubsystem.intakeMover.set(value);
+
     }
 
     // False as test commands are intended to run the entire test mode.

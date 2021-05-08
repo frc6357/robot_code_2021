@@ -193,14 +193,14 @@ public class SK21Launcher extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 4).getEntry();
 
         Shuffleboard.getTab("Launcher").add("hoodMover", solenoidChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(1, 1).withPosition(0, 4);
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(1, 1).withPosition(1, 3);
         releaseMotorEntry = Shuffleboard.getTab("Launcher").add("releaseMotor", 3)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(0, 6).getEntry();
+            .withWidget(BuiltInWidgets.kToggleButton).withSize(1, 1).withPosition(2, 2).getEntry();
         releaseRollerEntry = Shuffleboard.getTab("Launcher").add("releaseRoller", 3)
-            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 6).getEntry();
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(3, 1).getEntry();
     }
 
     @Override
@@ -212,5 +212,11 @@ public class SK21Launcher extends SKSubsystemBase
         
         DoubleSolenoid.Value value = solenoidChooser.getSelected();
         hoodMover.set(value);
+    }
+
+    @Override
+    public void enterTestMode()
+    {
+
     }
 }

@@ -81,12 +81,19 @@ public class SK21Climb extends SKSubsystemBase
     {
         climbEntry = Shuffleboard.getTab("Climb").add("Speed", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
+            climbEntry.setNumber(0);
     }
 
     @Override
     public void testModePeriodic()
     {
         winchMotorGroup.set(climbEntry.getValue().getDouble());
+    }
+
+    @Override
+    public void enterTestMode()
+    {
+
     }
 
 }

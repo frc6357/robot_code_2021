@@ -10,4 +10,6 @@ public abstract class SKSubsystemBase extends SubsystemBase{
   public abstract void initializeTestMode();
 
   public abstract void testModePeriodic();
+
+  public abstract void enterTestMode();
 }

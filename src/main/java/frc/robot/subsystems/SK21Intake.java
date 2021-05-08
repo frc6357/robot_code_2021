@@ -192,4 +192,10 @@ public class SK21Intake extends SKSubsystemBase
         DoubleSolenoid.Value value = solenoidChooser.getSelected();
         intakeMover.set(value);
     }
+
+    @Override
+    public void enterTestMode()
+    {
+
+    }
 }

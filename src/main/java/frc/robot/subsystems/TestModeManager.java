@@ -6,6 +6,7 @@ import java.util.List;
 public final class TestModeManager {
 
   private static List<SKSubsystemBase> subsystemList = new ArrayList<>();
+  static boolean testModeIntialized = false;
   
 
   public static void registerSubsystem(SKSubsystemBase skSubsystemBase)
@@ -14,8 +15,23 @@ public final class TestModeManager {
   }
 
   public static void initializeTestMode(){
-    for (SKSubsystemBase skSubsystemBase : subsystemList) {
-      skSubsystemBase.initializeTestMode();
+    if (testModeIntialized == false)
+    {
+      for (SKSubsystemBase skSubsystemBase : subsystemList) 
+      {
+        skSubsystemBase.initializeTestMode();
+        skSubsystemBase.enterTestMode();
+        testModeIntialized = true;
+      }
+    }
+    else
+    {
+      for (SKSubsystemBase skSubsystemBase : subsystemList) 
+      {
+        skSubsystemBase.initializeTestMode();
+        skSubsystemBase.enterTestMode();
+        testModeIntialized = true;
+      }
     }
   }
 

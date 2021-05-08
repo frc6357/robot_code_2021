@@ -329,4 +329,10 @@ public class SK21ColorWheel extends SKSubsystemBase
         double speed = colorwheelMotor.getValue().getDouble();
         spinnerRollerMotor.set(speed);
     }
+
+    @Override
+    public void enterTestMode()
+    {
+
+    }
 }

@@ -142,4 +142,10 @@ public class SK21BallIndexer extends SKSubsystemBase
         indexerMotor.set(indexerMotorEntry.getValue().getDouble());
         indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
     }
+
+    @Override
+    public void enterTestMode()
+    {
+
+    }
 }

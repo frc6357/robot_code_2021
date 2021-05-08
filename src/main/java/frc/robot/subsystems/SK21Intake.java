@@ -34,8 +34,6 @@ public class SK21Intake extends SKSubsystemBase
 
     private boolean intakeIsReversed = false;
 
-    private ComplexWidget intakeDeployEntry;
-
     private NetworkTableEntry intakeRollerEntry;
 
     SendableChooser<DoubleSolenoid.Value> solenoidChooser =
@@ -181,12 +179,11 @@ public class SK21Intake extends SKSubsystemBase
         solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
 
         // Toggle widget that controls the extension state of the color wheel mechanism
-        intakeDeployEntry = Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
+        Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 4).getEntry();
-
     }
 
     @Override
@@ -195,6 +192,5 @@ public class SK21Intake extends SKSubsystemBase
         intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
         DoubleSolenoid.Value value = solenoidChooser.getSelected();
         intakeMover.set(value);
-
     }
 }

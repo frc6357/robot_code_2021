@@ -15,7 +15,6 @@ import frc.robot.subsystems.SK21Launcher;
  */
 public class SetHoodLowShotCommand extends CommandBase
 {
-
     /**
      * The Ball Launcher Subsystem.
      */

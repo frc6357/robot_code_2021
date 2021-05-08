@@ -18,18 +18,14 @@ import frc.robot.subsystems.base.BaseRoller;
 public class SK21BallIndexer extends SKSubsystemBase
 {
     private final CANSparkMax indexerMotor;
-
     private final BaseRoller indexerRoller;
 
     private CANSparkMax feederMotor;
-
     private BaseRoller feederRoller;
 
     private final DoubleSolenoid feederArmSolenoid;
 
     private final DefaultBallIndexerCommand ballIndexerCommand;
-
-    private NetworkTableEntry indexerSpinEntry;
 
     private NetworkTableEntry indexerMotorEntry;
 
@@ -130,17 +126,14 @@ public class SK21BallIndexer extends SKSubsystemBase
     @Override
     public void initializeTestMode()
     {
-        indexerSpinEntry = Shuffleboard.getTab("Indexer").add("Spin", 1)
+        indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 1)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 0).getEntry();
-        indexerMotorEntry = Shuffleboard.getTab("Indexer").add("Roller", 3).withSize(1, 1)
-            .withPosition(0, 6).getEntry();
     }
 
     @Override
     public void testModePeriodic()
     {
         indexerMotor.set(indexerMotorEntry.getValue().getDouble());
-        indexerRoller.setSpeed(indexerSpinEntry.getValue().getDouble());
     }
 
     @Override

@@ -30,7 +30,7 @@ public class SK21ColorWheel extends SKSubsystemBase
     private int spinnerTransitionCount = 0;
     private ColorSensor2021 colorSensor;
     private CANEncoder spinnerRollerEncoder;
-    private static Color2021[] fieldColors =
+    private static final Color2021[] FIELD_COLORS =
             {Color2021.RED, Color2021.GREEN, Color2021.CYAN, Color2021.YELLOW};
     private Color2021[] colorArray = new Color2021[TuningParams.COLOR_WHEEL_ARRAY_SIZE];
     private int indexOfColorArray = 0;
@@ -41,7 +41,7 @@ public class SK21ColorWheel extends SKSubsystemBase
     private DoubleSolenoid spinnerLifter;
     private CANSparkMax spinnerRollerMotor;
 
-    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+    private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
 
     private NetworkTableEntry colorwheelMotor;
@@ -250,11 +250,11 @@ public class SK21ColorWheel extends SKSubsystemBase
         }
         else
         {
-            for (int i = 0; i < fieldColors.length; i++)
+            for (int i = 0; i < FIELD_COLORS.length; i++)
             {
-                if (col == fieldColors[i])
+                if (col == FIELD_COLORS[i])
                 {
-                    return fieldColors[(i + 2) % 4];
+                    return FIELD_COLORS[(i + 2) % 4];
                 }
             }
 
@@ -288,11 +288,11 @@ public class SK21ColorWheel extends SKSubsystemBase
         }
         else
         {
-            for (int i = 0; i < fieldColors.length; i++)
+            for (int i = 0; i < FIELD_COLORS.length; i++)
             {
-                if (col == fieldColors[i])
+                if (col == FIELD_COLORS[i])
                 {
-                    return fieldColors[(i + 2) % 4];
+                    return FIELD_COLORS[(i + 2) % 4];
                 }
             }
         }

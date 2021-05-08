@@ -22,20 +22,17 @@ import frc.robot.subsystems.base.BaseRoller;
 public class SK21Intake extends SKSubsystemBase
 {
     private final BaseRoller intakeRoller;
-
     private final DoubleSolenoid intakeMover;
-
     private final CANEncoder intakeRollerEncoder;
 
     private final DefaultIntakeCommand intakeCommand;
 
     private boolean intakeMotorIsStarted = false;
-
     private boolean intakeIsReversed = false;
 
     private NetworkTableEntry intakeRollerEntry;
 
-    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+    private final SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
 
     /**

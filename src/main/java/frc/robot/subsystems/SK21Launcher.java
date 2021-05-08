@@ -46,7 +46,7 @@ public class SK21Launcher extends SKSubsystemBase
     private NetworkTableEntry releaseMotorEntry;
     private NetworkTableEntry releaseRollerEntry;
 
-    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+    private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
             new SendableChooser<DoubleSolenoid.Value>();
 
     /**

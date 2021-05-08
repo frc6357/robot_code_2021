@@ -8,7 +8,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.DefaultIntakeCommand;
@@ -32,9 +34,12 @@ public class SK21Intake extends SKSubsystemBase
 
     private boolean intakeIsReversed = false;
 
-    private NetworkTableEntry intakeDeployEntry;
+    private ComplexWidget intakeDeployEntry;
 
     private NetworkTableEntry intakeRollerEntry;
+
+    SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+            new SendableChooser<DoubleSolenoid.Value>();
 
     /**
      * Sets up the intake control such that it takes the values that are declared for it
@@ -167,8 +172,13 @@ public class SK21Intake extends SKSubsystemBase
     @Override
     public void initializeTestMode()
     {
-        intakeDeployEntry = Shuffleboard.getTab("Intake").add("extension", 1)
-            .withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1).withPosition(0, 0).getEntry();
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
+        // Toggle widget that controls the extension state of the color wheel mechanism
+        intakeDeployEntry = Shuffleboard.getTab("Color Wheel").add("Extension", solenoidChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
 
         intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
             .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 4).getEntry();
@@ -179,10 +189,7 @@ public class SK21Intake extends SKSubsystemBase
     public void testModePeriodic()
     {
         intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
-
-        DoubleSolenoid.Value value = intakeDeployEntry.getValue().getBoolean()
-            ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
-
+        DoubleSolenoid.Value value = solenoidChooser.getSelected();
         intakeMover.set(value);
 
     }

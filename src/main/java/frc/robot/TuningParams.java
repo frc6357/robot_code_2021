@@ -99,11 +99,10 @@ public final class TuningParams
     // Climb Params
     ///////////////////////////////
     public static final double WINCH_MOTOR_SPEED            = 0.05;
-    public static final boolean DEPLOY_CLIMB_ARM            = true; //assume the solenoid is energized to extend
-    public static final int WINCH_MOTOR_CURRENT_TRIGGER     = 7; // Triggers the current limit when the motor pulls 7 amps
-    public static final int WINCH_MOTOR_CURRENT_LIMIT       = 5; // Sets the current limit to 5 amps
-    public static final double WINCH_MOTOR_TRIGGER_TIME     = 0.5; // Time it takes to trigger the motor current threshold
-    public static final boolean WINCH_LEFT_MOTOR_INVERT     = true; //TODO: This needs to be tested to make sure that we don't destroy the motors as they're attached to the winches
+    public static final int WINCH_MOTOR_CURRENT_TRIGGER     = 7;    // Triggers current limit when the motor pulls 7A
+    public static final int WINCH_MOTOR_CURRENT_LIMIT       = 5;    // Sets the current limit to 5A
+    public static final double WINCH_MOTOR_TRIGGER_TIME     = 0.5;  // Time to trigger the motor current threshold
+    public static final boolean WINCH_LEFT_MOTOR_INVERT     = true; // TODO: Ensure motor direction is correct!
 
     ///////////////////////////////
     // Auto Params

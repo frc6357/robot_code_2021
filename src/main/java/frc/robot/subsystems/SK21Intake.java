@@ -4,46 +4,36 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
-import frc.robot.commands.IntakeIdleCommand;
+import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.subsystems.base.BaseRoller;
 
 /**
  * The SK21Intake class is the subsystem that interacts with the intake to both set its
  * speed and deploy or retract it and get its status.
  */
-public class SK21Intake extends SubsystemBase
+public class SK21Intake extends SKSubsystemBase
 {
-    /**
-     * The BaseRoller for the Intake.
-     */
-    public final BaseRoller intakeRoller;
-
-    /**
-     * The Solenoid used to extend and retract the Intake.
-     */
-    public final DoubleSolenoid intakeMover;
-
-    /**
-     * The encoder on the Intake Roller.
-     */
+    private final BaseRoller intakeRoller;
+    private final DoubleSolenoid intakeMover;
     private final CANEncoder intakeRollerEncoder;
 
-    private final IntakeIdleCommand intake;
+    private final DefaultIntakeCommand intakeCommand;
 
-    /**
-     * Will let us know the state of the intake motor.
-     */
     private boolean intakeMotorIsStarted = false;
-
-    /**
-     * Will let us know if the intake rollers are reversed or forward.
-     */
     private boolean intakeIsReversed = false;
+
+    private NetworkTableEntry intakeRollerEntry;
+
+    private final SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+            new SendableChooser<DoubleSolenoid.Value>();
 
     /**
      * Sets up the intake control such that it takes the values that are declared for it
@@ -61,7 +51,7 @@ public class SK21Intake extends SubsystemBase
          * crash. A better methodology here is similar to what is used in SK21Drive, where
          * the default command is external to the subsystem.
          */
-        intake = new IntakeIdleCommand(this);
+        intakeCommand = new DefaultIntakeCommand(this);
         resetDefaultCommand();
     }
 
@@ -71,7 +61,7 @@ public class SK21Intake extends SubsystemBase
      */
     public void resetDefaultCommand()
     {
-        setDefaultCommand(intake);
+        setDefaultCommand(intakeCommand);
     }
 
     /**
@@ -97,17 +87,33 @@ public class SK21Intake extends SubsystemBase
      */
     public void startIntakeRoller()
     {
-        intakeRoller.setForwards();
         intakeMotorIsStarted = true;
+
+        if (intakeIsReversed)
+        {
+            intakeRoller.setBackwards();
+        }
+        else
+        {
+            intakeRoller.setForwards();
+        }
     }
 
     /**
-     * Start the intake roller motor running in the reverse direction.
+     * Set whether the intake roller motor should be running in the reverse direction;
+     * start the intake roller motor if necessary.
+     * 
+     * @param isBackwards
+     *            indicates if the intake roller motor should be reversed.
      */
-    public void reverseIntakeRoller()
+    public void setIntakeRollerBackwards(boolean isBackwards)
     {
-        intakeRoller.setBackwards();
-        intakeIsReversed = true;
+        intakeIsReversed = isBackwards;
+
+        if (isIntakeExtended())
+        {
+            startIntakeRoller();
+        }
     }
 
     /**
@@ -159,5 +165,34 @@ public class SK21Intake extends SubsystemBase
     public boolean isIntakeReversed()
     {
         return intakeIsReversed;
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
+        // Toggle widget that controls the extension state of the color wheel mechanism
+
+        Shuffleboard.getTab("Intake").add("Extension", solenoidChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 0);
+
+        intakeRollerEntry = Shuffleboard.getTab("Intake").add("roller", 3)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(1, 1).withPosition(0, 2).getEntry();
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        intakeRoller.setSpeed(intakeRollerEntry.getValue().getDouble());
+        intakeMover.set(solenoidChooser.getSelected());
+    }
+
+    @Override
+    public void enterTestMode()
+    {
+
     }
 }

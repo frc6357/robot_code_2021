@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -44,10 +45,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.DefaultIntakeCommand;
 import frc.robot.commands.DisableShotCommand;
 import frc.robot.commands.DoNothingCommand;
 import frc.robot.commands.ExtendIntakeCommand;
+import frc.robot.commands.ForwardIntakeCommand;
 import frc.robot.commands.LauncherSpeedCommand;
 import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
@@ -56,11 +57,9 @@ import frc.robot.commands.SetHoodLowShotCommand;
 import frc.robot.commands.StartIndexerCommand;
 import frc.robot.commands.StopIndexerCommand;
 import frc.robot.commands.TriggerShotCommand;
-import frc.robot.commands.testcommands.TestDriveCommand;
-import frc.robot.commands.testcommands.TestIndexerCommand;
-import frc.robot.commands.testcommands.TestIntakeCommand;
-import frc.robot.commands.testcommands.TestLauncherCommand;
 import frc.robot.subsystems.SK21BallIndexer;
+import frc.robot.subsystems.SK21Climb;
+import frc.robot.subsystems.SK21ColorWheel;
 import frc.robot.subsystems.SK21Drive;
 import frc.robot.subsystems.SK21Intake;
 import frc.robot.subsystems.SK21Launcher;
@@ -107,6 +106,8 @@ public class RobotContainer
     private Optional<SK21Launcher> launcherSubsystem = Optional.empty();
     private Optional<SK21BallIndexer> ballIndexerSubsystem = Optional.empty();
     private Optional<SK21Intake> intakeSubsystem = Optional.empty();
+    private Optional<SK21Climb> climbSubsystem = Optional.empty();
+    private Optional<SK21ColorWheel> colorwheelSubsystem = Optional.empty();
 
     // Intake control buttons
     private final Dpad dpad = new Dpad(operatorJoystick, Ports.OIOperatorDpad);
@@ -135,11 +136,8 @@ public class RobotContainer
     {
         configureShuffleboard();
 
-        File subsystemFile = new File(Constants.kSubsystem);
-        if (!subsystemFile.exists())
-        {
-            subsystemFile = new File(Constants.kSubsystemWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File subsystemFile = new File(deployDirectory, Constants.kSubsystem);
 
         ObjectMapper mapper = new ObjectMapper();
         JsonFactory factory = new JsonFactory();
@@ -147,6 +145,8 @@ public class RobotContainer
         launcherSubsystem = Optional.empty(); 
         ballIndexerSubsystem = Optional.empty();
         intakeSubsystem = Optional.empty();
+        climbSubsystem = Optional.empty();
+        colorwheelSubsystem = Optional.empty();
 
         try
         {
@@ -164,6 +164,14 @@ public class RobotContainer
             if (subsystems.isIntakePresent())
             {
                 intakeSubsystem  = Optional.of(new SK21Intake());
+            }
+            if (subsystems.isColorwheelPresent())
+            {
+                colorwheelSubsystem  = Optional.of(new SK21ColorWheel());
+            }
+            if (subsystems.isClimbPresent())
+            {
+                climbSubsystem  = Optional.of(new SK21Climb());
             }
         }
         catch (IOException e)
@@ -203,14 +211,9 @@ public class RobotContainer
     
         SmartDashboard.putData("Auto Chooser", autoCommandSelector);
 
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
-        File splineDirectory = new File(Constants.kSplineDirectory);
-
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
-        
         File[] pathNames = splineDirectory.listFiles();
         for (File pathname : pathNames)
         {
@@ -244,7 +247,7 @@ public class RobotContainer
             extendIntakeButton.whenPressed(new ExtendIntakeCommand(intake));
             retractIntakeButton.whenPressed(new RetractIntakeCommand(intake));
             reverseIntake.whenPressed(new ReverseIntakeCommand(intake));
-            reverseIntake.whenReleased(new DefaultIntakeCommand(intake));
+            reverseIntake.whenReleased(new ForwardIntakeCommand(intake));
         }
 
         //Indexer
@@ -265,6 +268,22 @@ public class RobotContainer
             setLowAngle.whenPressed(new SetHoodLowShotCommand(launcher));
             toggleLauncherSpeed.whenPressed(new LauncherSpeedCommand(launcher));
         }
+
+        /*
+
+        if (colorwheelSubsystem.isPresent())
+        {
+            var colorwheel = colorwheelSubsystem.get(); //TODO: what does this do?
+            
+        }
+
+        if (climbSubsystem.isPresent())
+        {
+            var climb = climbSubsystem.get(); //TODO: implement these controls
+           
+        }
+
+        */
     }
 
     /**
@@ -274,11 +293,8 @@ public class RobotContainer
      */
     public Command getAutonomousCommand()
     {
-        File splineDirectory = new File(Constants.kSplineDirectory);
-        if (!splineDirectory.exists())
-        {
-            splineDirectory = new File(Constants.kSplineDirectoryWindows);
-        }
+        File deployDirectory = Filesystem.getDeployDirectory();
+        File splineDirectory = new File(deployDirectory, Constants.kSplineDirectory);
 
         var autoSelector = autoCommandSelector.getSelected();
 
@@ -429,54 +445,6 @@ public class RobotContainer
 
         // Run path following command, then stop at the end.
         return ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0, 0));
-    }
-
-    /**
-     * Enter test mode. This sets the default commands for the subsystems to be commands
-     * that enable testing.
-     */
-    public void enterTestMode()
-    {
-        if (intakeSubsystem.isPresent())
-        {
-            var intake = intakeSubsystem.get();
-            intake.setDefaultCommand(new TestIntakeCommand(intake)); 
-        }
-        if (ballIndexerSubsystem.isPresent())
-        {
-            var indexer = ballIndexerSubsystem.get();
-            indexer.setDefaultCommand(new TestIndexerCommand(indexer));
-        }
-        if (launcherSubsystem.isPresent())
-        {
-            var launcher = launcherSubsystem.get();
-            launcher.setDefaultCommand(new TestLauncherCommand(launcher));
-        }
-        driveSubsystem.setDefaultCommand(new TestDriveCommand(driveSubsystem)); 
-    }
-
-    /**
-     * Exit test mode. This resets the default commands for the subsystems to be commands
-     * that are used in teleop/autonomous.
-     */
-    public void exitTestMode()
-    {
-        if (intakeSubsystem.isPresent())
-        {
-            var intake = intakeSubsystem.get();
-            intake.resetDefaultCommand();
-        }
-        if (ballIndexerSubsystem.isPresent())
-        {
-            var indexer = ballIndexerSubsystem.get();
-            indexer.resetDefaultCommand();
-        }
-        if (launcherSubsystem.isPresent())
-        {
-            var launcher = launcherSubsystem.get();
-            launcher.resetDefaultCommand();
-        }
-        resetDriveDefaultCommand();
     }
 
     /**

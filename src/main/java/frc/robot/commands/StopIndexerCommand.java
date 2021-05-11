@@ -12,7 +12,6 @@ import frc.robot.subsystems.SK21BallIndexer;
  */
 public class StopIndexerCommand extends CommandBase
 {
-
     /**
      * The Ball Indexer Subsystem.
      */

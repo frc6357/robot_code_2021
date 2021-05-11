@@ -8,7 +8,6 @@ import frc.robot.subsystems.SK21BallIndexer;
  */
 public class TriggerShotCommand extends CommandBase
 {
-
     /**
      * The Ball Indexer Subsystem.
      */

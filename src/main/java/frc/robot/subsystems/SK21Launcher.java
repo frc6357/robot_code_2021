@@ -6,51 +6,41 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Ports;
 import frc.robot.TuningParams;
 import frc.robot.commands.LauncherActivateCommand;
-import frc.robot.subsystems.base.BaseRoller;
 
 /**
  * This is the launcher subsystem that controls everything that has to do with the
  * launcher including releasing a ball into the launcher, the speed of the launcher and
  * the position of the hood.
  */
-public class SK21Launcher extends SubsystemBase
+public class SK21Launcher extends SKSubsystemBase
 {
-    /**
-     * The motor used to spin the high energy flywheel launch roller.
-     */
-    public final CANSparkMax launcherMotor =
+
+    private final CANSparkMax launcherMotor =
             new CANSparkMax(Ports.ballLauncherMotor, MotorType.kBrushless);
     private final CANPIDController pidControl = launcherMotor.getPIDController();
     private final CANEncoder launcherMotorEncoder = launcherMotor.getEncoder();
 
-    /**
-     * The motor driving the roller which feeds balls into the launch roller.
-     */
-    public final CANSparkMax releaseMotor =
-            new CANSparkMax(Ports.ballReleaseMotor, MotorType.kBrushless);
-
-    /**
-     * The BaseRoller for the launch release motor.
-     */
-    public final BaseRoller releaseRoller =
-            new BaseRoller(releaseMotor, TuningParams.RELEASE_MOTOR_SPEED);
-
-    /**
-     * The (Double) Solenoid that controls the Hood on the Launcher.
-     */
-    public final DoubleSolenoid hoodMover =
+    private final DoubleSolenoid hoodMover =
             new DoubleSolenoid(Ports.pcm, Ports.launcherHoodExtend, Ports.launcherHoodRetract);
 
     private double launcherSetpoint = 0.0;
     private double lastSetSpeed = 0.0;
     private LauncherActivateCommand defaultCommand;
+
+    private NetworkTableEntry launcherMotorEntry;
+
+    private SendableChooser<DoubleSolenoid.Value> solenoidChooser =
+            new SendableChooser<DoubleSolenoid.Value>();
 
     /**
      * Constructs a new SK21Launcher.
@@ -165,26 +155,38 @@ public class SK21Launcher extends SubsystemBase
         return lastSetSpeed;
     }
 
-    /**
-     * Starts the launcher's release roller motor. Turning it on causes the shooter to
-     * fire balls.
-     */
-    public void startLaunchReleaseMotor()
-    {
-        releaseRoller.setForwards();
-    }
-
-    /**
-     * Stops the launcher's release roller motor.
-     */
-    public void stopLaunchReleaseMotor()
-    {
-        releaseRoller.setStop();
-    }
-
     @Override
     public void periodic()
     {
         SmartDashboard.putNumber("Launcher Encoder Value", launcherMotorEncoder.getVelocity());
+    }
+
+    @Override
+    public void initializeTestMode()
+    {
+        solenoidChooser.setDefaultOption("Neutral", DoubleSolenoid.Value.kOff);
+        solenoidChooser.addOption("Forwards", DoubleSolenoid.Value.kForward);
+        solenoidChooser.addOption("Backwards", DoubleSolenoid.Value.kReverse);
+
+        launcherMotorEntry = Shuffleboard.getTab("Launcher").add("launcherMotor", 1)
+            .withWidget(BuiltInWidgets.kNumberSlider).withSize(2, 1).withPosition(0, 4).getEntry();
+
+        Shuffleboard.getTab("Launcher").add("hoodMover", solenoidChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser).withSize(1, 1).withPosition(1, 3);
+    }
+
+    @Override
+    public void testModePeriodic()
+    {
+        launcherMotor.set(launcherMotorEntry.getValue().getDouble());
+        
+        DoubleSolenoid.Value value = solenoidChooser.getSelected();
+        hoodMover.set(value);
+    }
+
+    @Override
+    public void enterTestMode()
+    {
+        launcherMotorEntry.setDouble(0.0);
     }
 }

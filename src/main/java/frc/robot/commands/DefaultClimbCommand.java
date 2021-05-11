@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SK21BallIndexer;
+import frc.robot.subsystems.SK21Climb;
 
 /**
  * A placeholder command for the Ball Indexer. This does not change behavior; there are
  * separate commands to start and stop the indexer.
  */
-public class DefaultBallIndexerCommand extends CommandBase
+public class DefaultClimbCommand extends CommandBase
 {
     /**
      * Constructs a new DefaultBallIndexerCommand for the given Ball Indexer Subsystem.
@@ -16,7 +16,7 @@ public class DefaultBallIndexerCommand extends CommandBase
      *            The Ball Indexer Subsystem on which this DefaultBallIndexerCommand will
      *            operate
      */
-    public DefaultBallIndexerCommand(SK21BallIndexer subsystem)
+    public DefaultClimbCommand(SK21Climb subsystem)
     {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);

@@ -12,6 +12,8 @@ public class SubsystemControls
     private final boolean intake;
     private final boolean launcher;
     private final boolean indexer;
+    private final boolean colorwheel;
+    private final boolean climb;
 
     /**
      * Constructs a new SubsystemControls object with the given subsystem presence.
@@ -22,15 +24,23 @@ public class SubsystemControls
      *            indicates if the launcher system is present and should be enabled
      * @param indexer
      *            indictes if the indexer system is present and should be enabled
+     * @param colorwheel
+     *            indicates if the color wheel system is present and should be enabled
+     * @param climb
+     *            indicates if the climb system is present and should be enabled
      */
     public SubsystemControls(@JsonProperty(required = true, value = "intake")
     boolean intake, @JsonProperty(required = true, value = "launcher")
     boolean launcher, @JsonProperty(required = true, value = "indexer")
-    boolean indexer)
+    boolean indexer, @JsonProperty(required = true, value = "colorwheel")
+    boolean colorwheel,  @JsonProperty(required = true, value = "climb")
+    boolean climb)
     {
         this.intake = intake;
         this.launcher = launcher;
         this.indexer = indexer;
+        this.colorwheel = colorwheel;
+        this.climb = climb;
     }
 
     /**
@@ -64,5 +74,27 @@ public class SubsystemControls
     public boolean isIndexerPresent()
     {
         return indexer;
+    }
+
+    /**
+     * Returns true if the colorwheel system is indicated as present and should be enabled.
+     * 
+     * @return true if the colorwheel system is indicated as present and should be enabled;
+     *         false otherwise
+     */
+    public boolean isColorwheelPresent()
+    {
+        return colorwheel;
+    }
+
+    /**
+     * Returns true if the climb system is indicated as present and should be enabled.
+     * 
+     * @return true if the climb system is indicated as present and should be enabled;
+     *         false otherwise
+     */
+        public boolean isClimbPresent()
+    {
+        return climb;
     }
 }

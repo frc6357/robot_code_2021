@@ -1,5 +1,5 @@
 {
-    "intake" : true,
+    "intake" : false,
     "launcher" : false,
     "indexer": false,
     "colorwheel" : false,

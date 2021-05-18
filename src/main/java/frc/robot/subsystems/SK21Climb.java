@@ -86,7 +86,8 @@ public class SK21Climb extends SKSubsystemBase
     @Override
     public void testModePeriodic()
     {
-        winchMotorGroup.set(climbEntry.getValue().getDouble());
+        double winchValue = climbEntry.getValue().getDouble();
+        winchMotorGroup.set(winchValue);
     }
 
     @Override

@@ -102,14 +102,14 @@ public class ADIS16448_IMU extends GyroBase implements Gyro {
 /**
  * 
  */
-public synchronized double getAngle() {
+public double getAngle() {
     return 0.0;
 }
 
 /**
  * 
  */
-public synchronized double getRate() {
+public double getRate() {
     return 0.0;
 }
 
@@ -125,7 +125,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroAngleX() {
+  public double getGyroAngleX() {
     return m_integ_gyro_x;
   }
 
@@ -133,7 +133,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroAngleY() {
+  public double getGyroAngleY() {
     return m_integ_gyro_y;
   }
 
@@ -141,7 +141,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroAngleZ() {
+  public double getGyroAngleZ() {
     return m_integ_gyro_z;
   }
 
@@ -149,7 +149,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroInstantX() {
+  public double getGyroInstantX() {
     return m_gyro_x;
   }
 
@@ -157,7 +157,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroInstantY() {
+  public double getGyroInstantY() {
     return m_gyro_y;
   }
 
@@ -165,7 +165,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getGyroInstantZ() {
+  public double getGyroInstantZ() {
     return m_gyro_z;
   }
 
@@ -173,7 +173,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getAccelInstantX() {
+  public double getAccelInstantX() {
     return m_accel_x;
   }
 
@@ -181,7 +181,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getAccelInstantY() {
+  public double getAccelInstantY() {
     return m_accel_y;
   }
 
@@ -189,7 +189,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getAccelInstantZ() {
+  public double getAccelInstantZ() {
     return m_accel_z;
   }
 
@@ -197,7 +197,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getMagInstantX() {
+  public double getMagInstantX() {
     return m_mag_x;
   }
 
@@ -205,7 +205,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getMagInstantY() {
+  public double getMagInstantY() {
     return m_mag_y;
   }
 
@@ -213,7 +213,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getMagInstantZ() {
+  public double getMagInstantZ() {
     return m_mag_z;
   }
 
@@ -221,7 +221,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getXComplementaryAngle() {
+  public double getXComplementaryAngle() {
     return m_compAngleX;
   }
 
@@ -229,7 +229,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getYComplementaryAngle() {
+  public double getYComplementaryAngle() {
     return m_compAngleY;
   }
 
@@ -237,7 +237,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getXFilteredAccelAngle() {
+  public double getXFilteredAccelAngle() {
     return m_accelAngleX;
   }
 
@@ -245,7 +245,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getYFilteredAccelAngle() {
+  public double getYFilteredAccelAngle() {
     return m_accelAngleY;
   }
 
@@ -253,7 +253,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getBarometricPressure() {
+  public double getBarometricPressure() {
     return m_baro;
   }
 
@@ -261,7 +261,7 @@ public synchronized double getRate() {
    * 
    * @return
    */
-  public synchronized double getTemperature() {
+  public double getTemperature() {
     return m_temp;
   }
 }

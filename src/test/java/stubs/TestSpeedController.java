@@ -2,6 +2,7 @@
 // A stub class implementing the SpeedController interface which provides us with a very
 // simple motor controller model for use in unit testing.
 //
+package stubs;
 import edu.wpi.first.wpilibj.SpeedController;
 
 /** Interface for speed controlling devices. */
@@ -9,6 +10,12 @@ public class TestSpeedController implements SpeedController {
   private double currentSpeed          = 0.0;
   private static double batteryVoltage = 12.0;
   private boolean inverted              = false;
+
+  public TestSpeedController(int deviceNumber) {
+  }
+
+  public TestSpeedController() {
+  }
 
   /**
    * Common interface for setting the speed of a speed controller.

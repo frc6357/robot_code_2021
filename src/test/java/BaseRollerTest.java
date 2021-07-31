@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 
 import edu.wpi.first.hal.HAL;
 import frc.robot.subsystems.base.BaseRoller;
-import edu.wpi.first.wpilibj.SpeedController;
+import stubs.TestSpeedController;
 import org.junit.*;
 
 public class BaseRollerTest {

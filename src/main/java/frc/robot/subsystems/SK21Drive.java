@@ -24,7 +24,7 @@ import frc.robot.utils.MotorEncoder;
 /**
  * The SK21Drive class is the subsystem that controls the drive train of the Robot.
  */
-public class SK21Drive extends SKSubsystemBase
+public class SK21Drive extends SKSubsystemBase implements AutoCloseable
 {
 
     private final WPI_TalonFX leftLeader = new WPI_TalonFX(Ports.frontLeftDrive);
@@ -262,5 +262,17 @@ public class SK21Drive extends SKSubsystemBase
         rightFollowerEntry.setDouble(0.0);
         rightLeaderEntry.setDouble(0.0);
         leftLeaderEntry.setDouble(0.0);
+    }
+
+    // The close() method is required to allow use with jUnit unit tests (see src/test/java).
+    // To use this, the class must implement the AutoCloseable interface.
+    // This is called to clean up between each test and must close all downstream objects
+    // before returning.
+    @Override
+    public void close() throws Exception {
+        drive.close();
+        leftGroup.close();
+        rightGroup.close();
+        gyro.close();
     }
 }

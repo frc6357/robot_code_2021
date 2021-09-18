@@ -42,6 +42,8 @@ public final class TuningParams
     public static final double  SLOWMODE_MULTIPLIER             = 0.25;
     public static final double  SLOWMODE_TRIGGER_THRESHOLD      = 0.75;     // Joystick Trigger Required Value
 
+    public static final double  DEADBAND_TURN                   = 0.01;
+
     //////////////////////////////
     // Color Wheel Params
     //////////////////////////////

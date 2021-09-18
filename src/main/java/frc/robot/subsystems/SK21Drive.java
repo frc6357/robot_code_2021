@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants;
 import frc.robot.Ports;
+import frc.robot.TuningParams;
 import frc.robot.utils.MotorEncoder;
 
 /**
@@ -62,6 +63,7 @@ public class SK21Drive extends SKSubsystemBase implements AutoCloseable
     {
         resetEncoders();
         gyro.reset();
+        drive.setDeadband(TuningParams.DEADBAND_TURN);
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     }
 

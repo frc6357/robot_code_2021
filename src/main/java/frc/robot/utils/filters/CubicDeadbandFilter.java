@@ -17,6 +17,11 @@ public class CubicDeadbandFilter implements Filter
     private double deadband;
 
     /**
+     * Used to set the output value range to [-gain,gain].
+     */
+    private double gain = 1.0;
+
+    /**
      * A value by which the input will be multiplied; Will have a value of 1.0 or -1.0,
      * depending on whether the joystick input values need to be reversed.
      */
@@ -40,6 +45,31 @@ public class CubicDeadbandFilter implements Filter
     {
         this.coefficient = coefficient;
         this.deadband = deadband;
+        this.gain = 1.0;
+        reverseFilter = (reverseInput ? -1.0 : 1.0);
+    }
+
+    /**
+     * Constructs a new CubicDeadband filter with the given characteristics.
+     * 
+     * @param coefficient
+     *            The coefficient of the cubic function. This can be positive or negative,
+     *            allowing the joystick value to be inverted at the same time as the
+     *            filter is applied. This number should be less than 1.
+     * @param deadband
+     *            Used as an area around the zero of the controller inputs. Should be a
+     *            positive value. This is used to stop natural controller drift and small
+     *            accidental inputs.
+     * @param gain
+     *            Used to set the output value range to [-gain,gain].  
+     * @param reverseInput
+     *            Used to flip the joystick inputs to the opposite sign if required.
+     */
+    public CubicDeadbandFilter(double coefficient, double deadband,double gain, boolean reverseInput)
+    {
+        this.coefficient = coefficient;
+        this.deadband = deadband;
+        this.gain = gain;
         reverseFilter = (reverseInput ? -1.0 : 1.0);
     }
 
@@ -50,6 +80,8 @@ public class CubicDeadbandFilter implements Filter
      *            The data to be read in, from -1 to 1
      * @return The cubic relation of that data
      */
+
+    
     @Override
     public double filter(double rawAxis)
     {
@@ -57,6 +89,8 @@ public class CubicDeadbandFilter implements Filter
         double filteredInput = (Math.abs(rawAxis) - deadband) * Math.signum(rawAxis);
         filteredInput *= reverseFilter;
         double c = (1 - (coefficient * Math.pow((1 - deadband), 3)) / (1 - deadband));
+
+        
 
         // If it's within the deadband, it sets the input to zero
         if (Math.abs(rawAxis) < deadband)
@@ -66,7 +100,7 @@ public class CubicDeadbandFilter implements Filter
         else
         {
             // Calculate the cubic output for the given coefficient and deadband
-            return coefficient * Math.pow(filteredInput, 3) + c * filteredInput;
+            return (coefficient * Math.pow(filteredInput, 3) + c * filteredInput) * gain;
         }
 
     }
@@ -80,6 +114,16 @@ public class CubicDeadbandFilter implements Filter
     public void setCoef(double newC)
     {
         coefficient = Math.abs(newC);
+    }
+
+    /**
+     * Sets the gain of the cubic function
+     * @param newG
+     *              The gain must be between -1 and 1 
+     */
+    public void setGain(double newG)
+    {
+        gain = Math.abs(newG);
     }
 
     /**

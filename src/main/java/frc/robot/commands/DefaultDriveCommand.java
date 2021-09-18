@@ -38,13 +38,14 @@ public class DefaultDriveCommand extends CommandBase
         // Applies a Cubic filter with a Deadband to the Turning axis of the joystick.
         // This Cubic filter will have a moderate curvature with a coefficient of 0.6.
         // The Deadband will have a width of 0.05.
-        joystickDriver.setFilter(Ports.OIDriverTurn, new CubicDeadbandFilter(0.6, 0.05, false));
+        joystickDriver.setFilter(Ports.OIDriverTurn, new CubicDeadbandFilter(0.0, 0.0,0.6, false));
+        
 
         // Applies a Cubic Filter with a Deadband to the Moving axis of the joystick.
         // This Cubic filter will have maxmimum curvature with a coefficient of 1.
         // The Deadband will have a width of 0.05.
         // The throttle axis' inputs will be flipped
-        joystickDriver.setFilter(Ports.OIDriverMove, new CubicDeadbandFilter(1, 0.05, true));
+        joystickDriver.setFilter(Ports.OIDriverMove, new CubicDeadbandFilter(0.0, 0.0, 0.8 ,true));
 
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(driveSubsystem);
@@ -65,6 +66,8 @@ public class DefaultDriveCommand extends CommandBase
          */
         double throttle = joystickDriver.getFilteredAxis(Ports.OIDriverMove);
         double turnRate = joystickDriver.getFilteredAxis(Ports.OIDriverTurn);
+
+        System.out.println("Throttle: " + throttle + " TurnRate: " +turnRate);
 
         driveSubsystem.arcadeDrive(throttle, turnRate);
     }

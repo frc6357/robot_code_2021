@@ -3,5 +3,5 @@
     "launcher" : false,
     "indexer": false,
     "colorwheel" : false,
-    "climb" : true
+    "climb" : false
 }

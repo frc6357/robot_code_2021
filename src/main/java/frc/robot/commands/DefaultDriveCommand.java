@@ -68,7 +68,7 @@ public class DefaultDriveCommand extends CommandBase
         double throttle = joystickDriver.getFilteredAxis(Ports.OIDriverMove);
         double turnRate = joystickDriver.getFilteredAxis(Ports.OIDriverTurn);
 
-        System.out.println("Throttle: " + throttle + " TurnRate: " +turnRate);
+        
 
         driveSubsystem.arcadeDrive(throttle, turnRate);
     }

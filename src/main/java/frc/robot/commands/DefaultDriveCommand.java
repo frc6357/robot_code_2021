@@ -38,7 +38,7 @@ public class DefaultDriveCommand extends CommandBase
         // Applies a Cubic filter with a Deadband to the Turning axis of the joystick.
         // This Cubic filter will have a moderate curvature with a coefficient of 0.6.
         // The Deadband will have a width of 0.05.
-        joystickDriver.setFilter(Ports.OIDriverTurn, new CubicDeadbandFilter(0.0, 0.0,0.6, false));
+        joystickDriver.setFilter(Ports.OIDriverTurn, new CubicDeadbandFilter(0.0, 0.0,0.5, false));
         // no deadband here as the SK21Drive implements the deadband 
         
 

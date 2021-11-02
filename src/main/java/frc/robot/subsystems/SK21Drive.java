@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -65,6 +66,10 @@ public class SK21Drive extends SKSubsystemBase implements AutoCloseable
         gyro.reset();
         drive.setDeadband(TuningParams.DEADBAND_TURN);
         odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
